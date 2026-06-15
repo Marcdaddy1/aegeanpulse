@@ -5,7 +5,7 @@ export const SITE_DESCRIPTION =
 
 export const SITE_URL = "https://aegeanpulse.com";
 export const CAL_URL = "https://cal.com/aegeanpulse";
-export const CONTACT_EMAIL = "hello@aegeanpulse.com";
+export const CONTACT_EMAIL = "contact@aegeanpulse.com";
 
 export interface NavItem {
   label: string;
