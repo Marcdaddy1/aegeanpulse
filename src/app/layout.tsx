@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
@@ -56,6 +56,15 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
+// Match the mobile browser chrome (address bar / status bar) to the active
+// theme. Next 16 reads themeColor from the `viewport` export, not `metadata`.
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#faf7f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#12161a" },
+  ],
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -94,7 +103,7 @@ export default function RootLayout({
           mismatches in descendants are still reported. */}
       <body
         suppressHydrationWarning
-        className="flex min-h-full flex-col bg-background text-foreground"
+        className="flex min-h-full flex-col overflow-x-hidden bg-background text-foreground"
       >
         <script
           type="application/ld+json"

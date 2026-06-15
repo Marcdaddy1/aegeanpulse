@@ -42,7 +42,7 @@ export function ProcessSteps() {
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-soft text-accent transition-colors group-hover:bg-accent group-hover:text-white">
                   <step.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
-                <span className="font-display text-4xl font-semibold text-border">
+                <span className="font-display text-3xl font-semibold text-border sm:text-4xl">
                   0{i + 1}
                 </span>
               </div>

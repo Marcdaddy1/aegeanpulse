@@ -15,11 +15,13 @@ _Last updated: 2026-06-15._
 
 **Hero:** `src/components/hero/index.tsx` exports **`VendorHero`** (the 21st.dev `woven-light-hero`), not the placeholder.
 - `hero/vendor-hero.tsx` (adapter) maps `HeroProps` onto the vendor's `WovenCanvas` (Three.js) over a dark backdrop with brand-teal-tinted particles, because the vendor component ships hard-coded demo copy/nav and accepts no props.
-- `hero/vendor/woven-light-hero.tsx` is the vendor source, verbatim except for documented deviations: exported `WovenCanvas`, brand-teal tint, rect-relative mouse mapping, rAF cleanup, and tunable `REPEL_RADIUS` / `REPEL_STRENGTH`.
+- `hero/vendor/woven-light-hero.tsx` is the vendor source, verbatim except for documented deviations: exported `WovenCanvas`, brand-teal tint, rect-relative mouse mapping, rAF cleanup, tunable `REPEL_RADIUS` / `REPEL_STRENGTH`, and mobile support (touch listeners, device-scaled particle count + capped DPR, reused scratch vectors in the loop).
 - `FORCE_HERO_PARTICLES` (adapter) runs the particle field even under reduced motion; the hero text still respects it.
+
+**Mobile:** A dedicated mobile pass tightened spacing/type, made hero CTAs full-width and the hero shorter (`min-h-[80svh]`), constrained/hid oversized decorative blurs on small screens, added `overflow-x-hidden` on `<body>` as an anti-overflow safety net, set theme-color via the `viewport` export, and made the hero animation touch-interactive + performant on phones. Body copy uses `text-base sm:text-lg`; section grids collapse to a single column on phones.
 
 **Reduced-motion / hydration:** `Reveal`/`Stagger`/`StaggerItem` gate their static fallback behind `useMounted()` — `useReducedMotion()` is `false` on the server but `true` on a reduced-motion client, so branching the rendered element on it during the first render throws a hydration mismatch. Emit animated markup on the server + first client render, swap to static after mount. `<body>` has `suppressHydrationWarning` for browser-extension attrs.
 
 **Known open items / TODO:**
-- Hero perf pass: swap deprecated `THREE.Clock` → `THREE.Timer`; the 50k-particle loop allocates several `Vector3`s per particle per frame — refactor to reused vectors.
+- Hero: swap deprecated `THREE.Clock` → `THREE.Timer` (the per-frame `Vector3` allocation issue is now resolved).
 - `SITE_URL` in `src/data/site.ts` is still a placeholder until the domain is set.

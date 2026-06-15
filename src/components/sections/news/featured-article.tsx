@@ -5,10 +5,10 @@ import type { Article } from "@/data/articles";
 
 export function FeaturedArticle({ article }: { article: Article }) {
   return (
-    <article className="group relative overflow-hidden rounded-3xl border border-border bg-surface p-8 transition-all duration-300 hover:border-accent/40 sm:p-12">
+    <article className="group relative overflow-hidden rounded-3xl border border-border bg-surface p-6 transition-all duration-300 hover:border-accent/40 sm:p-8 lg:p-12">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-accent/10 blur-3xl"
+        className="pointer-events-none absolute -right-20 -top-20 hidden h-64 w-64 rounded-full bg-accent/10 blur-3xl sm:block"
       />
       <div className="relative max-w-3xl">
         <div className="flex flex-wrap items-center gap-3">
@@ -30,7 +30,7 @@ export function FeaturedArticle({ article }: { article: Article }) {
             {article.title}
           </Link>
         </h2>
-        <p className="mt-4 text-lg leading-relaxed text-muted">
+        <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
           {article.summary}
         </p>
         <span className="mt-7 inline-flex items-center gap-1.5 font-medium text-accent">

@@ -19,7 +19,7 @@ export function Testimonials() {
                 className="h-8 w-8 text-accent/40"
                 aria-hidden="true"
               />
-              <blockquote className="mt-4 flex-1 text-lg leading-relaxed text-foreground">
+              <blockquote className="mt-4 flex-1 text-base leading-relaxed text-foreground sm:text-lg">
                 “{t.quote}”
               </blockquote>
               <figcaption className="mt-6 border-t border-border pt-5">

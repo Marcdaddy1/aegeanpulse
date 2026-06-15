@@ -62,7 +62,7 @@ export function VendorHero({
       </div>
 
       <Container size="wide" className="relative">
-        <div className="flex min-h-[88vh] flex-col items-center justify-center py-24 text-center md:py-32">
+        <div className="flex min-h-[80svh] flex-col items-center justify-center py-20 text-center sm:py-24 md:min-h-[88vh] md:py-32">
           {eyebrow && (
             <motion.span
               {...fade(0)}
@@ -82,20 +82,20 @@ export function VendorHero({
 
           <motion.p
             {...fade(0.16)}
-            className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70"
+            className="mt-5 max-w-2xl text-base leading-relaxed text-white/70 sm:mt-6 sm:text-lg"
           >
             {subheadline}
           </motion.p>
 
           <motion.div
             {...fade(0.24)}
-            className="mt-9 flex flex-col gap-3 sm:flex-row"
+            className="mt-7 flex w-full flex-col gap-3 sm:mt-9 sm:w-auto sm:flex-row"
           >
             <a
               href={primaryCta.href}
               target={primaryCta.external ? "_blank" : undefined}
               rel={primaryCta.external ? "noopener noreferrer" : undefined}
-              className={buttonClasses({ size: "lg" })}
+              className={buttonClasses({ size: "lg", className: "w-full sm:w-auto" })}
             >
               {primaryCta.label}
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -104,7 +104,7 @@ export function VendorHero({
               href={secondaryCta.href}
               target={secondaryCta.external ? "_blank" : undefined}
               rel={secondaryCta.external ? "noopener noreferrer" : undefined}
-              className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 text-base font-medium text-white backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/10 active:translate-y-0"
+              className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 text-base font-medium text-white backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/10 active:translate-y-0 sm:w-auto"
             >
               {secondaryCta.label}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -114,7 +114,7 @@ export function VendorHero({
           {trustItems.length > 0 && (
             <motion.ul
               {...fade(0.32)}
-              className="mt-12 flex flex-wrap items-center justify-center gap-x-3 gap-y-2"
+              className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 sm:mt-12"
             >
               {trustItems.map((item) => (
                 <li

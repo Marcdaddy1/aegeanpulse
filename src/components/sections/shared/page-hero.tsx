@@ -17,7 +17,7 @@ export function PageHero({
   return (
     <section className="relative overflow-hidden border-b border-border">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 left-1/2 h-80 w-[42rem] -translate-x-1/2 rounded-full bg-accent/10 blur-[110px]" />
+        <div className="absolute -top-24 left-1/2 h-56 w-[22rem] -translate-x-1/2 rounded-full bg-accent/10 blur-[90px] sm:h-80 sm:w-[42rem] sm:blur-[110px]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-[size:64px_64px] opacity-30 [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)]" />
       </div>
       <Container className="relative py-20 md:py-28">
@@ -29,7 +29,7 @@ export function PageHero({
             <h1 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl">
               {title}
             </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
               {description}
             </p>
             {children && <div className="mt-8">{children}</div>}

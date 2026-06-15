@@ -13,7 +13,7 @@ export function WhyAegeanPulse() {
   return (
     <section className="py-20 md:py-28">
       <Container>
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           <Reveal>
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
@@ -22,13 +22,13 @@ export function WhyAegeanPulse() {
               <h2 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl">
                 Unlock Your Company’s Potential with Precision AI Solutions
               </h2>
-              <p className="mt-5 text-lg leading-relaxed text-muted">
+              <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">
                 AegeanPulse helps businesses adopt AI in a commercially useful
                 way — improving operations, engagement, and growth without
                 unnecessary complexity. We focus on what actually moves your
                 business forward, then implement it properly.
               </p>
-              <p className="mt-4 text-lg leading-relaxed text-muted">
+              <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
                 No hype, no jargon, no bloated retainers. Just practical AI that
                 earns its place in your business.
               </p>
@@ -36,7 +36,7 @@ export function WhyAegeanPulse() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="rounded-3xl border border-border bg-surface p-8 shadow-[0_1px_3px_rgba(28,35,33,0.04)]">
+            <div className="rounded-3xl border border-border bg-surface p-6 shadow-[0_1px_3px_rgba(28,35,33,0.04)] sm:p-8">
               <ul className="space-y-5">
                 {POINTS.map((point) => (
                   <li key={point} className="flex items-start gap-3">

@@ -63,7 +63,7 @@ export function ServiceDetail({
             </div>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 lg:content-start">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-1 lg:content-start">
             <div className="rounded-2xl border border-border bg-surface p-6">
               <h3 className="font-display text-lg font-semibold text-foreground">
                 Key deliverables
