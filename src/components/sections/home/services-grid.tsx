@@ -27,7 +27,7 @@ export function ServicesGrid() {
                 {service.short}
               </p>
               <Link
-                href={`/services#${service.slug}`}
+                href={`/services/${service.slug}`}
                 className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-colors hover:text-accent-strong"
               >
                 Learn more

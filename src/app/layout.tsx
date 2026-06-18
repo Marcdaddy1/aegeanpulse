@@ -76,6 +76,7 @@ const jsonLd = {
       description: SITE_DESCRIPTION,
       email: CONTACT_EMAIL,
       slogan: TAGLINE,
+      logo: `${SITE_URL}/icon.svg`,
     },
     {
       "@type": "WebSite",

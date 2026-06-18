@@ -7,15 +7,25 @@ import { WhyAegeanPulse } from "@/components/sections/home/why-aegeanpulse";
 import { ProcessSteps } from "@/components/sections/home/process-steps";
 import { Testimonials } from "@/components/sections/home/testimonials";
 import { CtaBanner } from "@/components/sections/shared/cta-banner";
+import type { Metadata } from "next";
 import { CAL_URL } from "@/data/site";
+
+export const metadata: Metadata = {
+  // Lead the title with the primary keyword buyers actually search, rather than
+  // the brand line. The layout template appends " — AegeanPulse".
+  title: "AI Automation Services for Small Businesses",
+  description:
+    "AegeanPulse builds practical AI automation, chatbots, and content systems for small businesses — fixed-scope and affordable. Book a free consultation today.",
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
     <>
       <Hero
         eyebrow="Practical AI for Small Business Growth"
-        headline="Transforming Business Through Intelligent AI Automation"
-        subheadline="Transform your business with cutting-edge AI automation and strategic digital solutions designed for practical growth."
+        headline="AI Automation Services for Small Businesses"
+        subheadline="From chatbots and workflow automation to content systems and AI strategy — we implement practical, fixed-scope AI in the tools your business already runs."
         primaryCta={{
           label: "Book Consultation",
           href: CAL_URL,

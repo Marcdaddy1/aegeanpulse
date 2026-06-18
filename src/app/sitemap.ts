@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/data/site";
 import { ARTICLES } from "@/data/articles";
+import { SERVICES } from "@/data/services";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -20,6 +21,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: r.priority,
   }));
 
+  const servicePages = SERVICES.map((s) => ({
+    url: `${SITE_URL}/services/${s.slug}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   const articles = ARTICLES.map((a) => ({
     url: `${SITE_URL}/ai-news/${a.slug}`,
     lastModified: new Date(a.date),
@@ -27,5 +35,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...routes, ...articles];
+  return [...routes, ...servicePages, ...articles];
 }
