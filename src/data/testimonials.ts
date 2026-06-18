@@ -3,6 +3,10 @@ export interface Testimonial {
   name: string;
   role: string;
   company: string;
+  /** Personal LinkedIn profile — links the reviewer's name when present. */
+  linkedin?: string;
+  /** Company website — links the company name when present. */
+  website?: string;
 }
 
 export const TESTIMONIALS: Testimonial[] = [
@@ -12,6 +16,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Sarah Thompson",
     role: "Deputy CEO",
     company: "SoldiscInc",
+    linkedin: "https://www.linkedin.com/in/soldisc-incorporation-1aaa38334/",
   },
   {
     quote:
@@ -19,5 +24,6 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Michael Rodriguez",
     role: "Marketing Director",
     company: "Homecrackers",
+    website: "https://www.homebrackers.com",
   },
 ];

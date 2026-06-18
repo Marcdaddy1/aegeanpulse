@@ -1,6 +1,7 @@
-import { Quote } from "lucide-react";
+import { Quote, ExternalLink } from "lucide-react";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Stagger, StaggerItem } from "@/components/motion/stagger";
+import { LinkedInIcon } from "@/components/ui/linkedin-icon";
 import { TESTIMONIALS } from "@/data/testimonials";
 
 export function Testimonials() {
@@ -23,11 +24,36 @@ export function Testimonials() {
                 “{t.quote}”
               </blockquote>
               <figcaption className="mt-6 border-t border-border pt-5">
-                <span className="block font-semibold text-foreground">
-                  {t.name}
-                </span>
-                <span className="text-sm text-muted">
-                  {t.role}, {t.company}
+                {t.linkedin ? (
+                  <a
+                    href={t.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 font-semibold text-foreground hover:text-accent"
+                  >
+                    {t.name}
+                    <LinkedInIcon className="h-3.5 w-3.5" />
+                  </a>
+                ) : (
+                  <span className="block font-semibold text-foreground">
+                    {t.name}
+                  </span>
+                )}
+                <span className="block text-sm text-muted">
+                  {t.role},{" "}
+                  {t.website ? (
+                    <a
+                      href={t.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-muted underline decoration-border underline-offset-2 hover:text-accent"
+                    >
+                      {t.company}
+                      <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                    </a>
+                  ) : (
+                    t.company
+                  )}
                 </span>
               </figcaption>
             </figure>

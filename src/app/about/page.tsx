@@ -1,12 +1,36 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, Target, Compass, HandHeart, Layers } from "lucide-react";
+import Image from "next/image";
+import {
+  ArrowUpRight,
+  Target,
+  Compass,
+  HandHeart,
+  Layers,
+} from "lucide-react";
 import { PageHero } from "@/components/sections/shared/page-hero";
 import { CtaBanner } from "@/components/sections/shared/cta-banner";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
+import { LinkedInIcon } from "@/components/ui/linkedin-icon";
 import { Reveal } from "@/components/motion/reveal";
 import { Stagger, StaggerItem } from "@/components/motion/stagger";
-import { CAL_URL } from "@/data/site";
+import { CAL_URL, FOUNDER, SITE_URL } from "@/data/site";
+
+// Person structured data for the named founder — the key E-E-A-T signal that
+// ties a real, credentialed individual (with a LinkedIn sameAs) to the
+// Organization defined in the root layout.
+const founderJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${SITE_URL}/#marcus-aragbaye`,
+  name: FOUNDER.name,
+  jobTitle: FOUNDER.title,
+  description: FOUNDER.bio,
+  image: `${SITE_URL}${FOUNDER.image}`,
+  url: FOUNDER.linkedin,
+  sameAs: [FOUNDER.linkedin],
+  worksFor: { "@id": `${SITE_URL}/#organization` },
+};
 
 export const metadata: Metadata = {
   title: "About",
@@ -48,6 +72,10 @@ const REASONS = [
 export default function AboutPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(founderJsonLd) }}
+      />
       <PageHero
         eyebrow="About AegeanPulse"
         title="Making practical AI accessible to every business"
@@ -75,6 +103,47 @@ export default function AboutPage() {
             complexity for its own sake — just AI that earns its place by making
             your business better.
           </p>
+        </div>
+      </Section>
+
+      {/* Founder */}
+      <Section>
+        <div className="grid items-center gap-10 lg:grid-cols-[auto_1fr] lg:gap-14">
+          <Reveal>
+            <Image
+              src={FOUNDER.image}
+              alt={`${FOUNDER.name}, ${FOUNDER.title} at AegeanPulse`}
+              width={300}
+              height={300}
+              priority
+              className="mx-auto h-64 w-64 rounded-2xl border border-border object-cover sm:h-72 sm:w-72 lg:h-[300px] lg:w-[300px]"
+            />
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+                Meet the founder
+              </p>
+              <h2 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl">
+                {FOUNDER.name}
+              </h2>
+              <p className="mt-1 text-lg font-medium text-muted">
+                {FOUNDER.title}
+              </p>
+              <p className="mt-5 text-lg leading-relaxed text-muted">
+                {FOUNDER.bio}
+              </p>
+              <a
+                href={FOUNDER.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-strong"
+              >
+                <LinkedInIcon className="h-4 w-4" />
+                Connect on LinkedIn
+              </a>
+            </div>
+          </Reveal>
         </div>
       </Section>
 

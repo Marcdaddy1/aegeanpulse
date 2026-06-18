@@ -10,6 +10,7 @@ import {
   SITE_URL,
   TAGLINE,
   CONTACT_EMAIL,
+  FOUNDER,
 } from "@/data/site";
 
 const inter = Inter({
@@ -77,6 +78,13 @@ const jsonLd = {
       email: CONTACT_EMAIL,
       slogan: TAGLINE,
       logo: `${SITE_URL}/icon.svg`,
+      founder: {
+        "@type": "Person",
+        "@id": `${SITE_URL}/#marcus-aragbaye`,
+        name: FOUNDER.name,
+        jobTitle: FOUNDER.title,
+        url: FOUNDER.linkedin,
+      },
     },
     {
       "@type": "WebSite",
