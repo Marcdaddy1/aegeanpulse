@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { SolutionsCrossLink } from "@/components/sections/services/service-detail";
+import { FaqSection } from "@/components/sections/shared/faq-section";
 import { SERVICES } from "@/data/services";
+import { SERVICES_FAQS } from "@/data/faqs";
 import { CAL_URL, SITE_URL } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -21,6 +23,16 @@ export const metadata: Metadata = {
 // Service + breadcrumb structured data so Google can understand each offering as
 // a distinct service provided by the Organization defined in the root layout
 // (referenced here by @id), and surface the services in rich results.
+const servicesFaqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: SERVICES_FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
+
 const servicesJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -60,6 +72,10 @@ export default function ServicesPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesFaqJsonLd) }}
       />
       <PageHero
         eyebrow="Services"
@@ -104,6 +120,13 @@ export default function ServicesPage() {
         </Stagger>
       </Container>
 
+      <FaqSection
+        faqs={SERVICES_FAQS}
+        eyebrow="FAQ"
+        title="Service questions answered"
+        description="Common questions about how our services work."
+        tone="muted"
+      />
       <CtaBanner />
     </>
   );

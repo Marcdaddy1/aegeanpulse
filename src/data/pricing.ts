@@ -47,3 +47,72 @@ export function starterPrice(currency: CurrencyCode): string {
 }
 
 export const COUNTRY_COOKIE = "ap_country";
+
+export interface PricingTier {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  prices: Record<CurrencyCode, number>;
+  billing: "one-time" | "monthly";
+  features: string[];
+  highlight?: boolean;
+  cta: string;
+}
+
+export const PRICING_TIERS: PricingTier[] = [
+  {
+    id: "discovery",
+    name: "Discovery",
+    tagline: "Understand your AI opportunity",
+    description:
+      "A clear, prioritised strategy for how AI can move the needle in your business — before you spend on tools or build.",
+    prices: { GBP: 499, EUR: 579, USD: 649 },
+    billing: "one-time",
+    features: [
+      "AI opportunity audit across your operations",
+      "Prioritised 90-day action plan",
+      "Tool & budget recommendations for your scale",
+      "Risk, data & readiness assessment",
+      "1× follow-up strategy session",
+    ],
+    cta: "Book a discovery call",
+  },
+  {
+    id: "builder",
+    name: "Builder",
+    tagline: "Deploy your first AI system",
+    description:
+      "From strategy through to a working AI system in your tools — one complete workflow automated and your team ready to run it.",
+    prices: { GBP: 2499, EUR: 2899, USD: 3249 },
+    billing: "one-time",
+    features: [
+      "Everything in Discovery",
+      "Custom AI solution design & architecture",
+      "Full build & deployment of one core workflow",
+      "Integration with your existing stack",
+      "Team training & handover session",
+      "30-day post-launch support",
+    ],
+    highlight: true,
+    cta: "Start building",
+  },
+  {
+    id: "partner",
+    name: "Growth Partner",
+    tagline: "Scale AI across your business",
+    description:
+      "An ongoing AI partnership — monitoring, optimising, and expanding your AI systems as your business grows.",
+    prices: { GBP: 799, EUR: 929, USD: 1049 },
+    billing: "monthly",
+    features: [
+      "Everything in Builder (initial setup included)",
+      "Monthly performance monitoring & optimisation",
+      "Two new workflow automations per quarter",
+      "Monthly strategy & impact review",
+      "Priority support channel",
+      "AI landscape updates relevant to your sector",
+    ],
+    cta: "Discuss partnership",
+  },
+];

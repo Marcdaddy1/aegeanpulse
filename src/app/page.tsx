@@ -7,8 +7,20 @@ import { WhyAegeanPulse } from "@/components/sections/home/why-aegeanpulse";
 import { ProcessSteps } from "@/components/sections/home/process-steps";
 import { Testimonials } from "@/components/sections/home/testimonials";
 import { CtaBanner } from "@/components/sections/shared/cta-banner";
+import { FaqSection } from "@/components/sections/shared/faq-section";
 import type { Metadata } from "next";
 import { CAL_URL } from "@/data/site";
+import { HOME_FAQS } from "@/data/faqs";
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: HOME_FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
 
 export const metadata: Metadata = {
   // Lead the title with the primary keyword buyers actually search, rather than
@@ -22,6 +34,10 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <Hero
         eyebrow="Practical AI for Small Business Growth"
         headline="AI Automation Services for Small Businesses"
@@ -48,6 +64,13 @@ export default function Home() {
       <WhyAegeanPulse />
       <ProcessSteps />
       <Testimonials />
+      <FaqSection
+        faqs={HOME_FAQS}
+        eyebrow="FAQ"
+        title="Questions about AI for small businesses"
+        description="Everything business owners ask before they start."
+        tone="muted"
+      />
       <CtaBanner />
     </>
   );

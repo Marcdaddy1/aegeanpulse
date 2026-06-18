@@ -7,8 +7,9 @@ import { COUNTRY_COOKIE } from "@/data/pricing";
 // Pages stay fully static — this only touches the cookie.
 export function proxy(request: NextRequest) {
   const country =
-    request.headers.get("x-vercel-ip-country") ??
-    request.headers.get("x-country") ??
+    request.headers.get("x-vercel-ip-country") ?? // Vercel
+    request.headers.get("cf-ipcountry") ??         // Cloudflare (free CDN)
+    request.headers.get("x-country") ??             // generic fallback
     "";
 
   const response = NextResponse.next();
