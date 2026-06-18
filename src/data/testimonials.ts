@@ -24,6 +24,6 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Michael Rodriguez",
     role: "Marketing Director",
     company: "Homecrackers",
-    website: "https://www.homebrackers.com",
+    website: "https://www.homecrackers.com",
   },
 ];

@@ -14,7 +14,7 @@ export const FOUNDER = {
   title: "Founder & AI Lead",
   bio: "Marcus Aragbaye founded AegeanPulse to make practical AI accessible to the small businesses too often priced out of it. With a background spanning software engineering and business strategy, he focuses on AI that earns its place — automations, agents, and content systems tied to real commercial outcomes rather than hype. He leads every engagement personally, from the first strategy session to a working system in your tools.",
   linkedin: "https://www.linkedin.com/in/marcus-aragbaye/",
-  image: "/marcus-aragbaye.jpg",
+  image: "/marcus-aragbaye.png",
 } as const;
 
 export interface NavItem {
