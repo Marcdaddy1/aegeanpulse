@@ -2,7 +2,7 @@
 
 # Project Status
 
-_Last updated: 2026-06-15._
+_Last updated: 2026-06-18._
 
 > Canonical project guidance (architecture, conventions, routes) lives in the
 > parent folder's `CLAUDE.md`, which is loaded when working from the workspace
@@ -22,6 +22,4 @@ _Last updated: 2026-06-15._
 
 **Reduced-motion / hydration:** `Reveal`/`Stagger`/`StaggerItem` gate their static fallback behind `useMounted()` — `useReducedMotion()` is `false` on the server but `true` on a reduced-motion client, so branching the rendered element on it during the first render throws a hydration mismatch. Emit animated markup on the server + first client render, swap to static after mount. `<body>` has `suppressHydrationWarning` for browser-extension attrs.
 
-**Known open items / TODO:**
-- Hero: swap deprecated `THREE.Clock` → `THREE.Timer` (the per-frame `Vector3` allocation issue is now resolved).
-- `SITE_URL` in `src/data/site.ts` is still a placeholder until the domain is set.
+**Hero vendor file deviations from verbatim source:** exported `WovenCanvas`, brand-teal tint, rect-relative mouse mapping, rAF cleanup, tunable `REPEL_RADIUS`/`REPEL_STRENGTH`, mobile support, `THREE.Timer` (replaces deprecated `THREE.Clock` — requires `clock.update()` call per frame before `getElapsedTime()`).

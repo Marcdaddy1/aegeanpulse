@@ -134,7 +134,7 @@ export const WovenCanvas = () => {
     mountRef.current.appendChild(renderer.domElement);
 
     const mouse = new THREE.Vector2(0, 0);
-    const clock = new THREE.Clock();
+    const clock = new THREE.Timer();
 
     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -226,7 +226,8 @@ export const WovenCanvas = () => {
     let frameId = 0;
     const animate = () => {
         frameId = requestAnimationFrame(animate);
-        const elapsedTime = clock.getElapsedTime();
+        clock.update();
+        const elapsedTime = clock.getElapsed();
 
         _mouseWorld.set(mouse.x * 3, mouse.y * 3, 0);
 
