@@ -1,11 +1,21 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import dynamic from "next/dynamic";
 import { ArrowUpRight, ArrowRight, Sparkles } from "lucide-react";
 import { buttonClasses } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import type { HeroProps } from "./types";
-import { WovenCanvas } from "./vendor/woven-light-hero";
+
+// The Three.js particle background is ~510KB and purely decorative. Load it via
+// a client-only dynamic import so `three` is split out of the homepage's initial
+// JS bundle and fetched after hydration. WovenCanvas inits entirely inside a
+// useEffect, so it never rendered anything on the server anyway — `ssr: false`
+// is visually identical but removes the library from first load.
+const WovenCanvas = dynamic(
+  () => import("./vendor/woven-light-hero").then((m) => m.WovenCanvas),
+  { ssr: false },
+);
 
 const REVEAL_EASE = [0.21, 0.47, 0.32, 0.98] as const;
 
