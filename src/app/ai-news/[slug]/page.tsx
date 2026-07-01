@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/motion/reveal";
 import { CtaBanner } from "@/components/sections/shared/cta-banner";
 import { ArticleCard } from "@/components/sections/news/article-card";
-import { ARTICLES, getArticle } from "@/data/articles";
+import { ARTICLES, getArticle } from "@/lib/articles";
 import { SITE_NAME, SITE_URL } from "@/data/site";
 
 export function generateStaticParams() {

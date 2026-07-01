@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/motion/reveal";
 import { FeaturedArticle } from "@/components/sections/news/featured-article";
 import { NewsGrid } from "@/components/sections/news/news-grid";
-import { getFeaturedArticle, getGridArticles } from "@/data/articles";
+import { getFeaturedArticle, getGridArticles } from "@/lib/articles";
 
 export const metadata: Metadata = {
   title: "AI News & Insights",
