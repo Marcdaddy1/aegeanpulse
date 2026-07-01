@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { ChatWidget } from "@/components/sections/shared/chat-widget";
 import {
   SITE_NAME,
   SITE_DESCRIPTION,
@@ -130,6 +131,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <ChatWidget />
         </ThemeProvider>
       </body>
     </html>
