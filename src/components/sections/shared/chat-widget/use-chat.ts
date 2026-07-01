@@ -33,8 +33,10 @@ export function useChat() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           // Only send role+content — strip any client-only fields before posting.
+          // timeZone lets the bot present booking slots in the visitor's local time.
           body: JSON.stringify({
             messages: next.map((m) => ({ role: m.role, content: m.content })),
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           }),
         });
 
