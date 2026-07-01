@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/motion/reveal";
 import { CtaBanner } from "@/components/sections/shared/cta-banner";
+import { NewsletterSignup } from "@/components/sections/shared/newsletter-signup";
 import { ArticleCard } from "@/components/sections/news/article-card";
 import { ARTICLES, getArticle } from "@/lib/articles";
 import { SITE_NAME, SITE_URL } from "@/data/site";
@@ -127,6 +128,12 @@ export default async function ArticlePage({
                   ))}
                 </section>
               ))}
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="mt-14 rounded-3xl border border-border bg-surface p-7 sm:p-8">
+              <NewsletterSignup source="article" />
             </div>
           </Reveal>
         </Container>

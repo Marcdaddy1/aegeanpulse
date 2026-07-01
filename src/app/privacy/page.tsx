@@ -23,7 +23,15 @@ const SECTIONS: { heading: string; paragraphs: string[]; list?: string[] }[] = [
     list: [
       "Contact details you submit through our contact form (name, email, company, and your message).",
       "Booking information you provide when scheduling a consultation through our booking provider (Cal.com).",
+      "Messages you send to our website chat assistant, which are processed by our AI provider (Anthropic) to generate replies and to help arrange bookings you request.",
+      "Your email address, if you opt in to our newsletter (see below).",
       "A small cookie that stores your approximate country (derived from your IP region) so we can show prices in your local currency. It does not identify you.",
+    ],
+  },
+  {
+    heading: "Newsletter",
+    paragraphs: [
+      "If you subscribe to our newsletter, we collect your email address with your explicit consent and store it with our email marketing provider, Hostinger Reach, which processes it on our behalf. We use it only to send the updates you signed up for. Every email includes an unsubscribe link, and you can also ask us to remove you at any time using the contact details below — we'll delete your address from the list promptly.",
     ],
   },
   {
@@ -39,7 +47,7 @@ const SECTIONS: { heading: string; paragraphs: string[]; list?: string[] }[] = [
   {
     heading: "Data sharing",
     paragraphs: [
-      "We do not sell your personal data. We share information only with the service providers needed to operate our site and bookings (such as our hosting provider and Cal.com), and only as far as necessary to provide those services.",
+      "We do not sell your personal data. We share information only with the service providers needed to operate our site (our hosting provider, Cal.com for bookings, Anthropic for the chat assistant, and Hostinger Reach for the newsletter), and only as far as necessary to provide those services.",
     ],
   },
   {
@@ -72,7 +80,7 @@ export default function PrivacyPage() {
       />
       <Container size="narrow" className="py-16 md:py-20">
         <Reveal>
-          <p className="text-sm text-muted">Last updated: June 2026</p>
+          <p className="text-sm text-muted">Last updated: July 2026</p>
           <div className="mt-10 space-y-10">
             {SECTIONS.map((section) => (
               <section key={section.heading}>

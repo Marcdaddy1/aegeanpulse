@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Logo } from "./logo";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { NewsletterSignup } from "@/components/sections/shared/newsletter-signup";
 import {
   FOOTER_NAV,
   SITE_NAME,
@@ -42,7 +43,13 @@ export function Footer() {
       </Container>
 
       <Container className="pb-12">
-        <div className="grid gap-10 border-t border-border pt-12 md:grid-cols-[1.4fr_1fr]">
+        <div className="border-t border-border pt-10 pb-2">
+          <div className="max-w-xl">
+            <NewsletterSignup source="footer" />
+          </div>
+        </div>
+
+        <div className="grid gap-10 border-t border-border pt-12 md:grid-cols-[1.4fr_1fr] mt-10">
           <div className="max-w-sm">
             <Logo />
             <p className="mt-4 text-sm leading-relaxed text-muted">{TAGLINE}</p>
