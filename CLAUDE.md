@@ -2,7 +2,7 @@
 
 # Project Status
 
-_Last updated: 2026-06-18._
+_Last updated: 2026-07-01._
 
 > Canonical project guidance (architecture, conventions, routes) lives in the
 > parent folder's `CLAUDE.md`, which is loaded when working from the workspace
@@ -32,8 +32,16 @@ _Last updated: 2026-06-18._
 - Testimonials: Sarah Thompson's name links to LinkedIn; Homecrackers links to its website.
 - Founder headshot at `public/marcus-aragbaye.png` (600×600, optimised from 4096×4096 source).
 
+**Backend features (added 2026-07-01 — the site is no longer fully static):**
+- **Secrets:** `.env.local` (gitignored) holds `CAL_COM_API_KEY`, `CAL_COM_EVENT_TYPE_ID` (3198282, the "30min" event), `INTERNAL_CRON_SECRET`, `HOSTINGER_API_TOKEN`. `ANTHROPIC_API_KEY` is a Windows user-level env var on the dev machine; on the VPS it goes in `.env.local`. `.env.example` documents everything. Server-only modules live in `src/lib/server/` (import `"server-only"`).
+- **AI chatbot** (`/api/chat` + `src/components/sections/shared/chat-widget/`, mounted in `layout.tsx`): Claude via shared client `src/lib/anthropic.ts`; grounded in services/pricing/FAQ data by `src/lib/server/chat-context.ts` (context-stuffing, no vector DB); books real Cal.com appointments via tool use (`src/lib/server/cal.ts`, v2 API — slots need header `cal-api-version: 2024-09-04`, bookings `2024-08-13`). Rate-limited (10/min, 60/day per IP) by shared `src/lib/server/rate-limit.ts`. Tools aren't registered when Cal env vars are absent (falls back to the booking link). Verified end-to-end: real booking created + cancelled.
+- **AI article pipeline:** articles live as `src/content/articles/<slug>.md` (frontmatter + prose), loaded by server-only `src/lib/articles.ts` (gray-matter; `## ` = block heading, each non-blank line = one paragraph). `src/data/articles.ts` now holds only types + `ARTICLE_CATEGORIES` (client-safe). **`draft: true` files are invisible everywhere** (pages, params, sitemap) — that's the review gate. Topic queue: `src/data/content-topics.ts` (state = file existence, idempotent). Generator: `src/lib/server/generate-article.ts` (forced structured tool call). Trigger: `POST /api/internal/generate-draft` with header `x-internal-secret` — for manual curl now, VPS crontab weekly later. Publish flow: review draft file → edit → set `draft: false` → commit/push/deploy.
+- **Newsletter (Hostinger Reach):** `src/lib/server/email/` — vendor-agnostic `EmailProvider` + Reach adapter (`POST https://developers.hostinger.com/api/reach/v1/contacts`, Bearer `HOSTINGER_API_TOKEN`). `/api/newsletter/subscribe` requires `consent: true` (UK GDPR), rate-limited 5/hour/IP. `<NewsletterSignup>` sits in the footer + after article bodies. **Reach's API cannot send campaigns** — sending happens manually in reach.hostinger.com after publishing an article.
+
 **Known open items / TODO:**
-- VPS deployment on Hostinger (in progress).
+- VPS deployment on Hostinger (in progress). Deploy additions: create `.env.local` on the VPS (see `.env.example`); add weekly crontab → `0 6 * * 1 curl -s -X POST -H "x-internal-secret: $SECRET" http://localhost:3000/api/internal/generate-draft`; confirm Nginx forwards `x-forwarded-for` (rate limiting keys on it).
+- Pending draft awaiting review: `src/content/articles/ai-automation-cost-small-business.md` (AI-generated, `draft: true`).
+- Live Reach subscribe test pending `HOSTINGER_API_TOKEN`.
 - The dev machine has `prefers-reduced-motion` ON — account for it when testing animations.
 - `bis_skin_checked` hydration warnings in dev console are Bitdefender browser extension injections — not a code bug. Invisible in Incognito and in production for unaffected users.
 
