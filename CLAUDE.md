@@ -38,10 +38,21 @@ _Last updated: 2026-07-01._
 - **AI article pipeline:** articles live as `src/content/articles/<slug>.md` (frontmatter + prose), loaded by server-only `src/lib/articles.ts` (gray-matter; `## ` = block heading, each non-blank line = one paragraph). `src/data/articles.ts` now holds only types + `ARTICLE_CATEGORIES` (client-safe). **`draft: true` files are invisible everywhere** (pages, params, sitemap) — that's the review gate. Topic queue: `src/data/content-topics.ts` (state = file existence, idempotent). Generator: `src/lib/server/generate-article.ts` (forced structured tool call). Trigger: `POST /api/internal/generate-draft` with header `x-internal-secret` — for manual curl now, VPS crontab weekly later. Publish flow: review draft file → edit → set `draft: false` → commit/push/deploy.
 - **Newsletter (Hostinger Reach):** `src/lib/server/email/` — vendor-agnostic `EmailProvider` + Reach adapter (`POST https://developers.hostinger.com/api/reach/v1/contacts`, Bearer `HOSTINGER_API_TOKEN`). `/api/newsletter/subscribe` requires `consent: true` (UK GDPR), rate-limited 5/hour/IP. `<NewsletterSignup>` sits in the footer + after article bodies. **Reach's API cannot send campaigns** — sending happens manually in reach.hostinger.com after publishing an article.
 
+**Deployment state (verified 2026-07-02):** aegeanpulse.com is LIVE on the Hostinger VPS (KVM 2, Ubuntu 24.04 + Docker template, IP `72.61.4.237`) — apex A/AAAA records point there; `X-Powered-By: Next.js` confirmed. The live build is the ~18 Jun SEO-pass commit; the backend features above are on `main` but NOT yet deployed. There is NO GitHub auto-deploy — updates are manual.
+
+**VPS update runbook (run on the server):**
+1. `cd` into the site checkout → `git pull`
+2. `npm install` (new deps since last deploy: `@anthropic-ai/sdk`, `gray-matter`, `server-only`)
+3. Create/refresh `.env.local` from `.env.example` — needs `ANTHROPIC_API_KEY`, `CAL_COM_API_KEY`, `CAL_COM_EVENT_TYPE_ID=3198282`, `INTERNAL_CRON_SECRET`, `HOSTINGER_API_TOKEN`
+4. `npm run build` → restart the app process (PM2 or Docker, however it currently runs)
+5. One-time: weekly draft crontab → `0 6 * * 1 curl -s -X POST -H "x-internal-secret: $SECRET" http://localhost:3000/api/internal/generate-draft`
+6. One-time: confirm Nginx passes `X-Forwarded-For` to the app (IP rate limiting depends on it)
+7. Smoke test: chat widget answers a pricing question; newsletter form subscribes; `/pricing` and an article page load
+
 **Known open items / TODO:**
-- VPS deployment on Hostinger (in progress). Deploy additions: create `.env.local` on the VPS (see `.env.example`); add weekly crontab → `0 6 * * 1 curl -s -X POST -H "x-internal-secret: $SECRET" http://localhost:3000/api/internal/generate-draft`; confirm Nginx forwards `x-forwarded-for` (rate limiting keys on it).
-- Pending draft awaiting review: `src/content/articles/ai-automation-cost-small-business.md` (AI-generated, `draft: true`).
-- Live Reach subscribe test pending `HOSTINGER_API_TOKEN`.
+- Deploy the backend features to the VPS (runbook above).
+- Pending draft awaiting review: `src/content/articles/ai-automation-cost-small-business.md` (AI-generated, `draft: true`) — check the description of the Discovery package before publishing.
+- Rotate the Cal.com API key and Hostinger API token (both were shared in chat), then update `.env.local` on dev machine + VPS.
 - The dev machine has `prefers-reduced-motion` ON — account for it when testing animations.
 - `bis_skin_checked` hydration warnings in dev console are Bitdefender browser extension injections — not a code bug. Invisible in Incognito and in production for unaffected users.
 
