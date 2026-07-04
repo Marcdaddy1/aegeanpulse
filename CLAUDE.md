@@ -4,11 +4,6 @@
 
 _Last updated: 2026-07-01._
 
-> Canonical project guidance (architecture, conventions, routes) lives in the
-> parent folder's `CLAUDE.md`, which is loaded when working from the workspace
-> root but is **not** part of this repo. This section is the version-controlled
-> snapshot of project status so a clone always carries it.
-
 **Stage:** Active development. All routes are built and `npm run build` is green (31 static pages + 6 SSG service pages + 11 SSG article pages). Current focus: VPS deployment on Hostinger.
 
 **Version control:** This repo is the git root. Remote `origin` → https://github.com/Marcdaddy1/aegeanpulse (private), default branch `main`. Workflow: after each logical unit of work, commit locally with a clean message and push. Commit identity: `Marcus Aragbaye <88402273+Marcdaddy1@users.noreply.github.com>`.
@@ -55,6 +50,73 @@ _Last updated: 2026-07-01._
 - Rotate the Cal.com API key and Hostinger API token (both were shared in chat), then update `.env.local` on dev machine + VPS.
 - The dev machine has `prefers-reduced-motion` ON — account for it when testing animations.
 - `bis_skin_checked` hydration warnings in dev console are Bitdefender browser extension injections — not a code bug. Invisible in Incognito and in production for unaffected users.
+
+## Commands
+
+```bash
+npm run dev      # dev server at http://localhost:3000 (Turbopack)
+npm run build    # production build — also runs full TypeScript check + static generation
+npm run lint     # ESLint (eslint-config-next); CI-clean is expected
+```
+
+There is no test suite. `npm run build` is the primary correctness gate: it type-checks every file and statically generates all routes (currently 31 pages — including 6 `/services/[slug]` and 11 `/ai-news/[slug]` SSG pages), so a green build catches client/server boundary errors and broken `generateStaticParams`.
+
+## Critical: this is Next.js 16, not earlier versions
+
+APIs differ from older Next.js (see `AGENTS.md`). Bundled docs live in `node_modules/next/dist/docs/` — **read the relevant file there before using an unfamiliar convention.** Key differences already relied on in this codebase:
+
+- **`middleware` is renamed to `proxy`.** The geo logic lives in `src/proxy.ts` exporting a `proxy(request)` function — do not recreate a `middleware.ts`.
+- **`params` is a Promise** in dynamic routes and `generateMetadata` — always `const { slug } = await params`.
+- Turbopack is the default for both dev and build (no `--turbopack` flag needed).
+
+## Architecture (the parts that span multiple files)
+
+**Tailwind v4, token-driven theming.** No `tailwind.config.ts`. All design tokens are CSS variables in `src/app/globals.css`, exposed to Tailwind via `@theme inline`. Components use **semantic classes only** (`bg-background`, `text-foreground`, `text-muted`, `bg-accent`, `border-border`) — dark mode is a pure variable flip under `.dark`, so avoid `dark:` variants except for intentional one-offs. Dark mode is class-based via `next-themes`; the `@custom-variant dark` line in `globals.css` is what makes `.dark` work in v4 (v4 defaults to media-query dark mode without it).
+
+**Content lives in `src/data/*`, not in JSX.** Services, solutions, tools, articles, testimonials, nav, pricing, and FAQs are typed arrays. Pages/sections map over them. Edit copy there. `src/data/site.ts` is the single source for nav, `CAL_URL` (all booking CTAs), site metadata, and the `FOUNDER` record (name/title/bio/LinkedIn/image) — never hardcode these elsewhere.
+
+Key data files:
+- `src/data/site.ts` — `SITE_NAME`, `SITE_URL`, `CAL_URL`, `CONTACT_EMAIL`, `NAV_ITEMS`, `FOOTER_NAV`, `FOUNDER`
+- `src/data/services.ts` — `SERVICES[]` (slug, icon, title, short, audience, deliverables, outcomes)
+- `src/data/pricing.ts` — `PRICE_PROFILES` (GBP/EUR/USD), `PRICING_TIERS[]` (Discovery £499 / Builder £2,499 / Growth Partner £799 per month), `currencyForCountry`, `formatPrice`
+- `src/data/faqs.ts` — `HOME_FAQS`, `PRICING_FAQS`, `SERVICES_FAQS`
+- `src/data/articles.ts` — article types + `ARTICLE_CATEGORIES` (client-safe; article content lives in `src/content/articles/*.md`)
+- `src/data/testimonials.ts` — `TESTIMONIALS[]` (with optional `linkedin`/`website` fields)
+
+**Animation system.** Every page section is wrapped in a scroll-triggered fade-in. Two primitives in `src/components/motion/` (using the `motion` package — the renamed framer-motion, imported from `motion/react`):
+- `<Reveal>` — single fade-in; `<Section>` (`src/components/ui/section.tsx`) composes section + container + `Reveal`, so most sections just use `<Section>`.
+- `<Stagger>`/`<StaggerItem>` — for grids. When a section uses stagger, render `<Section reveal={false}>` and put `<Stagger>` inside to avoid double-animating.
+- Both short-circuit to static output under `prefers-reduced-motion` via `useReducedMotion()`. Keep animated properties to `opacity`/`transform` only.
+- **Hydration-safe reduced motion:** the static fallback in `Reveal`/`Stagger`/`StaggerItem` is gated behind `useMounted()` — see "Reduced-motion / hydration" in Project Status above.
+
+**Hero swap contract.** The hero is integrated behind a stable interface so a vendor (21st.dev / shadcn) component can drop in without editing its animation layer. `src/components/hero/index.tsx` is the single swap point; pages import only `@/components/hero` and pass `HeroProps` (`src/components/hero/types.ts`). To integrate a vendor hero: drop its files verbatim under `hero/vendor/`, add a thin `vendor-hero.tsx` adapter mapping `HeroProps` → its props, and flip the export in `index.tsx`. The hero renders **outside** any `Reveal`/`Section` wrapper so its own entrance animation isn't masked by an opacity-0 ancestor. (`PlaceholderHero` is kept as a commented one-line revert; current state is in Project Status above.)
+
+**Geo-based pricing flow.** `src/proxy.ts` reads `x-vercel-ip-country` (Vercel), `cf-ipcountry` (Cloudflare), or `x-country` (generic) and stamps an `ap_country` cookie. If no cookie is present after hydration, `price.tsx` fires a one-time `ipapi.co` lookup as a client-side fallback — this makes geo work on Hostinger VPS or any self-hosted server. `src/data/pricing.ts` maps country → `PRICE_PROFILES` (GBP/EUR/USD, fixed rates, no live FX). `price.tsx` exports:
+- `useCurrency()` hook — reads cookie via `useSyncExternalStore` with a module-level listener registry (`subscribeCurrency`/`notifyCurrencyChange`) so all price components re-render together when the IP lookup resolves.
+- `<StarterPrice>` — inline starter price (used in service CTAs).
+- `<Price amount={n}>` — any amount in the visitor's currency.
+
+SSR always renders `DEFAULT_CURRENCY` (USD) to avoid hydration mismatches; client corrects after mount. To test other currencies locally, set `document.cookie = "ap_country=GB"` in DevTools.
+
+**React lint constraint.** `eslint-config-next` enforces `react-hooks/set-state-in-effect`. Don't call `setState` synchronously inside `useEffect`. Established patterns here: `useMounted()` (`src/lib/hooks.ts`) via `useSyncExternalStore` for mount guards, and adjusting state during render (comparing previous value) for resets — see the route-change menu close in `src/components/layout/header.tsx`.
+
+## Routes
+
+Real App Router pages: `/`, `/services`, `/services/[slug]` (6 SSG pages), `/pricing`, `/ai-tools`, `/ai-news`, `/ai-news/[slug]` (11 SSG pages), `/about`, `/contact`, `/privacy`, plus `not-found.tsx`. Solutions is **not** a route — it's a home-page section anchored at `/#solutions`.
+
+SEO infrastructure (file-convention):
+- `sitemap.ts` — includes `/`, `/services`, `/pricing`, all `/services/[slug]`, all `/ai-news/[slug]`
+- `robots.ts`, `opengraph-image.tsx` (ImageResponse), `icon.svg`
+- JSON-LD in `layout.tsx`: Organization (with logo + founder) + WebSite
+- JSON-LD per page: Article on `/ai-news/[slug]`, Service + Breadcrumb on `/services/[slug]`, Service + ItemList + Breadcrumb on `/services`, FAQPage on `/`, `/services`, `/pricing`, Person on `/about`
+
+`SITE_URL` is set to `https://aegeanpulse.com` in `src/data/site.ts`.
+
+## Deploy notes (beyond the runbook above)
+
+- Serve with PM2 (`pm2 start npm -- start`) behind an Nginx reverse proxy: port 80/443 → localhost:3000.
+- Geo pricing on the VPS: the `proxy.ts` geo header won't fire without Vercel/Cloudflare, but `price.tsx` falls back to `ipapi.co` client-side. To also enable server-side geo, put Cloudflare (free) in front of the VPS — it sends `CF-IPCountry`, which `proxy.ts` already reads.
+- Local dev always defaults to USD (no geo header); set the `ap_country` cookie in DevTools to test GBP/EUR.
 
 ## gstack (REQUIRED — global install)
 
