@@ -4,7 +4,10 @@ export const SITE_DESCRIPTION =
   "AegeanPulse helps small businesses and modern service brands adopt AI through practical automation, chatbots, content systems, and strategy — affordable, fixed-scope, and built for real business use.";
 
 export const SITE_URL = "https://aegeanpulse.com";
-export const CAL_URL = "https://cal.com/aegeanpulse";
+// Direct link to the AI Strategy Consultation event (not the profile page),
+// so visitors land straight on the booking calendar. Must stay in sync with
+// CAL_COM_EVENT_TYPE_ID in .env.local, which the chatbot books against.
+export const CAL_URL = "https://cal.com/aegeanpulse/ai-strategy-consultation";
 export const CONTACT_EMAIL = "contact@aegeanpulse.com";
 
 // Named founder powers the About page E-E-A-T section and Person/Organization
