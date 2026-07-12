@@ -2,7 +2,7 @@
 title: "You probably don't need a chatbot"
 category: "Agents"
 summary: "The chatbot has become the default first AI purchase for small businesses. For most, it's the wrong place to start. Here's how to tell."
-date: "2026-07-09"
+date: "2026-07-28"
 readingTime: 5
 featured: false
 image: "/images/articles/you-probably-dont-need-a-chatbot.webp"

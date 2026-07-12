@@ -40,6 +40,13 @@ function parseBody(md: string): ArticleBlock[] {
   return blocks;
 }
 
+// Scheduled publishing: an article whose date is after "today" (UTC, at
+// build time) stays invisible even with draft: false. Two independent gates:
+// draft = editorial approval, date = release schedule. The weekly VPS
+// rebuild cron is what makes a due date actually go live (see CLAUDE.md
+// publish flow).
+const TODAY = new Date().toISOString().slice(0, 10);
+
 function loadArticle(filename: string): Article | null {
   const slug = filename.replace(/\.md$/, "");
   const raw = fs.readFileSync(path.join(CONTENT_DIR, filename), "utf-8");
@@ -72,6 +79,7 @@ function loadArticle(filename: string): Article | null {
   if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(String(date))) {
     throw new Error(`Article ${filename}: date must be YYYY-MM-DD.`);
   }
+  if (String(date) > TODAY) return null;
   // Hero image is optional (older articles have none), but never without alt
   // text — an inaccessible hero fails the build instead of shipping.
   if (image && !imageAlt) {

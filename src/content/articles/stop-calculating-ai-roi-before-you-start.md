@@ -2,7 +2,7 @@
 title: "Stop calculating AI ROI before you've started"
 category: "Small Business"
 summary: "The demand to prove AI's return before you begin sounds prudent. For a small business it's usually the thing that keeps you stuck. A cheaper test exists."
-date: "2026-07-07"
+date: "2026-08-11"
 readingTime: 5
 featured: false
 image: "/images/articles/stop-calculating-ai-roi-before-you-start.webp"

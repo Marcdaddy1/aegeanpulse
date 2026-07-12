@@ -40,9 +40,13 @@ _Last updated: 2026-07-01._
 2. `npm install` (new deps since last deploy: `@anthropic-ai/sdk`, `gray-matter`, `server-only`)
 3. Create/refresh `.env.local` from `.env.example` — needs `ANTHROPIC_API_KEY`, `CAL_COM_API_KEY`, `CAL_COM_EVENT_TYPE_ID=3835772`, `INTERNAL_CRON_SECRET`, `HOSTINGER_API_TOKEN`
 4. `npm run build` → restart the app process (PM2 or Docker, however it currently runs)
-5. One-time: weekly draft crontab → `0 6 * * 1 curl -s -X POST -H "x-internal-secret: $SECRET" http://localhost:3000/api/internal/generate-draft`
-6. One-time: confirm Nginx passes `X-Forwarded-For` to the app (IP rate limiting depends on it)
+5. One-time VPS crontab (two lines — note the app code lives in the Docker volume, and port 3000 on this VPS belongs to Homecrackers, so the draft trigger must use the public domain):
+   - `0 6 * * 1  curl -s -X POST -H "x-internal-secret: $SECRET" https://aegeanpulse.com/api/internal/generate-draft` — Monday: AI drafts the next queued topic
+   - `5 7 * * 2  git -C /var/lib/docker/volumes/aegeanpulse_app_data/_data pull && docker restart aegeanpulse-app-1` — Tuesday 08:05 UK: pull + rebuild deploys pushed changes and publishes any article whose date has arrived (verify `git pull` auth works for the private repo; embed a PAT in the remote URL if not)
+6. One-time: confirm the reverse proxy passes `X-Forwarded-For` to the app (IP rate limiting depends on it)
 7. Smoke test: chat widget answers a pricing question; newsletter form subscribes; `/pricing` and an article page load
+
+**Publish flow (scheduled weekly releases):** the loader hides articles whose `date` is in the future (in addition to the `draft` gate). To schedule: review the draft → set `draft: false` and a future Tuesday `date` → commit/push. The Tuesday cron rebuilds and the post goes live when its date arrives. Currently scheduled: the five "Against the Grain" contrarian essays, weekly from 2026-07-14 to 2026-08-11 (awaiting review: flip each `draft: false` to arm the schedule). After each goes live, send the campaign to the newsletter list manually from reach.hostinger.com (~2 min; Reach's API can't send campaigns).
 
 **Known open items / TODO:**
 - Deploy the backend features to the VPS (runbook above).

@@ -2,7 +2,7 @@
 title: "The most valuable AI in your business is boring"
 category: "Automation"
 summary: "The AI worth paying for isn't the flashy agent from the demo. It's the dull back-office task nobody wants to talk about. Here's why."
-date: "2026-07-08"
+date: "2026-08-04"
 readingTime: 5
 featured: false
 image: "/images/articles/the-most-valuable-ai-is-boring.webp"

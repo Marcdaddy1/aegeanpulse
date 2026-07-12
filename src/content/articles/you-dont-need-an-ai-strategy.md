@@ -2,7 +2,7 @@
 title: "You don't need an AI strategy. You need one working thing."
 category: "Small Business"
 summary: "The company-wide AI roadmap is an enterprise idea sold to small businesses that can't use it. Start with one prioritised move instead."
-date: "2026-07-10"
+date: "2026-07-21"
 readingTime: 5
 featured: false
 image: "/images/articles/you-dont-need-an-ai-strategy.webp"

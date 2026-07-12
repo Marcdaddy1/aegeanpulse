@@ -2,9 +2,9 @@
 title: "Most small-business AI projects never ship"
 category: "Small Business"
 summary: "The problem with SMB AI isn't failure — it's the projects that die in scoping and pilots and never reach real use. Here's how to actually ship one."
-date: "2026-07-11"
+date: "2026-07-14"
 readingTime: 6
-featured: false
+featured: true
 image: "/images/articles/why-smb-ai-projects-never-ship.webp"
 imageAlt: "A dusty laptop and half-erased whiteboard in an empty meeting room — the abandoned AI pilot"
 draft: true
