@@ -5,6 +5,8 @@ summary: "The chatbot has become the default first AI purchase for small busines
 date: "2026-07-09"
 readingTime: 5
 featured: false
+image: "/images/articles/you-probably-dont-need-a-chatbot.webp"
+imageAlt: "A shop owner hands a package to a customer while a chatbot tablet sits ignored on the counter"
 draft: true
 ---
 

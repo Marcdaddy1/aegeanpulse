@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock } from "lucide-react";
 import { Container } from "@/components/ui/container";
@@ -32,6 +33,20 @@ export async function generateMetadata({
       title: article.title,
       description: article.summary,
       url: `${SITE_URL}/ai-news/${article.slug}`,
+      // Per-article social card when a hero exists; otherwise the site-wide
+      // opengraph-image.tsx template applies.
+      ...(article.image
+        ? {
+            images: [
+              {
+                url: `${SITE_URL}${article.image}`,
+                width: 1600,
+                height: 900,
+                alt: article.imageAlt,
+              },
+            ],
+          }
+        : {}),
     },
   };
 }
@@ -68,6 +83,7 @@ export default async function ArticlePage({
     author: { "@type": "Organization", name: SITE_NAME },
     publisher: { "@type": "Organization", name: SITE_NAME },
     mainEntityOfPage: `${SITE_URL}/ai-news/${article.slug}`,
+    ...(article.image ? { image: `${SITE_URL}${article.image}` } : {}),
   };
 
   return (
@@ -107,6 +123,22 @@ export default async function ArticlePage({
             </Reveal>
           </Container>
         </header>
+
+        {article.image && (
+          <Container size="narrow" className="pt-10 md:pt-12">
+            <Reveal>
+              <Image
+                src={article.image}
+                alt={article.imageAlt ?? ""}
+                width={1600}
+                height={900}
+                priority
+                sizes="(max-width: 768px) 100vw, 768px"
+                className="w-full rounded-2xl border border-border object-cover"
+              />
+            </Reveal>
+          </Container>
+        )}
 
         <Container size="narrow" className="py-14 md:py-16">
           <Reveal>

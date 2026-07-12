@@ -47,14 +47,17 @@ function loadArticle(filename: string): Article | null {
 
   if (data.draft === true) return null;
 
-  const { title, category, summary, date, readingTime, featured } = data as {
-    title?: string;
-    category?: string;
-    summary?: string;
-    date?: string;
-    readingTime?: number;
-    featured?: boolean;
-  };
+  const { title, category, summary, date, readingTime, featured, image, imageAlt } =
+    data as {
+      title?: string;
+      category?: string;
+      summary?: string;
+      date?: string;
+      readingTime?: number;
+      featured?: boolean;
+      image?: string;
+      imageAlt?: string;
+    };
 
   // Fail the build loudly with the offending filename rather than rendering
   // a broken article page.
@@ -69,6 +72,11 @@ function loadArticle(filename: string): Article | null {
   if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(String(date))) {
     throw new Error(`Article ${filename}: date must be YYYY-MM-DD.`);
   }
+  // Hero image is optional (older articles have none), but never without alt
+  // text — an inaccessible hero fails the build instead of shipping.
+  if (image && !imageAlt) {
+    throw new Error(`Article ${filename}: image requires imageAlt.`);
+  }
 
   return {
     slug,
@@ -78,6 +86,7 @@ function loadArticle(filename: string): Article | null {
     date: String(date),
     readingTime: Number(readingTime) || 5,
     featured: featured === true,
+    ...(image ? { image, imageAlt } : {}),
     body: parseBody(content),
   };
 }
@@ -108,7 +117,11 @@ export function getFeaturedArticle(): Article {
 }
 
 export function getGridArticles(): Article[] {
-  return ARTICLES.filter((a) => !a.featured);
+  // Exclude only the article actually shown in the featured slot — filtering
+  // ALL featured:true entries made any older featured article vanish from the
+  // list page entirely once a newer one took the slot.
+  const featured = getFeaturedArticle();
+  return ARTICLES.filter((a) => a.slug !== featured.slug);
 }
 
 export type { Article, ArticleBlock, ArticleCategory };

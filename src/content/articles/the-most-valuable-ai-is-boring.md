@@ -5,6 +5,8 @@ summary: "The AI worth paying for isn't the flashy agent from the demo. It's the
 date: "2026-07-08"
 readingTime: 5
 featured: false
+image: "/images/articles/the-most-valuable-ai-is-boring.webp"
+imageAlt: "A stack of paper invoices being fed through a scanner in a plain back office"
 draft: true
 ---
 

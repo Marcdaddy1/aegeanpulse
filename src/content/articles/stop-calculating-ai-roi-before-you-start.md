@@ -5,6 +5,8 @@ summary: "The demand to prove AI's return before you begin sounds prudent. For a
 date: "2026-07-07"
 readingTime: 5
 featured: false
+image: "/images/articles/stop-calculating-ai-roi-before-you-start.webp"
+imageAlt: "A desk covered in printed spreadsheets, a calculator and reading glasses under a desk lamp"
 draft: true
 ---
 

@@ -26,6 +26,10 @@ export interface Article {
   readingTime: number;
   date: string;
   featured?: boolean;
+  /** Hero image path under /public, e.g. "/images/articles/<slug>.webp". */
+  image?: string;
+  /** Accessible description of the hero image; required whenever image is set. */
+  imageAlt?: string;
   body: ArticleBlock[];
 }
 

@@ -5,6 +5,8 @@ summary: "The company-wide AI roadmap is an enterprise idea sold to small busine
 date: "2026-07-10"
 readingTime: 5
 featured: false
+image: "/images/articles/you-dont-need-an-ai-strategy.webp"
+imageAlt: "A thick, unopened strategy report with a coffee ring on a boardroom table"
 draft: true
 ---
 

@@ -5,6 +5,8 @@ summary: "The problem with SMB AI isn't failure — it's the projects that die i
 date: "2026-07-11"
 readingTime: 6
 featured: false
+image: "/images/articles/why-smb-ai-projects-never-ship.webp"
+imageAlt: "A dusty laptop and half-erased whiteboard in an empty meeting room — the abandoned AI pilot"
 draft: true
 ---
 
