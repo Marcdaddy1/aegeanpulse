@@ -7,7 +7,7 @@ readingTime: 5
 featured: false
 image: "/images/articles/you-dont-need-an-ai-strategy.webp"
 imageAlt: "A thick, unopened strategy report with a coffee ring on a boardroom table"
-draft: true
+draft: false
 ---
 
 Somewhere in the last two years, "we need an AI strategy" became a thing small business owners say out loud, usually with a slight wince, the way people talk about going to the gym. It sounds responsible and slightly overdue. It is also, for most small businesses, the wrong goal — and chasing it is a reliable way to spend money and end up with nothing running.

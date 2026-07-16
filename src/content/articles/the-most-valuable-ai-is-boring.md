@@ -7,7 +7,7 @@ readingTime: 5
 featured: false
 image: "/images/articles/the-most-valuable-ai-is-boring.webp"
 imageAlt: "A stack of paper invoices being fed through a scanner in a plain back office"
-draft: true
+draft: false
 ---
 
 The AI that gets attention is the exciting kind. Autonomous agents that run your business while you sleep. Tools that promise to 10x your output. Demos where something magical happens in thirty seconds to a swell of background music. It's genuinely impressive, and it sets the expectation that AI adoption should feel like that — a leap, a transformation, a before-and-after.

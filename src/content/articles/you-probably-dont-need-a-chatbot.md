@@ -7,7 +7,7 @@ readingTime: 5
 featured: false
 image: "/images/articles/you-probably-dont-need-a-chatbot.webp"
 imageAlt: "A shop owner hands a package to a customer while a chatbot tablet sits ignored on the counter"
-draft: true
+draft: false
 ---
 
 We build chatbots. So it's a slightly odd thing to say, but most of the small businesses that ask us for one don't need it — at least not first, and sometimes not at all. The chatbot has quietly become the default answer to the question "how do we use AI," and defaults are worth being suspicious of, especially when everyone selling them benefits from you not asking too hard.

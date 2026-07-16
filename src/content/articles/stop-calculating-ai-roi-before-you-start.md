@@ -7,7 +7,7 @@ readingTime: 5
 featured: false
 image: "/images/articles/stop-calculating-ai-roi-before-you-start.webp"
 imageAlt: "A desk covered in printed spreadsheets, a calculator and reading glasses under a desk lamp"
-draft: true
+draft: false
 ---
 
 Every sensible business person knows you should understand the return before you spend the money. It's the responsible instinct, drummed in by every course and every accountant. So when AI comes up, the reasonable next move feels like building the business case: what will this cost, what will it save, what's the payback period, prove it before we commit.

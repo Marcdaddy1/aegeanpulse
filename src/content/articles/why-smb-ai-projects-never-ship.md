@@ -7,7 +7,7 @@ readingTime: 6
 featured: true
 image: "/images/articles/why-smb-ai-projects-never-ship.webp"
 imageAlt: "A dusty laptop and half-erased whiteboard in an empty meeting room — the abandoned AI pilot"
-draft: true
+draft: false
 ---
 
 There's a familiar headline that most corporate AI projects fail. It gets repeated at every conference and in every vendor deck, usually right before someone sells you the thing that will supposedly beat the odds. For small businesses, though, the headline is misleading. Your AI project probably won't fail in any dramatic way. It will simply never ship.
