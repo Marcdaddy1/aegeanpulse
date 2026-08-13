@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   description:
     "Discover the best current AI tools for business growth, automation, content, and productivity — curated and categorized by AegeanPulse.",
   alternates: { canonical: "/ai-tools" },
+  // Without this, og:url falls back to the root layout's homepage URL
+  // and disagrees with the canonical above.
+  openGraph: { url: "/ai-tools" },
 };
 
 export default function AiToolsPage() {

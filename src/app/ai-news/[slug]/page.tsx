@@ -73,6 +73,11 @@ export default async function ArticlePage({
   const fallback = ARTICLES.filter((a) => a.slug !== article.slug).slice(0, 3);
   const recommendations = related.length > 0 ? related : fallback;
 
+  // schema.org requires Article.image and Article.publisher.logo — both were
+  // previously absent (image only when the article had a hero, logo never),
+  // which failed structured-data validation on every article page. The 12
+  // older articles have no hero, so they fall back to the generated site OG
+  // card rather than emitting no image at all.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -80,10 +85,19 @@ export default async function ArticlePage({
     description: article.summary,
     datePublished: article.date,
     articleSection: article.category,
+    image: article.image
+      ? `${SITE_URL}${article.image}`
+      : `${SITE_URL}/opengraph-image`,
     author: { "@type": "Organization", name: SITE_NAME },
-    publisher: { "@type": "Organization", name: SITE_NAME },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/icon.svg`,
+      },
+    },
     mainEntityOfPage: `${SITE_URL}/ai-news/${article.slug}`,
-    ...(article.image ? { image: `${SITE_URL}${article.image}` } : {}),
   };
 
   return (

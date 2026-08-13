@@ -33,10 +33,13 @@ const founderJsonLd = {
 };
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About AegeanPulse — AI Consultancy for Small Business",
   description:
     "AegeanPulse exists to democratize AI access for small businesses — combining tools, knowledge, and strategy to help them thrive in a digital-first economy.",
   alternates: { canonical: "/about" },
+  // Without this, og:url falls back to the root layout's homepage URL
+  // and disagrees with the canonical above.
+  openGraph: { url: "/about" },
 };
 
 const VALUES = [

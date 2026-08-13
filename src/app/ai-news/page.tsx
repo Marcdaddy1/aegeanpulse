@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   description:
     "Stay ahead of AI trends, tools, automation, and business adoption with practical insights and tutorials from AegeanPulse.",
   alternates: { canonical: "/ai-news" },
+  // Without this, og:url falls back to the root layout's homepage URL
+  // and disagrees with the canonical above.
+  openGraph: { url: "/ai-news" },
 };
 
 export default function AiNewsPage() {

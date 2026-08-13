@@ -14,10 +14,13 @@ import { ContactForm } from "@/components/sections/contact/contact-form";
 import { CAL_URL, CONTACT_EMAIL } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact AegeanPulse — Book a Free AI Consultation",
   description:
     "Talk to AegeanPulse about AI consultation, partnerships, or submitting a tool. Book a free consultation or send us a message.",
   alternates: { canonical: "/contact" },
+  // Without this, og:url falls back to the root layout's homepage URL
+  // and disagrees with the canonical above.
+  openGraph: { url: "/contact" },
 };
 
 const CARDS = [

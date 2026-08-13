@@ -5,9 +5,12 @@ import { Reveal } from "@/components/motion/reveal";
 import { SITE_NAME, CONTACT_EMAIL } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
+  title: "Privacy Policy — How We Handle Your Data",
   description: `How ${SITE_NAME} collects, uses, and protects your personal data.`,
   alternates: { canonical: "/privacy" },
+  // Without this, og:url falls back to the root layout's homepage URL
+  // and disagrees with the canonical above.
+  openGraph: { url: "/privacy" },
 };
 
 const SECTIONS: { heading: string; paragraphs: string[]; list?: string[] }[] = [
