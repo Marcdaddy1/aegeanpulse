@@ -1,0 +1,32 @@
+{
+  "projectId": "8a4a1c78-bf90-48e7-9486-111a28ce6608",
+  "pkg": "aegeanpulse",
+  "globalName": "AegeanPulseDS",
+  "shape": "package",
+  "srcDir": "src/components/ui",
+  "tsconfig": "tsconfig.json",
+  "componentSrcMap": {
+    "Badge": "src/components/ui/badge.tsx",
+    "Button": "src/components/ui/button.tsx",
+    "Card": "src/components/ui/card.tsx",
+    "Container": "src/components/ui/container.tsx",
+    "LinkedInIcon": "src/components/ui/linkedin-icon.tsx",
+    "Price": "src/components/ui/price.tsx",
+    "StarterPrice": "src/components/ui/price.tsx",
+    "Section": "src/components/ui/section.tsx",
+    "SectionHeading": "src/components/ui/section.tsx",
+    "Reveal": "src/components/motion/reveal.tsx",
+    "Stagger": "src/components/motion/stagger.tsx",
+    "StaggerItem": "src/components/motion/stagger.tsx"
+  },
+  "cssEntry": "compiled-tailwind.css",
+  "libOverrides": {
+    "bundle.mjs": "aliases next/link to a plain <a> shim — the real import pulls Next's client router into the bundle, which reads process.env.__NEXT_* and throws 'process is not defined' in every standalone render"
+  },
+  "extraFonts": [
+    "fonts/2c55a0e60120577a-s.0-dom-5bn10r2.woff2",
+    "fonts/167cd0713aa75522-s.1nzccunaoxsdm.woff2"
+  ],
+  "entry": "node_modules/aegeanpulse/ds-shims/ds-entry.ts",
+  "readmeHeader": ".design-sync/readme-header.md"
+}
