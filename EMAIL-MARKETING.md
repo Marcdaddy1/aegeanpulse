@@ -33,18 +33,29 @@ list.
 A second, sharper edge: at 100 contacts you cannot add a 101st. Signups start
 failing — and today they would fail *silently*. See Phase 1.
 
-## Command setup
+## Running the commands
 
-Every command in this file is **PowerShell**, run from the repo. Paste this
-once per terminal session — the rest of the file assumes `$h` and `$p` exist.
-(PowerShell 5.1 has no `&&`; run these as separate lines, not chained.)
+Everything here runs through one script, `scripts/reach.ps1`. **Do not paste
+multi-line PowerShell blocks into the terminal** — Windows PowerShell 5.1
+corrupts long lines mid-paste (a line with quotes and `@{}` gets eaten
+character by character), which leaves the auth header unset and every call
+returns `401 Unauthorized`. One file, one short command, no session state:
 
 ```powershell
-Set-Location "C:\Users\AegeanPulse\Desktop\Claude Code Projects\projects\aegeanpulse"
-$token = ((Get-Content .env.local | Select-String '^HOSTINGER_API_TOKEN=') -split '=',2)[1].Trim('"')
-$p = "b3bd9869-f69b-11f0-9166-42010a7501e7"
-$h = @{ Authorization = "Bearer $token" }
+powershell -ExecutionPolicy Bypass -File .\scripts\reach.ps1 status
+each.ps1 status
 ```
+
+| Action | Shows |
+|---|---|
+| `status` | Everything at a glance — list size, quota left, sends left, DNS |
+| `dns` | MX/SPF/DKIM/DMARC with actual values, and what to add if missing |
+| `contacts` | The subscriber list |
+| `campaigns` | Drafts and sent campaigns |
+| `stats` | Open/click/unsubscribe for each sent campaign |
+
+The script reads `HOSTINGER_API_TOKEN` from `.env.local` itself and resolves it
+relative to its own location, so the working directory does not matter.
 
 ## Architecture
 
@@ -76,19 +87,18 @@ Tighten to `p=quarantine` only after a month of clean reports.
 **STATUS: done and verified 2026-09-04.** All three records resolve publicly and
 Reach reports MX, SPF, DKIM and DMARC all OK.
 
-To re-verify at any time — each must return a value rather than NXDOMAIN:
+To re-verify what Reach sees at any time:
 
 ```powershell
-Resolve-DnsName reach-a._domainkey.aegeanpulse.com -Type CNAME -Server 8.8.8.8 | Select-Object Name, NameHost
-Resolve-DnsName reach-b._domainkey.aegeanpulse.com -Type CNAME -Server 8.8.8.8 | Select-Object Name, NameHost
-Resolve-DnsName _dmarc.aegeanpulse.com -Type TXT -Server 8.8.8.8 | Select-Object -ExpandProperty Strings
+powershell -ExecutionPolicy Bypass -File .\scripts\reach.ps1 dns
+each.ps1 dns
 ```
 
-Then confirm Reach agrees (uses `$h` and `$p` from **Command setup** above):
+And to check public DNS independently — worth doing, because Reach reported
+the domain "active" while DKIM was absent:
 
 ```powershell
-$dns = Invoke-RestMethod -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/domains/dns-status" -Headers $h
-'mx','spf','dkim','dmarc' | ForEach-Object { "{0,-6}: {1}" -f $_.ToUpper(), $(if ($dns.$_.actual) { 'OK' } else { 'MISSING' }) }
+Resolve-DnsName reach-a._domainkey.aegeanpulse.com -Type CNAME -Server 8.8.8.8
 ```
 
 **Also confirm the from-address mailbox exists and is monitored.** The domain is
@@ -114,14 +124,13 @@ success and anything else as a real error that logs loudly, so a full list shows
 up as an alert rather than as mysteriously flat growth. Read the body of a real
 422 before assuming its shape.
 
-Add a headroom check to the weekly routine:
+Add a headroom check to the weekly routine — `status` warns automatically once
+fewer than 10 subscriber slots remain:
 
 ```powershell
-$lim = Invoke-RestMethod -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/limits" -Headers $h
-"emails {0}/{1} left   recipients {2}/{3} left" -f $lim.emails.remaining, $lim.emails.limit, $lim.recipients.remaining, $lim.recipients.limit
+powershell -ExecutionPolicy Bypass -File .\scripts\reach.ps1 status
+each.ps1 status
 ```
-
-Returns `emails`, `recipients` and `ai_credits`, each as `{limit, used, remaining}`.
 
 ---
 
@@ -177,27 +186,12 @@ the missing editor. Confirm it with the first template before relying on it —
 the body is sanitised on save, so check what comes back.
 
 ```powershell
-$body = @{
-  title            = "Issue 01 - projects never ship"
-  template_content = Get-Content .\drafts\issue-01.html -Raw
-} | ConvertTo-Json
-$tpl = Invoke-RestMethod -Method Post -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/templates" -Headers $h -ContentType "application/json" -Body $body
-$tpl.uuid
+powershell -ExecutionPolicy Bypass -File .\scripts\reach.ps1 draft -Html .\drafts\issue-01.html -Title "Issue 01 - projects never ship" -Subject "Most small-business AI projects never ship" -Preheader "The reason is almost never the technology."
 ```
 
-Keep the returned `uuid` — it becomes `template_uuid`:
-
-```powershell
-$body = @{
-  sender_name   = "Marcus at AegeanPulse"
-  sender_email  = "marcus@aegeanpulse.com"
-  title         = "Issue 01 - projects never ship"
-  subject       = "Most small-business AI projects never ship"
-  template_uuid = $tpl.uuid
-  metadata      = @{ preheader = "The reason is almost never the technology."; source = "api" }
-} | ConvertTo-Json
-Invoke-RestMethod -Method Post -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/campaigns" -Headers $h -ContentType "application/json" -Body $body
-```
+It creates the template, then the draft campaign against it, and prints both
+UUIDs. `-From` and `-FromName` default to `marcus@aegeanpulse.com` /
+"Marcus at AegeanPulse"; override them if you use a different mailbox.
 
 Only `sender_name` and `sender_email` are required. `metadata` rejects any key
 other than `preheader` and `source`.
@@ -241,8 +235,8 @@ subscribes to a number.
 ## Phase 4 — Measure only what changes a decision
 
 ```powershell
-$c = (Invoke-RestMethod -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/campaigns?status=publish" -Headers $h).data[0]
-Invoke-RestMethod -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/campaigns/$($c.uuid)/statistics" -Headers $h
+powershell -ExecutionPolicy Bypass -File .\scripts\reach.ps1 stats
+each.ps1 stats
 ```
 
 Three numbers per send, kept in a running note:
