@@ -8,4 +8,5 @@ import { reachProvider, reachConfigured } from "./reach";
 
 export const emailProvider: EmailProvider = reachProvider;
 export const emailConfigured = reachConfigured;
+export { SubscribeError } from "./provider";
 export type { EmailProvider, SubscribeInput } from "./provider";

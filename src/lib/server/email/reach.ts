@@ -1,5 +1,5 @@
 import "server-only";
-import type { EmailProvider, SubscribeInput } from "./provider";
+import { SubscribeError, type EmailProvider, type SubscribeInput } from "./provider";
 
 // Hostinger Reach adapter. Endpoint shape verified against the published
 // OpenAPI spec (developers.hostinger.com/openapi/openapi.json):
@@ -7,6 +7,18 @@ import type { EmailProvider, SubscribeInput } from "./provider";
 //   Auth: Bearer <Hostinger API token> (hPanel → API tokens)
 // `note` is capped at 75 chars by the API — we use it to record the signup
 // source for list hygiene.
+//
+// Response behaviour, measured against the live API on 2026-09-04:
+//   - new contact        → 200 { "message": "Request accepted" }
+//   - contact ALREADY on the list → also 200, same body
+//   - invalid/missing email → 422 { message, errors: { email: [...] }, correlation_id }
+// Idempotency is therefore handled server-side and needs no special case here.
+// An earlier version treated 409 and 422 as success to swallow "already
+// exists"; that was wrong twice over — duplicates never return either code, and
+// swallowing 422 hid genuine failures. The plan caps at 100 subscribers
+// (see EMAIL-MARKETING.md), so the endpoint WILL start rejecting signups once
+// the list is full; silently reporting success there would look like organic
+// flatlining rather than a wall.
 
 const REACH_API_BASE = "https://developers.hostinger.com";
 
@@ -20,6 +32,38 @@ function reachToken(): string {
 
 export function reachConfigured(): boolean {
   return Boolean(process.env.HOSTINGER_API_TOKEN);
+}
+
+/**
+ * Pull a human-readable reason out of a Reach error body. The 422 shape is
+ * `{ message, errors: { field: [msg] }, correlation_id }`; other statuses are
+ * not documented, so fall back to the raw text rather than assuming JSON.
+ */
+function describeFailure(status: number, raw: string): { detail: string; listFull: boolean } {
+  let detail = raw.slice(0, 300);
+  try {
+    const body = JSON.parse(raw) as {
+      message?: string;
+      errors?: Record<string, string[]>;
+      correlation_id?: string;
+    };
+    // `message` usually repeats the first field error verbatim — dedupe so the
+    // log line reads once, not twice.
+    const parts = [body.message, ...Object.values(body.errors ?? {}).flat()].filter(
+      (v): v is string => Boolean(v),
+    );
+    detail = [...new Set(parts)].join(" | ") || detail;
+    if (body.correlation_id) detail += ` [correlation_id: ${body.correlation_id}]`;
+  } catch {
+    // Not JSON — keep the truncated raw body.
+  }
+
+  // The exact response at the subscriber cap is NOT verified: confirming it
+  // would mean filling the list to 100. Treat it as a hint that makes the log
+  // line actionable, never as control flow — every non-2xx throws regardless.
+  const listFull = status === 403 || /limit|quota|subscriber|plan|upgrade/i.test(detail);
+
+  return { detail, listFull };
 }
 
 export const reachProvider: EmailProvider = {
@@ -37,10 +81,9 @@ export const reachProvider: EmailProvider = {
       }),
     });
 
-    // 409/422 for an already-existing contact is success for our purposes —
-    // the person is on the list, which is all the caller cares about.
-    if (!res.ok && res.status !== 409 && res.status !== 422) {
-      throw new Error(`Reach contact creation failed (${res.status}): ${await res.text()}`);
-    }
+    if (res.ok) return;
+
+    const { detail, listFull } = describeFailure(res.status, await res.text().catch(() => ""));
+    throw new SubscribeError({ status: res.status, detail, listFull, provider: "Reach" });
   },
 };

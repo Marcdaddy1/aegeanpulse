@@ -12,6 +12,13 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // design-sync working files: `.ds-sync/` is the staged copy of the skill's
+    // own scripts and `ds-bundle/` is generated, minified output. Both are
+    // gitignored but ESLint still walks them, and linting a vendored bundle
+    // produced 1300+ meaningless findings. See .design-sync/NOTES.md.
+    ".ds-sync/**",
+    "ds-bundle/**",
+    ".design-sync/**",
   ]),
 ]);
 

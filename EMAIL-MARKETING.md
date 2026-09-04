@@ -30,8 +30,8 @@ recommending a weekly newsletter on this plan is describing a list of 50 people
 or a bigger plan. Plan fortnightly and you stay inside the cap even at a full
 list.
 
-A second, sharper edge: at 100 contacts you cannot add a 101st. Signups start
-failing — and today they would fail *silently*. See Phase 1.
+A second, sharper edge: at 100 contacts you cannot add a 101st. Signups then
+fail — loudly now, since Phase 1; they used to fail silently.
 
 ## Running the commands
 
@@ -43,7 +43,6 @@ returns `401 Unauthorized`. One file, one short command, no session state:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\reach.ps1 status
-each.ps1 status
 ```
 
 | Action | Shows |
@@ -59,7 +58,7 @@ relative to its own location, so the working directory does not matter.
 
 ## Architecture
 
-- **Capture stays as built.** `/api/newsletter/subscribe` → `src/lib/server/email/reach.ts` → `POST /reach/v1/contacts`. Consent-gated and rate-limited already. Only the cap bug needs touching.
+- **Capture stays as built.** `/api/newsletter/subscribe` → `src/lib/server/email/reach.ts` → `POST /reach/v1/contacts`. Consent-gated and rate-limited already, and since Phase 1 a refusal throws rather than reporting false success.
 - **Composition is automated; sending stays manual.** The API can create an HTML template and a draft campaign. It cannot set audience, schedule, or send. So a script builds the draft and you press send in Reach — roughly 90% of the per-issue work removed.
 - **The newsletter distributes the 16 articles you already have.** It is not a new content stream. Nothing in this plan asks you to write more long-form.
 
@@ -91,7 +90,6 @@ To re-verify what Reach sees at any time:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\reach.ps1 dns
-each.ps1 dns
 ```
 
 And to check public DNS independently — worth doing, because Reach reported
@@ -109,27 +107,50 @@ exists, otherwise `contact@aegeanpulse.com`.
 
 ## Phase 1 — Fix the silent failure at the subscriber cap
 
-`src/lib/server/email/reach.ts` currently treats HTTP 422 as success:
+**STATUS: fixed 2026-09-04.**
 
-```ts
-if (!res.ok && res.status !== 409 && res.status !== 422) {
-```
+`src/lib/server/email/reach.ts` treated both 409 and 422 as success, to swallow
+an "already exists" response. Probing the live API showed that reasoning was
+wrong in both directions:
 
-That was right for "contact already exists". But 422 is also the likely
-response once the 100-subscriber cap is reached — in which case the form thanks
-the visitor and nobody is added. On a 100-contact plan you *will* hit this.
+| Case | Actual response |
+|---|---|
+| New contact | `200 {"message":"Request accepted"}` |
+| **Contact already on the list** | **also `200`, same body** |
+| Invalid / missing email | `422 {message, errors:{email:[…]}, correlation_id}` |
 
-The fix is to separate the two cases by response body: treat "already exists" as
-success and anything else as a real error that logs loudly, so a full list shows
-up as an alert rather than as mysteriously flat growth. Read the body of a real
-422 before assuming its shape.
+Duplicates never returned 409 or 422 at all — idempotency is handled
+server-side — so the special case protected against nothing while hiding every
+genuine failure, including whatever the API returns once the 100-subscriber cap
+is reached.
 
-Add a headroom check to the weekly routine — `status` warns automatically once
-fewer than 10 subscriber slots remain:
+The adapter now throws `SubscribeError` on any non-2xx, carrying the parsed
+`message`, field errors (deduped) and `correlation_id`. It also sets a
+`listFull` flag, which the route logs on its own greppable line so a full list
+reads as an alert rather than as organic flatlining. The exact cap response is
+**not verified** — confirming it would mean adding 99 contacts — so `listFull`
+is a best-effort hint on the message text, never control flow: every non-2xx
+throws regardless.
+
+`SubscribeError` lives in `provider.ts`, not the Reach adapter, so the route
+still imports only from `@/lib/server/email` and swapping ESP stays a
+one-file change.
+
+Verified against the live API and with simulated cap responses:
+
+| Case | Result |
+|---|---|
+| Existing contact | resolves (no false error) |
+| Invalid email | throws, `status=422`, `listFull=false` |
+| `403 Subscriber limit reached` | throws, `listFull=true` |
+| `422 plan quota … Upgrade` | throws, `listFull=true` |
+| `500` non-JSON body | throws, raw body preserved |
+
+Weekly headroom check — `status` warns automatically once fewer than 10
+subscriber slots remain:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\reach.ps1 status
-each.ps1 status
 ```
 
 ---
@@ -236,7 +257,6 @@ subscribes to a number.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\reach.ps1 stats
-each.ps1 stats
 ```
 
 Three numbers per send, kept in a running note:
@@ -274,7 +294,7 @@ plan, and sending one by hand would eat from a 200/month budget.
 
 - [x] Publish the three DNS records (Phase 0) — **done, verified 2026-09-04**
 - [ ] Confirm which from-address mailbox exists and is monitored
-- [ ] Fix the 422 handling in `reach.ts`; verify the real cap response body
+- [x] Fix the 422 handling in `reach.ts` — **done 2026-09-04**; cap response still unverified by design
 - [ ] Finish and publish the *AI Automation Cost* draft — it is the signup incentive
 - [ ] Add the signup form to `/pricing`
 - [ ] Confirm an API-created HTML template survives sanitisation

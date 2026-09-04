@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { emailProvider, emailConfigured } from "@/lib/server/email";
+import { emailProvider, emailConfigured, SubscribeError } from "@/lib/server/email";
 import { checkRateLimit, getClientIp } from "@/lib/server/rate-limit";
 
 // Newsletter signup endpoint. UK GDPR: the client form requires an explicit,
@@ -60,7 +60,18 @@ export async function POST(request: Request) {
     });
     return NextResponse.json({ subscribed: true });
   } catch (err) {
-    console.error("[api/newsletter/subscribe] failed:", err);
+    // A full subscriber list is an operational problem, not a visitor error:
+    // it needs a plan upgrade, and until then every signup is lost. Log it on
+    // its own line so it is greppable rather than buried among transient 502s.
+    if (err instanceof SubscribeError && err.listFull) {
+      console.error(
+        "[api/newsletter/subscribe] SUBSCRIBER LIST FULL — signups are being rejected. " +
+          "Upgrade the Reach plan; see EMAIL-MARKETING.md.",
+        err.detail,
+      );
+    } else {
+      console.error("[api/newsletter/subscribe] failed:", err);
+    }
     return NextResponse.json(
       { error: "Couldn't subscribe you just now — please try again later." },
       { status: 502 },
