@@ -9,8 +9,8 @@ and from public DNS on that date — not from Hostinger's marketing pages._
 |---|---|---|
 | Profile UUID | `b3bd9869-f69b-11f0-9166-42010a7501e7` | Needed in every API call |
 | Sending domain | `aegeanpulse.com` — **active** | Cleared to send |
-| **DKIM** | **missing** | **Blocks everything. Fix first.** |
-| **DMARC** | **missing** | Gmail/Yahoo penalise bulk senders without it |
+| **DKIM** | published — OK (2026-09-04) | Mail is signed |
+| **DMARC** | `p=none` published — OK (2026-09-04) | Monitoring; tighten later |
 | SPF / MX | present, Hostinger | Fine |
 | Subscribers | **1** (your own address) | Zero base — growth is job one |
 | Subscriber cap | **100** | Hard ceiling on this plan |
@@ -33,6 +33,19 @@ list.
 A second, sharper edge: at 100 contacts you cannot add a 101st. Signups start
 failing — and today they would fail *silently*. See Phase 1.
 
+## Command setup
+
+Every command in this file is **PowerShell**, run from the repo. Paste this
+once per terminal session — the rest of the file assumes `$h` and `$p` exist.
+(PowerShell 5.1 has no `&&`; run these as separate lines, not chained.)
+
+```powershell
+Set-Location "C:\Users\AegeanPulse\Desktop\Claude Code Projects\projects\aegeanpulse"
+$token = ((Get-Content .env.local | Select-String '^HOSTINGER_API_TOKEN=') -split '=',2)[1].Trim('"')
+$p = "b3bd9869-f69b-11f0-9166-42010a7501e7"
+$h = @{ Authorization = "Bearer $token" }
+```
+
 ## Architecture
 
 - **Capture stays as built.** `/api/newsletter/subscribe` → `src/lib/server/email/reach.ts` → `POST /reach/v1/contacts`. Consent-gated and rate-limited already. Only the cap bug needs touching.
@@ -43,12 +56,13 @@ failing — and today they would fail *silently*. See Phase 1.
 
 ## Phase 0 — Unblock sending (before anything else)
 
-Reach reports the domain "active", but DKIM is not published — confirmed
-against Google's resolver independently of Reach. Sending now means unsigned
-mail: Gmail and Outlook will filter it, and early damage to a fresh sending
-domain is slow to undo.
+Reach reported the domain "active" while DKIM was not actually published —
+caught by checking Google's resolver independently of Reach. Sending in that
+state means unsigned mail: Gmail and Outlook filter it, and early damage to a
+fresh sending domain is slow to undo. Worth re-checking after any DNS change,
+since Reach's own status field did not reflect reality.
 
-Add three records in hPanel → Domains → DNS Zone, on `aegeanpulse.com`:
+The three records, added in hPanel → Domains → DNS Zone on `aegeanpulse.com`:
 
 | Type | Name | Value | TTL |
 |---|---|---|---|
@@ -59,20 +73,22 @@ Add three records in hPanel → Domains → DNS Zone, on `aegeanpulse.com`:
 `p=none` monitors without affecting delivery — the correct first DMARC policy.
 Tighten to `p=quarantine` only after a month of clean reports.
 
-Verify each returns a value rather than NXDOMAIN:
+**STATUS: done and verified 2026-09-04.** All three records resolve publicly and
+Reach reports MX, SPF, DKIM and DMARC all OK.
 
-```bash
-nslookup -type=CNAME reach-a._domainkey.aegeanpulse.com 8.8.8.8
+To re-verify at any time — each must return a value rather than NXDOMAIN:
+
+```powershell
+Resolve-DnsName reach-a._domainkey.aegeanpulse.com -Type CNAME -Server 8.8.8.8 | Select-Object Name, NameHost
+Resolve-DnsName reach-b._domainkey.aegeanpulse.com -Type CNAME -Server 8.8.8.8 | Select-Object Name, NameHost
+Resolve-DnsName _dmarc.aegeanpulse.com -Type TXT -Server 8.8.8.8 | Select-Object -ExpandProperty Strings
 ```
 
-```bash
-nslookup -type=TXT _dmarc.aegeanpulse.com 8.8.8.8
-```
+Then confirm Reach agrees (uses `$h` and `$p` from **Command setup** above):
 
-Then confirm Reach agrees:
-
-```bash
-cd ~/path/to/aegeanpulse && TOKEN=$(sed -n 's/^HOSTINGER_API_TOKEN=//p' .env.local | tr -d '"\r') && curl -s -H "Authorization: Bearer $TOKEN" "https://developers.hostinger.com/api/reach/v1/profiles/b3bd9869-f69b-11f0-9166-42010a7501e7/domains/dns-status"
+```powershell
+$dns = Invoke-RestMethod -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/domains/dns-status" -Headers $h
+'mx','spf','dkim','dmarc' | ForEach-Object { "{0,-6}: {1}" -f $_.ToUpper(), $(if ($dns.$_.actual) { 'OK' } else { 'MISSING' }) }
 ```
 
 **Also confirm the from-address mailbox exists and is monitored.** The domain is
@@ -100,8 +116,9 @@ up as an alert rather than as mysteriously flat growth. Read the body of a real
 
 Add a headroom check to the weekly routine:
 
-```bash
-cd ~/path/to/aegeanpulse && TOKEN=$(sed -n 's/^HOSTINGER_API_TOKEN=//p' .env.local | tr -d '"\r') && curl -s -H "Authorization: Bearer $TOKEN" "https://developers.hostinger.com/api/reach/v1/profiles/b3bd9869-f69b-11f0-9166-42010a7501e7/limits"
+```powershell
+$lim = Invoke-RestMethod -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/limits" -Headers $h
+"emails {0}/{1} left   recipients {2}/{3} left" -f $lim.emails.remaining, $lim.emails.limit, $lim.recipients.remaining, $lim.recipients.limit
 ```
 
 Returns `emails`, `recipients` and `ai_credits`, each as `{limit, used, remaining}`.
@@ -159,14 +176,27 @@ though the UI's HTML editor is locked on this plan; that is the workaround for
 the missing editor. Confirm it with the first template before relying on it —
 the body is sanitised on save, so check what comes back.
 
-```bash
-cd ~/path/to/aegeanpulse && TOKEN=$(sed -n 's/^HOSTINGER_API_TOKEN=//p' .env.local | tr -d '"\r') && curl -s -X POST "https://developers.hostinger.com/api/reach/v1/profiles/b3bd9869-f69b-11f0-9166-42010a7501e7/templates" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"title":"Issue 01 - projects never ship","template_content":"<html><body><p>Hi,</p></body></html>"}'
+```powershell
+$body = @{
+  title            = "Issue 01 - projects never ship"
+  template_content = Get-Content .\drafts\issue-01.html -Raw
+} | ConvertTo-Json
+$tpl = Invoke-RestMethod -Method Post -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/templates" -Headers $h -ContentType "application/json" -Body $body
+$tpl.uuid
 ```
 
-That returns a `uuid`. Use it as `template_uuid`:
+Keep the returned `uuid` — it becomes `template_uuid`:
 
-```bash
-cd ~/path/to/aegeanpulse && TOKEN=$(sed -n 's/^HOSTINGER_API_TOKEN=//p' .env.local | tr -d '"\r') && curl -s -X POST "https://developers.hostinger.com/api/reach/v1/profiles/b3bd9869-f69b-11f0-9166-42010a7501e7/campaigns" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"sender_name":"Marcus at AegeanPulse","sender_email":"marcus@aegeanpulse.com","title":"Issue 01 - projects never ship","subject":"Most small-business AI projects never ship","template_uuid":"REPLACE_WITH_TEMPLATE_UUID","metadata":{"preheader":"The reason is almost never the technology.","source":"api"}}'
+```powershell
+$body = @{
+  sender_name   = "Marcus at AegeanPulse"
+  sender_email  = "marcus@aegeanpulse.com"
+  title         = "Issue 01 - projects never ship"
+  subject       = "Most small-business AI projects never ship"
+  template_uuid = $tpl.uuid
+  metadata      = @{ preheader = "The reason is almost never the technology."; source = "api" }
+} | ConvertTo-Json
+Invoke-RestMethod -Method Post -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/campaigns" -Headers $h -ContentType "application/json" -Body $body
 ```
 
 Only `sender_name` and `sender_email` are required. `metadata` rejects any key
@@ -210,8 +240,9 @@ subscribes to a number.
 
 ## Phase 4 — Measure only what changes a decision
 
-```bash
-cd ~/path/to/aegeanpulse && TOKEN=$(sed -n 's/^HOSTINGER_API_TOKEN=//p' .env.local | tr -d '"\r') && curl -s -H "Authorization: Bearer $TOKEN" "https://developers.hostinger.com/api/reach/v1/profiles/b3bd9869-f69b-11f0-9166-42010a7501e7/campaigns/REPLACE_WITH_CAMPAIGN_UUID/statistics"
+```powershell
+$c = (Invoke-RestMethod -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/campaigns?status=publish" -Headers $h).data[0]
+Invoke-RestMethod -Uri "https://developers.hostinger.com/api/reach/v1/profiles/$p/campaigns/$($c.uuid)/statistics" -Headers $h
 ```
 
 Three numbers per send, kept in a running note:
@@ -247,7 +278,7 @@ plan, and sending one by hand would eat from a 200/month budget.
 
 ## Open items
 
-- [ ] Publish the three DNS records (Phase 0) — nothing else can start first
+- [x] Publish the three DNS records (Phase 0) — **done, verified 2026-09-04**
 - [ ] Confirm which from-address mailbox exists and is monitored
 - [ ] Fix the 422 handling in `reach.ts`; verify the real cap response body
 - [ ] Finish and publish the *AI Automation Cost* draft — it is the signup incentive
