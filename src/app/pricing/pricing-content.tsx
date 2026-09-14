@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
 import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { CtaBanner } from "@/components/sections/shared/cta-banner";
+import { NewsletterSignup } from "@/components/sections/shared/newsletter-signup";
 import { useCurrency } from "@/components/ui/price";
 import {
   PRICING_TIERS,
@@ -310,6 +311,23 @@ export default function PricingContent() {
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                 </Button>
               </div>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* Capture the visitor who has read the prices but is not ready to book.
+          Without this, /pricing has exactly one exit: book a call. The pitch is
+          cost-specific because that is what brought them to this page. */}
+      <section className="border-t border-border py-16 md:py-20">
+        <Container>
+          <Reveal>
+            <div className="mx-auto max-w-2xl rounded-2xl border border-border bg-surface p-7">
+              <NewsletterSignup
+                source="pricing"
+                title="Not ready to book?"
+                description="Get our breakdown of what AI automation actually costs a small business — platforms, build, and maintenance, in real numbers. Plus new guides as we publish them. No spam, unsubscribe anytime."
+              />
             </div>
           </Reveal>
         </Container>

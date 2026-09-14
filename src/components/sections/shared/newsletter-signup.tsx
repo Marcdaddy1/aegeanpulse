@@ -8,7 +8,16 @@ import Link from "next/link";
 // default, copy states what they're signing up for, and the privacy policy
 // is linked. The API refuses submissions without consent:true.
 
-export function NewsletterSignup({ source = "site" }: { source?: string }) {
+export function NewsletterSignup({
+  source = "site",
+  title = "Practical AI insights, monthly",
+  description = "New guides and real-world AI workflows for small businesses. No spam, unsubscribe anytime.",
+}: {
+  source?: string;
+  /** Override the pitch where the page gives it a more specific reason to subscribe. */
+  title?: string;
+  description?: string;
+}) {
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
   const [state, setState] = useState<"idle" | "pending" | "done" | "error">("idle");
@@ -55,13 +64,8 @@ export function NewsletterSignup({ source = "site" }: { source?: string }) {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <p className="font-display text-lg font-semibold text-foreground">
-        Practical AI insights, monthly
-      </p>
-      <p className="mt-1 text-sm text-muted">
-        New guides and real-world AI workflows for small businesses. No spam,
-        unsubscribe anytime.
-      </p>
+      <p className="font-display text-lg font-semibold text-foreground">{title}</p>
+      <p className="mt-1 text-sm text-muted">{description}</p>
       <div className="mt-4 flex flex-col gap-2 sm:flex-row">
         <label htmlFor={`newsletter-email-${source}`} className="sr-only">
           Email address

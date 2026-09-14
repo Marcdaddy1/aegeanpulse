@@ -2,14 +2,16 @@
 title: "AI Automation Cost: What Small Businesses Actually Pay in 2026"
 category: "Small Business"
 summary: "Realistic pricing for AI automation projects. Platform costs, build fees, and maintenance budgets for small businesses starting from £500."
-date: "2026-07-01"
+date: "2026-09-08"
 readingTime: 6
-draft: true
+draft: false
 ---
 
 Most small businesses spend between £500 and £10,000 on their first AI automation project. The wide range exists because AI automation cost for small business varies wildly depending on complexity, tooling choices, and who builds it. A simple email classifier might cost £800. A customer service chatbot connected to your CRM could run £5,000. A fully custom workflow automation might hit £15,000.
 
 This guide breaks down real costs in three categories: the platforms and subscriptions you'll pay monthly, the build cost to get something working, and ongoing maintenance. We include concrete examples in GBP so you can budget properly. No vague promises about ROI or transformation. Just what you'll actually pay.
+
+Third-party prices below are indicative and correct as of September 2026 — vendors change them often, so check the current figure before you budget on it. AegeanPulse's own prices are fixed and listed on our pricing page.
 
 ## Platform and Subscription Costs
 
@@ -27,7 +29,7 @@ Building automation yourself costs time, not money. If you're comfortable with n
 
 Hiring changes the equation. Freelancers on Upwork charge £25-£80/hour for AI automation work. Quality varies enormously. A simple project might take 5-10 hours (£200-£800). More complex builds run 20-40 hours (£1,000-£3,000). Factor in revision rounds and communication overhead.
 
-Fixed-price packages provide cost certainty. AegeanPulse's Discovery package starts at £499 for scoping and proof-of-concept work—useful if you're unsure what's possible. The Builder package starts at £2,499 for a complete implementation. Many consultancies offer similar structures in the £2,000-£5,000 range for standard automations.
+Fixed-price packages provide cost certainty. AegeanPulse's Discovery package is a flat £499: an audit of where AI can actually help across your operations, a prioritised 90-day plan, and tool and budget recommendations for your scale — deliberately before anything gets built. Builder is a flat £2,499 and covers the build itself: one complete workflow designed, deployed into your existing tools, with team training and 30 days of post-launch support. Many consultancies offer similar structures in the £2,000-£5,000 range for standard automations.
 
 Custom development from agencies costs £5,000-£15,000 for sophisticated projects. You're paying for expertise, project management, and guaranteed delivery. Worth it for mission-critical systems. Overkill for your first experiment.
 
@@ -73,4 +75,4 @@ Get a fixed-price quote when possible. Hourly billing suits open-ended projects 
 
 Reserve 20% of build cost annually for maintenance and improvements. A £2,500 build needs roughly £500/year attention. Add platform costs monthly. This gives you a true total cost of ownership.
 
-If budget is tight, book a scoping session first. AegeanPulse offers Discovery starting at £499 (https://cal.com/aegeanpulse/ai-strategy-consultation), and other consultancies offer similar. You'll learn what's feasible, get cost estimates, and avoid expensive mistakes. Then decide whether to proceed.
+If budget is tight, scope before you build. AegeanPulse's Discovery is a flat £499 and ends with a prioritised plan rather than a proposal (https://cal.com/aegeanpulse/ai-strategy-consultation), and other consultancies offer similar. You'll learn what's feasible, get cost estimates, and avoid expensive mistakes. Then decide whether to proceed — including deciding not to.

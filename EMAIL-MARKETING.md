@@ -9,16 +9,16 @@ and from public DNS on that date — not from Hostinger's marketing pages._
 |---|---|---|
 | Profile UUID | `b3bd9869-f69b-11f0-9166-42010a7501e7` | Needed in every API call |
 | Sending domain | `aegeanpulse.com` — **active** | Cleared to send |
-| **DKIM** | published — OK (2026-09-04) | Mail is signed |
-| **DMARC** | `p=none` published — OK (2026-09-04) | Monitoring; tighten later |
+| **DKIM** | **REGRESSED — missing again (2026-09-14)** | **Blocks sending. See Phase 0.** |
+| **DMARC** | present but `rua=` was stripped (2026-09-14) | No reports arriving |
 | SPF / MX | present, Hostinger | Fine |
-| Subscribers | **1** (your own address) | Zero base — growth is job one |
+| Subscribers | **2** | First real signup landed |
 | Subscriber cap | **100** | Hard ceiling on this plan |
 | Email cap | **200 sends/month**, resets on the 1st | The real constraint |
 | Automations | **locked** | No welcome sequence, no drip |
 | HTML editor (UI) | **locked** | But the API accepts HTML — see Phase 3 |
 | Remove branding | **locked** | Hostinger signature on every email |
-| Campaigns / templates / forms | 0 / 0 / 0 | Greenfield |
+| Campaigns / templates / forms | 1 draft / 1 / 0 | Issue 01 drafted, unsent |
 | Live articles to draw on | **16** | The content already exists |
 
 ### The constraint that decides the whole strategy
@@ -83,8 +83,22 @@ The three records, added in hPanel → Domains → DNS Zone on `aegeanpulse.com`
 `p=none` monitors without affecting delivery — the correct first DMARC policy.
 Tighten to `p=quarantine` only after a month of clean reports.
 
-**STATUS: done and verified 2026-09-04.** All three records resolve publicly and
-Reach reports MX, SPF, DKIM and DMARC all OK.
+**STATUS: DONE 2026-09-04, THEN REGRESSED — re-do before sending anything.**
+
+Checked again on 2026-09-14: both DKIM CNAMEs have **vanished** from public DNS
+(confirmed against Google, Cloudflare and Quad9), and the DMARC record has been
+replaced with a bare `v=DMARC1; p=none` — the `rua=` reporting address is gone.
+SPF and MX are untouched. That pattern — Hostinger defaults surviving, custom
+records wiped — is what a **DNS zone reset** looks like.
+
+Re-add all three records from the table above. The domain sits on Hostinger
+nameservers (`athena`/`apollo.dns-parking.com`) but is **not** owned by the
+Hostinger account this API token belongs to (`DNS:4002 Customer does not own
+aegeanpulse.com`), so it has to be done in hPanel under whichever account holds
+the domain — and it cannot be scripted from here. There are no DNS snapshots to
+roll back to.
+
+Until this is fixed, every campaign goes out unsigned.
 
 To re-verify what Reach sees at any time:
 
@@ -182,6 +196,20 @@ send 3–4 times a month inside the cap.
 ---
 
 ## Phase 3 — The send loop
+
+**STATUS: Issue 01 drafted 2026-09-14, not sent.**
+Template `3c9de927…`, draft campaign `ec74f6b2…`. Body in `drafts/issue-01.html`.
+Blocked on Phase 0 (DKIM) before it can go out.
+
+**Still unverified: whether the HTML survives Reach's sanitisation.** The API
+never returns template content — not from the templates list, not from campaign
+detail — so this can only be judged by eye. Open the draft in
+reach.hostinger.com and check the layout holds before sending. If it is
+mangled, the fallback is rebuilding the issue in their drag-drop editor.
+
+Templates have **no delete endpoint**, so pass `-TemplateUuid` to attach a new
+campaign to an existing template rather than creating a duplicate.
+
 
 Automations are locked, so this is a deliberate, human-triggered loop:
 fortnightly, on a Tuesday, matching the existing article cadence.
@@ -292,9 +320,10 @@ plan, and sending one by hand would eat from a 200/month budget.
 
 ## Open items
 
-- [x] Publish the three DNS records (Phase 0) — **done, verified 2026-09-04**
+- [ ] **Re-add the DKIM + DMARC records — they were wiped (Phase 0). Nothing sends until this is done.**
 - [ ] Confirm which from-address mailbox exists and is monitored
 - [x] Fix the 422 handling in `reach.ts` — **done 2026-09-04**; cap response still unverified by design
-- [ ] Finish and publish the *AI Automation Cost* draft — it is the signup incentive
-- [ ] Add the signup form to `/pricing`
-- [ ] Confirm an API-created HTML template survives sanitisation
+- [x] Finish and publish the *AI Automation Cost* draft — **done**, corrected and dated 2026-09-08
+- [x] Add the signup form to `/pricing` — **done**, sits between the FAQ and the closing CTA
+- [ ] Confirm the API-created HTML template survives sanitisation — by eye in Reach; the API will not tell you
+- [ ] Deploy: the site has not been rebuilt since June, so the article and the `/pricing` form are not live yet

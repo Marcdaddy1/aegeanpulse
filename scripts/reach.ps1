@@ -21,6 +21,9 @@ param(
 
     # draft only
     [string]$Html,
+    # Reuse an existing template instead of creating another. Templates have no
+    # delete endpoint, so re-running draft with -Html leaves clutter behind.
+    [string]$TemplateUuid,
     [string]$Title,
     [string]$Subject,
     [string]$Preheader,
@@ -144,19 +147,30 @@ switch ($Action) {
         # Creates the template and the draft campaign. Deliberately stops
         # there: the API cannot set an audience or send, so the last step is
         # always a human opening the draft in reach.hostinger.com.
-        foreach ($req in 'Html', 'Title', 'Subject') {
+        foreach ($req in 'Title', 'Subject') {
             if (-not $PSBoundParameters.ContainsKey($req)) { throw "-$req is required for 'draft'" }
         }
-        if (-not (Test-Path $Html)) { throw "HTML file not found: $Html" }
+        if (-not $Html -and -not $TemplateUuid) { throw "'draft' needs -Html or -TemplateUuid" }
 
-        $body = @{
-            title            = $Title
-            template_content = (Get-Content $Html -Raw)
-        } | ConvertTo-Json -Depth 4
+        if ($TemplateUuid) {
+            $tpl = [pscustomobject]@{ uuid = $TemplateUuid }
+            Write-Host ("reusing template: {0}" -f $TemplateUuid) -ForegroundColor Green
+        } else {
+            if (-not (Test-Path $Html)) { throw "HTML file not found: $Html" }
 
-        $tpl = Invoke-RestMethod -Method Post -Uri "$ApiBase/profiles/$ProfileUuid/templates" `
-            -Headers $headers -ContentType 'application/json' -Body $body
-        Write-Host ("template created: {0}" -f $tpl.uuid) -ForegroundColor Green
+            # [System.IO.File]::ReadAllText, NOT Get-Content -Raw. Both return a
+            # System.String of identical length, but Get-Content decorates it with
+            # PSObject note properties (PSPath, ReadCount, ...) that ConvertTo-Json
+            # serialises as well - a 2 KB file became a 456 KB JSON object and the
+            # API rejected it with "The template content field must be a string."
+            $html = [System.IO.File]::ReadAllText((Resolve-Path $Html).Path)
+
+            $body = @{ title = $Title; template_content = $html } | ConvertTo-Json -Depth 4
+
+            $tpl = Invoke-RestMethod -Method Post -Uri "$ApiBase/profiles/$ProfileUuid/templates" `
+                -Headers $headers -ContentType 'application/json' -Body $body
+            Write-Host ("template created: {0}" -f $tpl.uuid) -ForegroundColor Green
+        }
 
         $meta = @{ source = 'api' }
         if ($Preheader) { $meta.preheader = $Preheader }
