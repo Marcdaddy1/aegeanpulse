@@ -2,9 +2,9 @@
 
 # Project Status
 
-_Last updated: 2026-07-01._
+_Last updated: 2026-09-14._
 
-**Stage:** Active development. All routes are built and `npm run build` is green (31 static pages + 6 SSG service pages + 11 SSG article pages). Current focus: VPS deployment on Hostinger.
+**Stage:** Live and deploying. All routes build green and aegeanpulse.com serves current content within about a minute of a push (see Deployment state). Current focus: email marketing — see `EMAIL-MARKETING.md`.
 
 **Version control:** This repo is the git root. Remote `origin` → https://github.com/Marcdaddy1/aegeanpulse (private), default branch `main`. Workflow: after each logical unit of work, commit locally with a clean message and push. Commit identity: `Marcus Aragbaye <88402273+Marcdaddy1@users.noreply.github.com>`.
 
@@ -33,7 +33,18 @@ _Last updated: 2026-07-01._
 - **AI article pipeline:** articles live as `src/content/articles/<slug>.md` (frontmatter + prose), loaded by server-only `src/lib/articles.ts` (gray-matter; `## ` = block heading, each non-blank line = one paragraph). `src/data/articles.ts` now holds only types + `ARTICLE_CATEGORIES` (client-safe). **`draft: true` files are invisible everywhere** (pages, params, sitemap) — that's the review gate. Topic queue: `src/data/content-topics.ts` (state = file existence, idempotent). Generator: `src/lib/server/generate-article.ts` (forced structured tool call). Trigger: `POST /api/internal/generate-draft` with header `x-internal-secret` — for manual curl now, VPS crontab weekly later. Publish flow: review draft file → edit → set `draft: false` → commit/push/deploy.
 - **Newsletter (Hostinger Reach):** `src/lib/server/email/` — vendor-agnostic `EmailProvider` + Reach adapter (`POST https://developers.hostinger.com/api/reach/v1/contacts`, Bearer `HOSTINGER_API_TOKEN`). `/api/newsletter/subscribe` requires `consent: true` (UK GDPR), rate-limited 5/hour/IP. `<NewsletterSignup>` sits in the footer + after article bodies. **Reach's API can create templates and draft campaigns but cannot target, schedule or send them** (`POST .../profiles/{uuid}/templates` then `POST .../campaigns`; verified against the OpenAPI spec 2026-09-04) — audience selection and sending happen in reach.hostinger.com. Plan caps and the DKIM gap are documented in `EMAIL-MARKETING.md`; read it before doing any email work.
 
-**Deployment state (verified 2026-07-02):** aegeanpulse.com is LIVE on the Hostinger VPS (KVM 2, Ubuntu 24.04 + Docker template, IP `72.61.4.237`) — apex A/AAAA records point there; `X-Powered-By: Next.js` confirmed. The live build is the ~18 Jun SEO-pass commit; the backend features above are on `main` but NOT yet deployed. There is NO GitHub auto-deploy — updates are manual.
+**Deployment state (re-verified 2026-09-14):** aegeanpulse.com is LIVE on the Hostinger VPS (KVM 2, Ubuntu 24.04 + Docker template, IP `72.61.4.237`) — apex A/AAAA records point there; `X-Powered-By: Next.js` confirmed.
+
+**The site deploys within about a minute of a push.** Measured on 2026-09-14: commit `b3463a3` landed 17:54 UTC and the live build stamped 17:55:59 UTC. All 17 articles, `/pricing` and `/terms` were serving current content immediately after. The earlier note here — "the live build is the ~18 Jun commit… there is NO GitHub auto-deploy, updates are manual" — was **stale and caused a wrong status report**; don't trust it, and don't repeat the mistake of reporting deployment state from this file.
+
+**Check the live site, not this file.** These take seconds and are authoritative:
+
+```bash
+curl -s https://aegeanpulse.com/sitemap.xml | grep -c '/ai-news/'   # live article count
+curl -s https://aegeanpulse.com/sitemap.xml | grep -m1 -o '<lastmod>[^<]*'  # when it last built
+```
+
+Compare the count against `ls src/content/articles/*.md`. What triggers the deploy lives on the VPS, not in the repo (there is no `.github/workflows`) — run `crontab -l` on the server to see whether the runbook's cron lines are installed, or whether something/someone else is deploying.
 
 **VPS update runbook (run on the server):**
 1. `cd` into the site checkout → `git pull`
@@ -46,12 +57,13 @@ _Last updated: 2026-07-01._
 6. One-time: confirm the reverse proxy passes `X-Forwarded-For` to the app (IP rate limiting depends on it)
 7. Smoke test: chat widget answers a pricing question; newsletter form subscribes; `/pricing` and an article page load
 
-**Publish flow (scheduled weekly releases):** the loader hides articles whose `date` is in the future (in addition to the `draft` gate). To schedule: review the draft → set `draft: false` and a future Tuesday `date` → commit/push. The Tuesday cron rebuilds and the post goes live when its date arrives. Currently scheduled: the five "Against the Grain" contrarian essays, weekly from 2026-07-14 to 2026-08-11 (awaiting review: flip each `draft: false` to arm the schedule). After each goes live, send the campaign to the newsletter list manually from reach.hostinger.com (~2 min; Reach's API can't send campaigns).
+**Publish flow (scheduled weekly releases):** the loader hides articles whose `date` is in the future (in addition to the `draft` gate). To schedule: review the draft → set `draft: false` and a future Tuesday `date` → commit/push. The Tuesday cron rebuilds and the post goes live when its date arrives. As of 2026-09-14 **all 17 articles are published and live** — the five "Against the Grain" essays (2026-07-14 to 2026-08-11) and the cost guide (2026-09-08) all shipped; nothing is awaiting review. After a post goes live, the newsletter campaign is built from the API and **sent by hand** in reach.hostinger.com — the API creates templates and draft campaigns but cannot set an audience, schedule, or send. See `EMAIL-MARKETING.md`.
 
 **Known open items / TODO:**
-- Deploy the backend features to the VPS (runbook above).
-- Pending draft awaiting review: `src/content/articles/ai-automation-cost-small-business.md` (AI-generated, `draft: true`) — check the description of the Discovery package before publishing.
 - Rotate the Cal.com API key and Hostinger API token (both were shared in chat), then update `.env.local` on dev machine + VPS.
+- Confirm whether the VPS cron lines from the runbook are actually installed (`crontab -l`). Deploys are currently landing within a minute of a push, but nothing in this repo proves that is automated rather than someone deploying by hand — and the date-gated publish flow depends on a rebuild happening after an article's date.
+- Confirm the Reach sender mailbox exists and is monitored. Campaigns now send from the **`mail.aegeanpulse.com`** subdomain, so the From address must be at that subdomain, not the apex.
+- Reach's DNS status panel is unreliable in both directions: it reported the domain "active" while DKIM was genuinely absent (2026-09-04 → 09-10), then reported MX/DKIM "missing" while both were present on three public resolvers (2026-09-14). Verify against public DNS with `scripts/reach.ps1 dns`, never the panel alone.
 - The dev machine has `prefers-reduced-motion` ON — account for it when testing animations.
 - `bis_skin_checked` hydration warnings in dev console are Bitdefender browser extension injections — not a code bug. Invisible in Incognito and in production for unaffected users.
 
