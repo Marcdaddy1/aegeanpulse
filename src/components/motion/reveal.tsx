@@ -30,7 +30,13 @@ export function Reveal({ children, delay = 0, className }: RevealProps) {
       className={cn(className)}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2, margin: "0px 0px -10% 0px" }}
+      // amount MUST stay "some" (any part visible), never a fraction. A
+      // fractional threshold is unsatisfiable once the element is taller than
+      // (1 / amount) x the viewport: at amount 0.2 a 6,099px article body needs
+      // 1,220px on screen, which a 908px phone viewport can never provide — so
+      // whileInView never fired and the body sat at opacity 0 forever. That is
+      // exactly how every long article silently "failed to load" in Sept 2026.
+      viewport={{ once: true, amount: "some", margin: "0px 0px -10% 0px" }}
       transition={{ duration: 0.6, delay, ease: REVEAL_EASE }}
     >
       {children}

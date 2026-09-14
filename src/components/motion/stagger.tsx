@@ -41,7 +41,10 @@ export function Stagger({ children, className }: StaggerProps) {
       variants={containerVariants}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.15, margin: "0px 0px -10% 0px" }}
+      // "some", not a fraction — see the note in reveal.tsx. A tall grid hits
+      // the same trap: the threshold becomes unreachable and every card stays
+      // invisible.
+      viewport={{ once: true, amount: "some", margin: "0px 0px -10% 0px" }}
     >
       {children}
     </motion.div>
