@@ -43,6 +43,7 @@ export const FOOTER_NAV: NavItem[] = [
   { label: "AI News", href: "/ai-news" },
   { label: "About", href: "/about" },
   { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
   { label: "Contact", href: "/contact" },
 ];
 
