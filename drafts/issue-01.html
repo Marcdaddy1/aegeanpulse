@@ -1,13 +1,36 @@
 <!doctype html>
 <html lang="en-GB">
-  <body style="margin:0;padding:0;background:#faf7f2;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf7f2;">
+  <head>
+    <meta charset="utf-8">
+    <!-- Without this, several mobile clients lay the mail out at ~980px and
+         zoom out instead of reflowing. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Ask Gmail / Apple Mail not to auto-invert. They may still do it, which
+         is why every colour below is stated explicitly rather than inherited. -->
+    <meta name="color-scheme" content="light">
+    <meta name="supported-color-schemes" content="light">
+  </head>
+  <body style="margin:0;padding:0;background:#faf7f2;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+
+    <!-- Reach's sanitiser may drop html/head/body. Everything that matters is
+         therefore set on the tables below, not inherited from body. -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+           style="border-collapse:collapse;background:#faf7f2;">
       <tr>
         <td align="center" style="padding:32px 16px;">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                 style="max-width:560px;background:#ffffff;border:1px solid #e8e2d9;border-radius:16px;">
+
+          <!--[if mso]>
+          <table role="presentation" width="560" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td>
+          <![endif]-->
+
+          <!-- Outlook's Word engine ignores max-width, so on a wide monitor this
+               card would run the full window width with unreadable line lengths.
+               The MSO-only ghost table above pins it to 560px there; every other
+               client ignores the conditional comment and uses max-width. -->
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                 style="border-collapse:collapse;max-width:560px;background:#ffffff;border:1px solid #e8e2d9;border-radius:16px;">
             <tr>
-              <td style="padding:32px;font-family:Georgia,'Times New Roman',serif;color:#1c2321;font-size:16px;line-height:1.6;">
+              <td style="padding:32px;font-family:Georgia,'Times New Roman',serif;color:#1c2321;font-size:16px;line-height:26px;mso-line-height-rule:exactly;">
 
                 <p style="margin:0 0 20px;">Hi,</p>
 
@@ -48,8 +71,14 @@
               </td>
             </tr>
           </table>
+
+          <!--[if mso]>
+          </td></tr></table>
+          <![endif]-->
+
         </td>
       </tr>
     </table>
+
   </body>
 </html>
