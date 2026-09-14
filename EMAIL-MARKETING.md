@@ -197,9 +197,24 @@ send 3–4 times a month inside the cap.
 
 ## Phase 3 — The send loop
 
-**STATUS: Issue 01 drafted 2026-09-14, not sent.**
-Template `3c9de927…`, draft campaign `ec74f6b2…`. Body in `drafts/issue-01.html`.
-Blocked on Phase 0 (DKIM) before it can go out.
+**STATUS: Issue 01 drafted 2026-09-14, not sent. DKIM restored, so it can go.**
+
+Two drafts exist in Reach. Send the **v2** one:
+
+| Draft title | Template | Campaign | Use |
+|---|---|---|---|
+| `Issue 01 v2 - projects never ship (SEND THIS ONE)` | `8c16b376…` | `ebbe75bf…` | **this one** |
+| `Issue 01 - projects never ship` | `3c9de927…` | `ec74f6b2…` | superseded — ignore |
+
+The first draft used HTML that broke in Outlook (the Word engine ignores
+`max-width`, so the card ran the full window width) and did not reflow on
+mobile (no viewport meta — measured, the layout viewport stayed at 980px on a
+375px screen). `drafts/issue-01.html` now carries an MSO ghost table and the
+viewport meta; see commit `6271836`.
+
+Reach has **no update or delete endpoint for templates or campaigns**, so a
+correction means creating a new pair and leaving the old one behind. The UI
+cannot be used to patch it either — `HtmlCodeEditor` is locked on this plan.
 
 **Still unverified: whether the HTML survives Reach's sanitisation.** The API
 never returns template content — not from the templates list, not from campaign
@@ -320,7 +335,7 @@ plan, and sending one by hand would eat from a 200/month budget.
 
 ## Open items
 
-- [ ] **Re-add the DKIM + DMARC records — they were wiped (Phase 0). Nothing sends until this is done.**
+- [x] Re-add the DKIM + DMARC records — **done 2026-09-14**, verified on three resolvers and in Reach
 - [ ] Confirm which from-address mailbox exists and is monitored
 - [x] Fix the 422 handling in `reach.ts` — **done 2026-09-04**; cap response still unverified by design
 - [x] Finish and publish the *AI Automation Cost* draft — **done**, corrected and dated 2026-09-08
