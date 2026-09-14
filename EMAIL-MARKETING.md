@@ -8,9 +8,9 @@ and from public DNS on that date — not from Hostinger's marketing pages._
 | Fact | Value | Why it matters |
 |---|---|---|
 | Profile UUID | `b3bd9869-f69b-11f0-9166-42010a7501e7` | Needed in every API call |
-| Sending domain | `aegeanpulse.com` — **active** | Cleared to send |
-| **DKIM** | **REGRESSED — missing again (2026-09-14)** | **Blocks sending. See Phase 0.** |
-| **DMARC** | present but `rua=` was stripped (2026-09-14) | No reports arriving |
+| Sending domain | **`mail.aegeanpulse.com`** — active | Reach forces a subdomain; the apex is not selectable |
+| **DKIM** | OK on the subdomain — `dkim=pass` at Gmail | Verified in a real received message |
+| **DMARC** | OK — `dmarc=pass`, aligned | `p=none` on the subdomain |
 | SPF / MX | present, Hostinger | Fine |
 | Subscribers | **2** | First real signup landed |
 | Subscriber cap | **100** | Hard ceiling on this plan |
@@ -18,8 +18,9 @@ and from public DNS on that date — not from Hostinger's marketing pages._
 | Automations | **locked** | No welcome sequence, no drip |
 | HTML editor (UI) | **locked** | But the API accepts HTML — see Phase 3 |
 | Remove branding | **locked** | Hostinger signature on every email |
-| Campaigns / templates / forms | 1 draft / 1 / 0 | Issue 01 drafted, unsent |
-| Live articles to draw on | **16** | The content already exists |
+| Campaigns / templates / forms | 1 sent + 1 draft / 2 / 0 | Issue 01 sent 2026-09-14 |
+| Live articles to draw on | **17**, all live | The content already exists |
+| **Inbox placement** | **SPAM on first send** | Auth is fine — see Phase 5 |
 
 ### The constraint that decides the whole strategy
 
@@ -83,22 +84,21 @@ The three records, added in hPanel → Domains → DNS Zone on `aegeanpulse.com`
 `p=none` monitors without affecting delivery — the correct first DMARC policy.
 Tighten to `p=quarantine` only after a month of clean reports.
 
-**STATUS: DONE 2026-09-04, THEN REGRESSED — re-do before sending anything.**
+**STATUS: RESOLVED 2026-09-14 — but note it regressed once in between.**
 
-Checked again on 2026-09-14: both DKIM CNAMEs have **vanished** from public DNS
-(confirmed against Google, Cloudflare and Quad9), and the DMARC record has been
-replaced with a bare `v=DMARC1; p=none` — the `rua=` reporting address is gone.
-SPF and MX are untouched. That pattern — Hostinger defaults surviving, custom
-records wiped — is what a **DNS zone reset** looks like.
+DKIM went missing between 2026-09-04 and 09-10 (zone serial `2026091001`), with
+Reach still reporting the domain "active" throughout. Re-added and verified.
 
-Re-add all three records from the table above. The domain sits on Hostinger
-nameservers (`athena`/`apollo.dns-parking.com`) but is **not** owned by the
-Hostinger account this API token belongs to (`DNS:4002 Customer does not own
-aegeanpulse.com`), so it has to be done in hPanel under whichever account holds
-the domain — and it cannot be scripted from here. There are no DNS snapshots to
-roll back to.
+**The sending domain is now the `mail.aegeanpulse.com` subdomain, not the apex.**
+Reach's "Change" dialog is titled *Change your sending subdomain* and the
+`.aegeanpulse.com` suffix is fixed — the apex is not selectable, even though it
+was the connected domain from 2025-08-29 until 2026-09-14 17:49 UTC. Disconnecting
+to try to get back to the apex regenerates a **new TXT verification record**, so
+it is not a free swap. Do not attempt it to fix deliverability — Phase 5 shows
+authentication is not the problem.
 
-Until this is fixed, every campaign goes out unsigned.
+Records now live on **both** the apex and the subdomain. Keep both: the apex set
+means you can move back if Reach ever allows it, at no cost.
 
 To re-verify what Reach sees at any time:
 
@@ -197,7 +197,7 @@ send 3–4 times a month inside the cap.
 
 ## Phase 3 — The send loop
 
-**STATUS: Issue 01 drafted 2026-09-14, not sent. DKIM restored, so it can go.**
+**STATUS: Issue 01 SENT 2026-09-14 18:21:55 UTC to 2 recipients. Landed in spam — see Phase 5.**
 
 Two drafts exist in Reach. Send the **v2** one:
 
@@ -310,12 +310,80 @@ Three numbers per send, kept in a running note:
 
 Ignore everything else at this list size; the sample is too small to read.
 
-The number that actually matters is **booked calls attributable to email**. Tag
-the CTA so it is visible in Cal.com:
+**If you follow Phase 5 and turn tracking off, open and click rates stop
+working** — the pixel and the link rewriting are what produce them. That is the
+right trade: inbox placement beats metrics you cannot act on at two
+subscribers. Revisit once the list is large enough for a rate to mean something,
+and weigh it against deliverability then.
+
+The number that actually matters is **booked calls attributable to email**, and
+it survives tracking being off because it is measured at Cal.com, not in the
+email. Tag the CTA:
 
 ```
 https://cal.com/aegeanpulse/ai-strategy-consultation?utm_source=reach&utm_campaign=issue-01
 ```
+
+---
+
+## Phase 5 — Deliverability: why Issue 01 went to spam
+
+**Issue 01 sent 2026-09-14 18:21:55 UTC to 2 recipients. It was accepted and
+then filed in the Gmail spam folder.**
+
+First, a trap worth naming: Reach's stats said `delivered_count: 2, bounced: 0`.
+**Delivered does not mean inboxed.** It means the receiving server accepted the
+message. Spam placement is invisible to the sending API — the only way to know
+is to look in a real mailbox. Never report deliverability from campaign stats.
+
+### Authentication is not the problem
+
+Read from the raw headers of the actual received message:
+
+```
+dkim=pass   header.i=@mail.aegeanpulse.com  header.s=reach-a
+spf=pass    designates 23.83.214.40 as permitted sender
+dmarc=pass  (p=NONE sp=NONE dis=NONE) header.from=mail.aegeanpulse.com
+```
+
+All three pass **and** all three align to the sending domain. There is no DNS
+work outstanding. **Switching back to the apex would not change this** — which
+is exactly why the disconnect/reconnect idea was dropped.
+
+### What is actually causing it
+
+| Cause | Evidence in the headers | Can you fix it? |
+|---|---|---|
+| **No plain-text alternative** | `Content-Type: text/html` at top level, not `multipart/alternative` | Reach's call, not ours |
+| **Links rewritten through a shared redirector** | every `href` is `click.mailchannels.net/…` while the anchor text reads `aegeanpulse.com` | **Yes — turn off click tracking** |
+| **Hidden open-tracking pixel** | `<img src="https://open.mailchannels.net/…" style="display:none !important">` | **Yes — turn off open tracking** |
+| **Large block of invisible padding** | a second `display:none` div holding ~100 × zero-width-non-joiner + nbsp, injected by Reach as a preheader spacer | Reach's call |
+| **Shared relay, neutral reputation** | `Received: from …relay.mailchannels.net [23.83.214.40]`, `X-MC-Relay: Neutral` | No — structural to the plan |
+| **Cold sending domain** | `mail.aegeanpulse.com` had never sent before that day | Time + engagement only |
+
+On the positive side, `List-Unsubscribe` with `List-Unsubscribe-Post: One-Click`
+is present and RFC 8058 compliant.
+
+### What to do
+
+1. **Turn off click and open tracking** in Reach's campaign settings. That kills
+   the two fixable causes at once: links go out as real `aegeanpulse.com` URLs
+   and the hidden pixel disappears. You lose click stats — worthless at this list
+   size, unlike inbox placement.
+2. **Mark as "Not spam" and reply.** On a 2-person list, two engagement signals
+   are a large share of the entire sending history.
+3. **Send consistently.** Cold-domain placement only improves with steady,
+   engaged volume. There is no shortcut and no setting that substitutes.
+
+### The structural limit — know this before growing the list
+
+Four of the six causes above are Hostinger Reach's doing and only two are
+fixable from here. The plan sends over **MailChannels' shared relay** with no
+dedicated IP available at this tier, so some spam placement is baked in.
+
+If email becomes a primary channel rather than a supporting one, the fix is not
+configuration — it is a different ESP. Worth deciding that **before** investing
+in growing the list to 100.
 
 ## When to upgrade
 
@@ -335,10 +403,12 @@ plan, and sending one by hand would eat from a 200/month budget.
 
 ## Open items
 
-- [x] Re-add the DKIM + DMARC records — **done 2026-09-14**, verified on three resolvers and in Reach
-- [ ] Confirm which from-address mailbox exists and is monitored
+- [x] DKIM + DMARC — **done 2026-09-14**, verified by `dkim=pass`/`dmarc=pass` in a received message
 - [x] Fix the 422 handling in `reach.ts` — **done 2026-09-04**; cap response still unverified by design
-- [x] Finish and publish the *AI Automation Cost* draft — **done**, corrected and dated 2026-09-08
-- [x] Add the signup form to `/pricing` — **done**, sits between the FAQ and the closing CTA
-- [ ] Confirm the API-created HTML template survives sanitisation — by eye in Reach; the API will not tell you
-- [ ] Deploy: the site has not been rebuilt since June, so the article and the `/pricing` form are not live yet
+- [x] Publish the *AI Automation Cost* article — **live**, corrected against `src/data/pricing.ts`
+- [x] Add the signup form to `/pricing` — **live**
+- [x] Confirm the API-created HTML survives sanitisation — **yes**; Reach kept the tables, inline styles, MSO ghost table and viewport meta intact
+- [ ] **Turn off click + open tracking in Reach** (Phase 5) — the two fixable spam causes
+- [ ] Add a mailbox or forwarder for `marcus@mail.aegeanpulse.com`, or replies bounce silently
+- [ ] Grow the list (Phase 2) — still only 2 subscribers; the `/pricing` form and cost article are now live to feed it
+- [ ] Decide whether Reach is the long-term ESP before investing in list growth — see the structural limit in Phase 5
