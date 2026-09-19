@@ -293,6 +293,64 @@ short items; ours carries one argument, so the machinery stays minimal.
 `drafts/issue-02.html` is the reference implementation. Copy it, swap the
 content, keep the structure.
 
+### Imagery — every issue gets one
+
+Run this before building an issue; it writes email-safe heroes from the site's
+article images:
+
+```powershell
+node scripts/email-images.mjs you-probably-dont-need-a-chatbot
+```
+
+Output lands in `public/images/email/<slug>.jpg`, served at
+`https://aegeanpulse.com/images/email/<slug>.jpg` **once the site is deployed** —
+the URL 404s until then, so deploy before sending.
+
+**JPEG, never WebP.** The site's heroes are `.webp`, which **Outlook on Windows
+cannot render at all** — it would show a broken image to a meaningful share of
+B2B readers. The script converts to progressive JPEG in sRGB (an exotic colour
+profile also renders wrong in Outlook).
+
+Sizing and markup rules, all enforced in `drafts/issue-02.html`:
+
+| Rule | Why |
+|---|---|
+| 1120px source, displayed at 496px | 2x for retina; 496 = the 560px card minus its padding |
+| Under ~200KB | the script warns past this; big images stall on mobile data |
+| `width="496"` **attribute**, not just CSS | Outlook ignores CSS width on images |
+| `display:block` | kills the baseline gap under the image |
+| `border:0` | removes Outlook's blue border on linked images |
+| `height:auto` + `max-width` | lets it reflow on a phone |
+| `-ms-interpolation-mode:bicubic` | stops Outlook's ugly rescaling |
+| Real `alt` text | most clients block images by default |
+
+**The email must read completely without images.** Alt text comes from the
+article's `imageAlt` frontmatter and the script prints it for you. Nothing in
+the image should carry meaning the copy doesn't already make.
+
+### GIFs and video — what actually works
+
+**Video does not play in email.** `<video>` is unsupported in Gmail, Outlook and
+almost every client. Do not embed one. The two options that work:
+
+- **Animated GIF** — plays in most clients, **except Outlook on Windows, which
+  shows only the first frame**. So the first frame must carry the whole message:
+  never start on a black frame or a mid-animation state. Keep under ~1MB.
+- **Poster frame + play button** — a static JPEG with a play triangle drawn on,
+  linked to the video on the site or YouTube. Universally safe, and it moves the
+  view onto a page you control where the video actually plays.
+
+Prefer the poster frame for anything longer than a two-second loop. A GIF of a
+real UI doing something useful is worth the bytes; a decorative loop is not.
+
+### Gap to close
+
+Only **5 of 17 articles** currently have a hero image — the five "Against the
+Grain" essays. The other twelve have no `image:` frontmatter, so an issue built
+on one of them has nothing to convert. Generate those with the `media-gen` skill
+(GPT Image 2) before they come up in the running order, and write an `imageAlt`
+at the same time.
+
 ### Email shape
 
 Plain, narrow, mostly text. The Hostinger signature is forced on this plan, so a
