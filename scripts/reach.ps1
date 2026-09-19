@@ -27,7 +27,10 @@ param(
     [string]$Title,
     [string]$Subject,
     [string]$Preheader,
-    [string]$From = 'marcus@aegeanpulse.com',
+    # MUST be on the connected sending subdomain. Reach forces a subdomain
+    # (its dialog is 'Change your sending subdomain') and the apex is not
+    # selectable, so marcus@aegeanpulse.com is no longer a valid sender.
+    [string]$From = 'marcus@mail.aegeanpulse.com',
     [string]$FromName = 'Marcus at AegeanPulse'
 )
 

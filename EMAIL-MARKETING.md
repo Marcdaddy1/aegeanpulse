@@ -293,6 +293,10 @@ short items; ours carries one argument, so the machinery stays minimal.
 `drafts/issue-02.html` is the reference implementation. Copy it, swap the
 content, keep the structure.
 
+**Issue 02 is drafted in Reach** (template `c9e78336…`, campaign `41b4bf6d…`),
+sending as `Marcus at AegeanPulse <marcus@mail.aegeanpulse.com>`. Audience and
+send are done by hand in reach.hostinger.com.
+
 ### Imagery — every issue gets one
 
 Run this before building an issue; it writes email-safe heroes from the site's
