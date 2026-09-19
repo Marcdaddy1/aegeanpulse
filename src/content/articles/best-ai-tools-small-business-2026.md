@@ -4,6 +4,8 @@ category: "Small Business"
 summary: "A curated look at the AI tools delivering real ROI for small businesses this year — and how to choose between them."
 date: "2026-05-20"
 readingTime: 6
+image: "/images/articles/best-ai-tools-small-business-2026.webp"
+imageAlt: "A handful of well-used hand tools laid out neatly in a row on a canvas roll"
 draft: false
 ---
 

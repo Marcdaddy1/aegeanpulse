@@ -4,6 +4,8 @@ category: "Tutorials"
 summary: "A step-by-step approach to giving your team instant, accurate answers from your own documents."
 date: "2026-03-25"
 readingTime: 6
+image: "/images/articles/building-internal-ai-knowledge-bases.webp"
+imageAlt: "An open filing cabinet drawer of tabbed folders with one lifted proud of the rest"
 draft: false
 ---
 

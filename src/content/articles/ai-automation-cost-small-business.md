@@ -4,6 +4,8 @@ category: "Small Business"
 summary: "Realistic pricing for AI automation projects. Platform costs, build fees, and maintenance budgets for small businesses starting from £500."
 date: "2026-09-08"
 readingTime: 6
+image: "/images/articles/ai-automation-cost-small-business.webp"
+imageAlt: "A calculator, fanned paper invoices and a notebook of hand-written figures with the total underlined"
 draft: false
 ---
 

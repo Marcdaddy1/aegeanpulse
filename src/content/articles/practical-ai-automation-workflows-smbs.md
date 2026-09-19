@@ -4,6 +4,8 @@ category: "Automation"
 summary: "Five concrete automation workflows small businesses can implement now — with the business case for each."
 date: "2026-05-04"
 readingTime: 6
+image: "/images/articles/practical-ai-automation-workflows-smbs.webp"
+imageAlt: "A whiteboard with a hand-drawn flow diagram of five boxes joined by arrows"
 draft: false
 ---
 

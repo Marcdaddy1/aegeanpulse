@@ -4,6 +4,8 @@ category: "Agents"
 summary: "AI agents are moving support from scripted bots to systems that actually resolve issues — here's what's different."
 date: "2026-05-12"
 readingTime: 5
+image: "/images/articles/ai-agents-changing-customer-support.webp"
+imageAlt: "A support desk with a headset resting beside a monitor showing a queue of resolved tickets"
 draft: false
 ---
 

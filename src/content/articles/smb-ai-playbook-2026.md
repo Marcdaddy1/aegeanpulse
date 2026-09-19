@@ -4,6 +4,8 @@ category: "Small Business"
 summary: "A practical framework for small businesses moving past AI hype into measurable, profitable adoption this year."
 date: "2026-05-28"
 readingTime: 7
+image: "/images/articles/smb-ai-playbook-2026.webp"
+imageAlt: "A spiral-bound playbook open flat on a desk, annotated in pen beside a half-drunk coffee"
 featured: true
 draft: false
 ---

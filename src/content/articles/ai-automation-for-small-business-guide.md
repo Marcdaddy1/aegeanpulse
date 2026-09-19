@@ -4,6 +4,8 @@ category: "Automation"
 summary: "Everything a small business owner needs to know about AI automation — what it is, where to start, which workflows to target first, what it costs, and how to avoid the most common mistakes."
 date: "2026-06-18"
 readingTime: 12
+image: "/images/articles/ai-automation-for-small-business-guide.webp"
+imageAlt: "An open ring-binder manual with tabbed dividers lying flat on a workbench beside a pencil"
 featured: true
 draft: false
 ---

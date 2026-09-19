@@ -4,6 +4,8 @@ category: "Small Business"
 summary: "A simple prioritization method for choosing the automation that will pay off fastest."
 date: "2026-03-17"
 readingTime: 5
+image: "/images/articles/what-to-automate-first-small-business.webp"
+imageAlt: "Sticky notes in a priority grid on a wall with one note moved to the top-left square"
 draft: false
 ---
 

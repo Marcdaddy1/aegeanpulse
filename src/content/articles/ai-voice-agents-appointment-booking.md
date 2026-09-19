@@ -4,6 +4,8 @@ category: "AI News"
 summary: "Natural-sounding voice agents are quietly becoming a practical front desk for service businesses."
 date: "2026-04-02"
 readingTime: 5
+image: "/images/articles/ai-voice-agents-appointment-booking.webp"
+imageAlt: "An empty clinic reception counter with an open paper appointment book and a desk phone in its cradle"
 draft: false
 ---
 

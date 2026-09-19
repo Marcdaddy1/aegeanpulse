@@ -4,6 +4,8 @@ category: "SEO"
 summary: "Search has changed with AI overviews and answer engines. The fundamentals that still drive results may surprise you."
 date: "2026-04-10"
 readingTime: 6
+image: "/images/articles/ai-seo-2026-what-still-works.webp"
+imageAlt: "A printed line-graph report with a magnifying glass resting on it beside a well-thumbed notebook"
 draft: false
 ---
 

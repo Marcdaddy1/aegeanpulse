@@ -4,6 +4,8 @@ category: "Agents"
 summary: "The terms get used interchangeably, but the difference matters for cost, capability, and customer experience."
 date: "2026-04-26"
 readingTime: 5
+image: "/images/articles/chatbots-vs-ai-assistants.webp"
+imageAlt: "Two identical tablets side by side on a shop counter, one showing a plain text box and one a richer panel"
 draft: false
 ---
 

@@ -4,6 +4,8 @@ category: "Content"
 summary: "AI can multiply your content output or flood your brand with generic filler. The difference is in the process."
 date: "2026-04-18"
 readingTime: 6
+image: "/images/articles/ai-content-production-without-losing-quality.webp"
+imageAlt: "Two stacks of printed pages — a short one marked up in red pen beside a huge untouched one"
 draft: false
 ---
 
