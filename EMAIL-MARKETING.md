@@ -265,6 +265,34 @@ other than `preheader` and `source`.
 **Then, in reach.hostinger.com:** open the draft, choose the audience, send.
 Targeting and scheduling are deliberately not exposed by the API.
 
+### Issue format — from Issue 02 onward
+
+Three patterns borrowed from Forward Future (Matthew Berman), analysed
+2026-09-19. Their palette is structurally ours already — warm off-white ground,
+near-black text, one saturated accent — so nothing was restyled. What was worth
+taking is the *structure*:
+
+1. **Eyebrow labels** in `#0e7c6b`, 12px Helvetica, uppercase, `letter-spacing:
+   0.12em`, above every section. This is what makes a long email scannable, and
+   it is the highest-value change for the least work. The accent appears **only**
+   on eyebrows, sub-heads and links — never on body text, never as a fill. That
+   restraint is why their 40 uses of orange don't feel loud.
+2. **A recurring ritual** — "Myth of the issue". Teased in the opener
+   ("Plus, at the bottom: …") and paid off at the end, which is their trick for
+   pulling the reader past the middle. One AI myth dismantled per issue; fits
+   the contrarian voice and gives a reason to open that isn't the article.
+3. **"Also worth reading"** — five one-line links, each with a bolded lead-in.
+   Zero-effort surfacing of the 17-article back catalogue every issue.
+
+Deliberately **not** taken: their daily cadence (impossible on 200 sends/month),
+their 14 CDN images (blocked by default in most clients, and MailChannels would
+rewrite them), and their 667px width — 560px reads better for a text-led letter,
+which is what ours is. Their sectioning works because a news digest has many
+short items; ours carries one argument, so the machinery stays minimal.
+
+`drafts/issue-02.html` is the reference implementation. Copy it, swap the
+content, keep the structure.
+
 ### Email shape
 
 Plain, narrow, mostly text. The Hostinger signature is forced on this plan, so a
