@@ -297,6 +297,11 @@ content, keep the structure.
 sending as `Marcus at AegeanPulse <marcus@mail.aegeanpulse.com>`. Audience and
 send are done by hand in reach.hostinger.com.
 
+**Issue 03 is built** at `drafts/issue-03.html` (article: *Why AI hasn't made
+your build quote cheaper*; myth: "cheaper AI means a smaller bill"). Create it in
+Reach only after that article is live — its hero and first link 404 until then.
+See `HANDOVER.md` §9–10.
+
 ### Imagery — every issue gets one
 
 Run this before building an issue; it writes email-safe heroes from the site's

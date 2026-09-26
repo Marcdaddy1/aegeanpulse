@@ -201,17 +201,53 @@ the source's own terms."*
 
 ## 9. This session's work — 2026-09-26
 
-Built from the Monday brief of 21 Sept (see §6):
+Built from the Monday brief of 21 Sept (see §6). **All committed and pushed; none
+of it is live until the deploy.**
 
 | Deliverable | File | State |
 |---|---|---|
-| Article: *Why AI hasn't made your build quote cheaper* | `src/content/articles/why-ai-hasnt-made-your-build-quote-cheaper.md` | see status below |
-| Hero image | `public/images/articles/…webp`, `public/images/email/…jpg` | see status below |
-| Newsletter Issue 03 | `drafts/issue-03.html` | see status below |
-| Social pack (LinkedIn, X, thread) | `drafts/2026-09-29-social-build-quote.md` | see status below |
+| Article: *Why AI hasn't made your build quote cheaper* | `src/content/articles/why-ai-hasnt-made-your-build-quote-cheaper.md` | Done. Dated **2026-09-29**, so hidden until a deploy on/after that date |
+| Hero image (label THE HARD PART) | `public/images/articles/…webp` (86KB), `public/images/email/…jpg` (64KB), original in `source-assets/generated/2026-09-26-article-heroes/` | Done |
+| Newsletter Issue 03 | `drafts/issue-03.html` | Done. **Not yet in Reach** — create it only after the article is live |
+| Social pack (LinkedIn, X, thread, Short) | `drafts/2026-09-29-social-build-quote.md` | Done. Post after the article is live |
 
-_Status of the above is recorded at the end of the session in §10._
+**Facts in all three were checked against the sources on 2026-09-26** — and three
+of the brief's claims were dropped because the sources don't support them:
 
-## 10. End-of-session status
+- "No model cleared 50%" / "28.8% was second place" — the paper names two agents
+  and their scores, nothing more.
+- "Microsoft Research" — the arXiv page lists the authors but no affiliation.
+- "HubSpot cut its credit prices" — the source says an April cut to **agent
+  prices**. Issue 03 uses the source's wording.
 
-_(filled in when the build finishes)_
+The paper was submitted **16 Sept** (the brief said 17th).
+
+## 10. End-of-session status — 2026-09-26
+
+**Verified**
+
+- `npm run build` and `npm run lint` pass.
+- The new article is correctly **absent** from today's build (date-gated to 29 Sept).
+- Issue 03 passes the email-client audit: MSO ghost table, viewport meta, one
+  JPEG hero with width attribute and alt text, four eyebrows, `utm_campaign=issue-03`,
+  no leftover Issue 02 copy. (The audit's "all links teal" check flags the hero's
+  wrapper link — a false positive, it wraps an image, not text.)
+- Every back-catalogue link in Issue 03 returns 200. The article URL and its email
+  JPEG return 404 **as expected** until the deploy.
+
+**Not verified — do on deploy day**
+
+- The article page itself has not been rendered, because it is date-gated. After
+  deploying on/after 29 Sept, load it and run the iOS WebKit check (§7).
+- Once live, re-check Issue 03's two new URLs return 200 before creating it in Reach.
+
+**Known cosmetic flaws, accepted**
+
+- New hero: the laptop calendar header reads "Maroet 2016". Tiny at any display
+  size; regenerate for ~$0.06 if it bothers you.
+- Customer-support hero: faint nonsense in a ticket-ID column.
+- Workflows hero: "Fulfillment" is US spelling.
+
+**Next session, in order:** deploy on/after 29 Sept → verify the article renders
+(incl. iOS) → post the social pack → create Issue 03 in Reach with `reach.ps1 draft`
+→ send Issue 02 first if it still hasn't gone, then Issue 03 a fortnight later.

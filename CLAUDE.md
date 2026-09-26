@@ -2,6 +2,9 @@
 
 # Project Status
 
+> **Start here: read `HANDOVER.md`.** It holds what is live, what is waiting on a
+> human, and the next steps in order — state that is not derivable from the code.
+
 _Last updated: 2026-09-14._
 
 **Stage:** Live and deploying. All routes build green and aegeanpulse.com serves current content within about a minute of a push (see Deployment state). Current focus: email marketing — see `EMAIL-MARKETING.md`.
