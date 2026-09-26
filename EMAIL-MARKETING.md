@@ -298,9 +298,8 @@ sending as `Marcus at AegeanPulse <marcus@mail.aegeanpulse.com>`. Audience and
 send are done by hand in reach.hostinger.com.
 
 **Issue 03 is built** at `drafts/issue-03.html` (article: *Why AI hasn't made
-your build quote cheaper*; myth: "cheaper AI means a smaller bill"). Create it in
-Reach only after that article is live — its hero and first link 404 until then.
-See `HANDOVER.md` §9–10.
+your build quote cheaper*; myth: "cheaper AI means a smaller bill"). The article went live 26 Sept and Issue 03 is drafted in Reach
+(template `ca484a4d…`, campaign `51115f28…`). See `HANDOVER.md` §1.
 
 ### Imagery — every issue gets one
 

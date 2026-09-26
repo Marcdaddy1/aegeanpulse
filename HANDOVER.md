@@ -14,10 +14,10 @@ anything.
 
 | # | Item | State | Who |
 |---|---|---|---|
-| 1 | **Redeploy** so the "build quote" article (re-dated 26 Sept) goes live (see §4) | Committed; first deploy 26 Sept ran before the re-date | Marcus (manual deploy) |
+| 1 | ~~Deploy the "build quote" article~~ | **Done 26 Sept** — live, iOS WebKit check passed | — |
 | 2 | **Send Issue 02** in Reach | Draft, **unsent** | Marcus (Reach UI) |
 | 3 | **Post the social pack** for the new article | Written, in `drafts/` | Marcus |
-| 4 | Create **Issue 03** in Reach — only after the article is live | HTML built, not in Reach | Next session |
+| 4 | **Send Issue 03** in Reach — send by Sun 27 Sept (opener says "published last week") | Draft in Reach: template `ca484a4d…`, campaign `51115f28…` | Marcus (Reach UI) |
 | 5 | **Forwarder** for `marcus@mail.aegeanpulse.com` → real inbox | Not done | Marcus (hPanel) |
 | 6 | **Paste the new Monday brief prompt** into the scheduled task (§6) | Written, not pasted | Marcus (claude.ai Scheduled tasks) |
 | 7 | **Rotate** the Cal.com key and Hostinger API token (both pasted in chat months ago) | Not done | Marcus |
@@ -62,6 +62,7 @@ Full detail lives in `EMAIL-MARKETING.md`. The essentials:
 | Issue 01 v2 — projects never ship | **sent** 2026-09-14 | delivered 2, opened 2, clicked 1 |
 | Issue 01 — projects never ship | draft | superseded — ignore. Reach cannot delete it |
 | **Issue 02 — you probably don't need a chatbot** | **draft** | template `c9e78336…`, campaign `41b4bf6d…`. Ready to send |
+| **Issue 03 — why AI hasn't made your build quote cheaper** | **draft** | template `ca484a4d…`, campaign `51115f28…`, created 26 Sept. Send first — its opener is time-sensitive |
 
 **Issue format** (from Issue 02 on): brand-teal eyebrow labels above every
 section · a hero image · "Myth of the issue" ritual teased in the opener and
