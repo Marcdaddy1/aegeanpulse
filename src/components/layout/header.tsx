@@ -88,7 +88,9 @@ export function Header() {
               href={CONSULT_CTA.href}
               external
               size="sm"
-              className="hidden sm:inline-flex"
+              // cn() only joins, so a plain `hidden` would tie with the
+              // base `inline-flex` and lose; the media-query variant wins.
+              className="max-sm:hidden"
             >
               {CONSULT_CTA.label}
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
