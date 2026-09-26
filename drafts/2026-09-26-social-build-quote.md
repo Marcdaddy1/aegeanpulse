@@ -1,7 +1,7 @@
 # Social pack — "Why AI hasn't made your build quote cheaper"
 
-Post **after** the article is live (deploy on or after 2026-09-29). Every link
-below 404s until then.
+Post **after** the article is live (moved forward to 2026-09-26; live once that
+day's deploy has run). Check the article URL loads before posting.
 
 Article: `https://aegeanpulse.com/ai-news/why-ai-hasnt-made-your-build-quote-cheaper`
 

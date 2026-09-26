@@ -2,7 +2,7 @@
 title: "Why AI hasn't made your build quote cheaper"
 category: "Small Business"
 summary: "AI can write code now, so why hasn't the price of building software collapsed? A new benchmark shows exactly where coding agents fall down — and it's where the real cost of a project lives."
-date: "2026-09-29"
+date: "2026-09-26"
 readingTime: 6
 featured: false
 image: "/images/articles/why-ai-hasnt-made-your-build-quote-cheaper.webp"

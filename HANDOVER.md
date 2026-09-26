@@ -14,12 +14,12 @@ anything.
 
 | # | Item | State | Who |
 |---|---|---|---|
-| 1 | **Deploy** the "build quote" article + hero (see §4) | Committed, **not live** | Marcus (manual deploy) |
+| 1 | **Redeploy** so the "build quote" article (re-dated 26 Sept) goes live (see §4) | Committed; first deploy 26 Sept ran before the re-date | Marcus (manual deploy) |
 | 2 | **Send Issue 02** in Reach | Draft, **unsent** | Marcus (Reach UI) |
 | 3 | **Post the social pack** for the new article | Written, in `drafts/` | Marcus |
 | 4 | Create **Issue 03** in Reach — only after the article is live | HTML built, not in Reach | Next session |
 | 5 | **Forwarder** for `marcus@mail.aegeanpulse.com` → real inbox | Not done | Marcus (hPanel) |
-| 6 | **Fix the Monday brief generator's prompt** (§6) | Location unknown | Marcus to say where it runs |
+| 6 | **Paste the new Monday brief prompt** into the scheduled task (§6) | Written, not pasted | Marcus (claude.ai Scheduled tasks) |
 | 7 | **Rotate** the Cal.com key and Hostinger API token (both pasted in chat months ago) | Not done | Marcus |
 
 Order matters for 1 → 4: the article must be **live** before Issue 03 is sent,
@@ -34,7 +34,7 @@ Verify rather than trust this table — see §4 for the two curl checks.
 | Thing | State |
 |---|---|
 | Site | aegeanpulse.com on Hostinger VPS `72.61.4.237`, Docker. Last build seen: **2026-09-22 07:06 UTC** |
-| Articles | **17 live**, all with a hero image. An 18th (`why-ai-hasnt-made-your-build-quote-cheaper`) is committed and dated **2026-09-29** — invisible until a deploy on or after that date |
+| Articles | **17 live**, all with a hero image. An 18th (`why-ai-hasnt-made-your-build-quote-cheaper`) is committed and dated **2026-09-26** (moved forward from 29 Sept at Marcus's request) — live after the 26 Sept redeploy |
 | iOS article bug | **Fixed and live** — `Reveal`/`Stagger` use `viewport.amount: "some"`. See §7 |
 | Email images | 17/17 JPEGs live at `/images/email/<slug>.jpg`; the 18th ships with the next deploy |
 | `/pricing` signup form, `/terms` | Live |
@@ -114,7 +114,7 @@ curl -s https://aegeanpulse.com/sitemap.xml | grep -c "/ai-news/"
 
 Compare the second number with `ls src/content/articles/*.md`.
 
-**For the 29 Sept article specifically:** deploy **on or after 2026-09-29**.
+**Date-gated articles:** a future-dated article appears only after a rebuild on or after its date. The build-quote article was moved to 26 Sept so it could ship the same day.
 Deploying earlier builds a site where the article is still hidden by its date.
 
 ---
@@ -135,26 +135,25 @@ neon imagery — the brand argues against that aesthetic.
 
 ---
 
-## 6. The Monday content brief — needs a prompt fix
+## 6. The Monday content brief — prompt rewritten, paste pending
 
-A "Content ideas — week of …" email arrives Mondays ~09:30 from
-`aegeanpulse1@gmail.com` to `marcdaddy.business@gmail.com`. It is **not** a local
-scheduled task and is not in this repo — where it runs is unknown.
+It is a **Claude scheduled task** named *"Monday Content Ideas — weekly AI industry
+brief"* (claude.ai → Scheduled tasks), every Monday 09:00, permissions Auto. It
+emails `marcdaddy.business@gmail.com` and commits to `Marcdaddy1/research`. The
+local scheduled-tasks tool cannot see it, so it can only be edited in that UI.
 
-Its research is good (sources verified 2026-09-26). Its **copy is not safe to
-publish as-is**:
+Marcus had already added "audience is SMB owners", "never state an AegeanPulse
+practice" and "link to aegeanpulse.com". The 21 Sept brief still made factual
+slips (renamed "restoration depth" to "layers", "credit" for "agent" prices,
+invented rankings, a "Microsoft Research" affiliation, wrong date).
 
-1. It writes practices into Marcus's voice that are **not true** of AegeanPulse
-   ("we quote on depth", "we pass consumption through at cost"). AegeanPulse sells
-   fixed packages: Discovery £499, Builder £2,499, Growth Partner £799/month.
-2. It writes for **agency peers**; AegeanPulse's buyers are **SMB owners**.
-3. It links social posts to the **source**, not aegeanpulse.com.
-4. It over-interprets sources (turned a paper's "restoration depth" into
-   "layers of logic" and built a pricing method on it).
-
-Add to its prompt: *"Audience is SMB owners. Never state an AegeanPulse practice
-unless one is supplied. Link to aegeanpulse.com, not the source. Quote findings in
-the source's own terms."*
+The full replacement prompt is in
+`Claude Code Projects/workflows/monday-content-brief-prompt.md`. It adds: the real
+package facts (Discovery £499, Builder £2,499, Growth Partner £799/month) as the
+only AegeanPulse claims allowed; a per-idea **"Checked:"** line quoting the
+source phrase behind every figure; and explicit rules on source terms, rankings,
+affiliations and dates. **Open:** Marcus pastes it into the task (pencil icon),
+then read the 28 Sept brief to confirm the "Checked" lines appear.
 
 ---
 
@@ -206,10 +205,10 @@ of it is live until the deploy.**
 
 | Deliverable | File | State |
 |---|---|---|
-| Article: *Why AI hasn't made your build quote cheaper* | `src/content/articles/why-ai-hasnt-made-your-build-quote-cheaper.md` | Done. Dated **2026-09-29**, so hidden until a deploy on/after that date |
+| Article: *Why AI hasn't made your build quote cheaper* | `src/content/articles/why-ai-hasnt-made-your-build-quote-cheaper.md` | Done. Dated **2026-09-26** (moved from 29 Sept) |
 | Hero image (label THE HARD PART) | `public/images/articles/…webp` (86KB), `public/images/email/…jpg` (64KB), original in `source-assets/generated/2026-09-26-article-heroes/` | Done |
 | Newsletter Issue 03 | `drafts/issue-03.html` | Done. **Not yet in Reach** — create it only after the article is live |
-| Social pack (LinkedIn, X, thread, Short) | `drafts/2026-09-29-social-build-quote.md` | Done. Post after the article is live |
+| Social pack (LinkedIn, X, thread, Short) | `drafts/2026-09-26-social-build-quote.md` | Done. Post after the article is live |
 
 **Facts in all three were checked against the sources on 2026-09-26** — and three
 of the brief's claims were dropped because the sources don't support them:
@@ -227,7 +226,7 @@ The paper was submitted **16 Sept** (the brief said 17th).
 **Verified**
 
 - `npm run build` and `npm run lint` pass.
-- The new article is correctly **absent** from today's build (date-gated to 29 Sept).
+- The new article is correctly **absent** from today's build (it was date-gated to 29 Sept at the time; since moved to 26 Sept).
 - Issue 03 passes the email-client audit: MSO ghost table, viewport meta, one
   JPEG hero with width attribute and alt text, four eyebrows, `utm_campaign=issue-03`,
   no leftover Issue 02 copy. (The audit's "all links teal" check flags the hero's
@@ -238,7 +237,7 @@ The paper was submitted **16 Sept** (the brief said 17th).
 **Not verified — do on deploy day**
 
 - The article page itself has not been rendered, because it is date-gated. After
-  deploying on/after 29 Sept, load it and run the iOS WebKit check (§7).
+  deploying, load it and run the iOS WebKit check (§7).
 - Once live, re-check Issue 03's two new URLs return 200 before creating it in Reach.
 
 **Known cosmetic flaws, accepted**
@@ -248,6 +247,6 @@ The paper was submitted **16 Sept** (the brief said 17th).
 - Customer-support hero: faint nonsense in a ticket-ID column.
 - Workflows hero: "Fulfillment" is US spelling.
 
-**Next session, in order:** deploy on/after 29 Sept → verify the article renders
+**Next session, in order:** deploy (26 Sept) → verify the article renders
 (incl. iOS) → post the social pack → create Issue 03 in Reach with `reach.ps1 draft`
 → send Issue 02 first if it still hasn't gone, then Issue 03 a fortnight later.
