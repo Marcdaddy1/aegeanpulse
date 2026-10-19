@@ -10,17 +10,18 @@ anything.
 
 ---
 
-## 1. Do these first — status as of 2026-09-26
+## 1. Do these first — status as of 2026-10-19
 
 | # | Item | State | Who |
 |---|---|---|---|
 | 1 | ~~Deploy the "build quote" article~~ | **Done 26 Sept** — live, iOS WebKit check passed | — |
-| 2 | **Send Issue 02** in Reach | Draft, **unsent** | Marcus (Reach UI) |
-| 3 | **Post the social pack** for the new article | Written, in `drafts/` | Marcus |
-| 4 | **Send Issue 03** in Reach — send by Sun 27 Sept (opener says "published last week") | Draft in Reach: template `ca484a4d…`, campaign `51115f28…` | Marcus (Reach UI) |
+| 2 | **Send Issue 02** in Reach | Draft, **unsent** — 19 Oct: marcdaddy inbox (a subscriber) has only Issue 01, spam included | Marcus (Reach UI) |
+| 3 | **Post the social pack** for the new article | 19 Oct: **not on the AegeanPulse Facebook page**. LinkedIn unknown (Composio can post but not list posts) | Marcus |
+| 4 | **Issue 03** — **missed its window**, never received by marcdaddy. Opener says "published last week"; edit that line before sending | Draft in Reach: template `ca484a4d…`, campaign `51115f28…` | Marcus (Reach UI) |
 | 5 | **Forwarder** for `marcus@mail.aegeanpulse.com` → real inbox | Not done | Marcus (hPanel) |
-| 6 | **Paste the new Monday brief prompt** into the scheduled task (§6) | Written, not pasted | Marcus (claude.ai Scheduled tasks) |
-| 7 | **Rotate** the Cal.com key and Hostinger API token (both pasted in chat months ago) | Not done | Marcus |
+| 6 | ~~Paste the new Monday brief prompt~~ | **Done** — briefs of 28 Sep and 5/12/19 Oct all carry "Checked" lines | — |
+| 7 | **Rotate** the Cal.com key and Hostinger API token | 19 Oct: Reach API returns **401** on the token in `.env.local` — likely rotated, new token not yet in `.env.local` (dev + VPS). Cal.com unconfirmed | Marcus |
+| 8 | **AegeanPulse Facebook reel of 23 Sept** captioned "Nine agents. 4,063 tasks. None cleared 50%" | Live. "None cleared 50%" is **not stated by the paper** (see §6) — edit the caption or leave it | Marcus |
 
 Order matters for 1 → 4: the article must be **live** before Issue 03 is sent,
 because Issue 03's hero and first link both point at it.
