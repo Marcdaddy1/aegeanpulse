@@ -7,7 +7,7 @@
 
 _Last updated: 2026-09-14._
 
-**Stage:** Live and deploying. All routes build green and aegeanpulse.com serves current content within about a minute of a push (see Deployment state). Current focus: email marketing — see `EMAIL-MARKETING.md`.
+**Stage:** Live. All routes build green. **A push does not deploy** — see Deployment state. Current focus: email marketing — see `EMAIL-MARKETING.md`.
 
 **Version control:** This repo is the git root. Remote `origin` → https://github.com/Marcdaddy1/aegeanpulse (private), default branch `main`. Workflow: after each logical unit of work, commit locally with a clean message and push. Commit identity: `Marcus Aragbaye <88402273+Marcdaddy1@users.noreply.github.com>`.
 
@@ -38,9 +38,12 @@ _Last updated: 2026-09-14._
 
 **Deployment state (re-verified 2026-09-14):** aegeanpulse.com is LIVE on the Hostinger VPS (KVM 2, Ubuntu 24.04 + Docker template, IP `72.61.4.237`) — apex A/AAAA records point there; `X-Powered-By: Next.js` confirmed.
 
-**The site deploys within about a minute of a push.** Measured on 2026-09-14: commit `b3463a3` landed 17:54 UTC and the live build stamped 17:55:59 UTC. All 17 articles, `/pricing` and `/terms` were serving current content immediately after. The earlier note here — "the live build is the ~18 Jun commit… there is NO GitHub auto-deploy, updates are manual" — was **stale and caused a wrong status report**; don't trust it, and don't repeat the mistake of reporting deployment state from this file.
+**The site deploys within about a minute of a push.** Measure**A push does not deploy (re-checked 2026-10-23).** Commit `163fb78` was still 404 on the live site four minutes after
+its push. Two things rebuild the site: a manual deploy (SSH runbook in `HANDOVER.md` §4) and, evidently, the Tuesday
+07:05 UTC cron below — the live build stamped Tue 2026-10-20 07:06 UTC with nobody deploying. The 2026-09-14 note
+that pushes go live within a minute was a coincidence of timing and is wrong.
 
-**Check the live site, not this file.** These take seconds and are authoritative:
+d are authoritative:
 
 ```bash
 curl -s https://aegeanpulse.com/sitemap.xml | grep -c '/ai-news/'   # live article count

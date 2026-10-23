@@ -10,7 +10,7 @@ anything.
 
 ---
 
-## 1. Do these first — status as of 2026-10-19
+## 1. Do these first — status as of 2026-10-23
 
 | # | Item | State | Who |
 |---|---|---|---|
@@ -21,6 +21,8 @@ anything.
 | 5 | **Forwarder** for `marcus@mail.aegeanpulse.com` → real inbox | Not done | Marcus (hPanel) |
 | 6 | ~~Paste the new Monday brief prompt~~ | **Done** — briefs of 28 Sep and 5/12/19 Oct all carry "Checked" lines | — |
 | 7 | **Rotate** the Cal.com key and Hostinger API token | 19 Oct: Reach API returns **401** on the token in `.env.local` — likely rotated, new token not yet in `.env.local` (dev + VPS). Cal.com unconfirmed | Marcus |
+| 9 | **Deploy + post the agent-permissions article** (`ai-agent-permissions-before-you-switch-it-on`, dated 23 Oct, from idea 1 of the 19 Oct brief) | Committed `163fb78`. Goes live at the next rebuild: deploy by hand (§4), or wait for the **Tuesday 07:05 UTC cron** — the live build stamped Tue 20 Oct 07:06 UTC, so that cron is evidently installed. A push alone does not deploy (checked 23 Oct). Issue 04 + social pack not built yet | Marcus / Tuesday cron |
+| 10 | **Monday brief can't commit to `Marcdaddy1/research`** — the 19 Oct run says GitHub access isn't enabled for the unattended task | Brief still emails fine | Marcus: run the task once interactively to grant repo access |
 | 8 | **AegeanPulse Facebook reel of 23 Sept** captioned "Nine agents. 4,063 tasks. None cleared 50%" | Live. "None cleared 50%" is **not stated by the paper** (see §6) — edit the caption or leave it | Marcus |
 
 Order matters for 1 → 4: the article must be **live** before Issue 03 is sent,
