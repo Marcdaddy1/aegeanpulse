@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <!-- Without this, several mobile clients lay the mail out at ~980px and
+         zoom out instead of reflowing. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Ask Gmail / Apple Mail not to auto-invert. They may still do it, which
+         is why every colour below is stated explicitly rather than inherited. -->
+    <meta name="color-scheme" content="light">
+    <meta name="supported-color-schemes" content="light">
+  </head>
+  <body style="margin:0;padding:0;background:#faf7f2;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+
+    <!-- Reach's sanitiser may drop html/head/body. Everything that matters is
+         therefore set on the tables below, not inherited from body. -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+           style="border-collapse:collapse;background:#faf7f2;">
+      <tr>
+        <td align="center" style="padding:32px 16px;">
+
+          <!--[if mso]>
+          <table role="presentation" width="560" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td>
+          <![endif]-->
+
+          <!-- Outlook's Word engine ignores max-width, so on a wide monitor this
+               card would run the full window width with unreadable line lengths.
+               The MSO-only ghost table above pins it to 560px there; every other
+               client ignores the conditional comment and uses max-width. -->
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                 style="border-collapse:collapse;max-width:560px;background:#ffffff;border:1px solid #e8e2d9;border-radius:16px;">
+            <tr>
+              <td style="padding:32px;font-family:Georgia,'Times New Roman',serif;color:#1c2321;font-size:16px;line-height:26px;mso-line-height-rule:exactly;">
+
+                <!-- ISSUE OPENER ------------------------------------------ -->
+                <p style="margin:0 0 6px;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:bold;letter-spacing:0.12em;text-transform:uppercase;color:#0e7c6b;">
+                  Issue 04 &middot; This week
+                </p>
+
+                <p style="margin:0 0 20px;font-size:22px;line-height:30px;font-weight:bold;color:#1c2321;">
+                  Write your AI agent&rsquo;s limits before you switch it on
+                </p>
+
+                <!-- Hero. Same markup rules as Issue 02: width ATTRIBUTE for Outlook,
+                     display:block, border:0, JPEG not WebP. 496px = 560 card - padding. -->
+                <p style="margin:0 0 24px;">
+                  <a href="https://aegeanpulse.com/ai-news/ai-agent-permissions-before-you-switch-it-on" style="text-decoration:none;">
+                    <img src="https://aegeanpulse.com/images/email/ai-agent-permissions-before-you-switch-it-on.jpg"
+                         width="496"
+                         alt="A printed one-page agent rulebook clipped to a clipboard, with a spending limit and a short list of actions that need a human"
+                         style="display:block;width:100%;max-width:496px;height:auto;border:0;outline:none;text-decoration:none;border-radius:8px;-ms-interpolation-mode:bicubic;">
+                  </a>
+                </p>
+
+                <p style="margin:0 0 20px;">Hi,</p>
+
+                <p style="margin:0 0 20px;">
+                  Every pitch for an AI agent shows it doing something impressive on its own. In October, American Express and ServiceNow both shipped systems for agents &mdash; and both started with what an agent must <em>not</em> do.
+                </p>
+
+                <p style="margin:0 0 28px;">
+                  Plus, at the bottom: why telling an agent &ldquo;don&rsquo;t&rdquo; isn&rsquo;t a limit.
+                </p>
+
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                  <tr><td style="border-top:1px solid #e8e2d9;padding-top:26px;">
+
+                    <p style="margin:0 0 10px;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:bold;letter-spacing:0.12em;text-transform:uppercase;color:#0e7c6b;">
+                      The argument
+                    </p>
+
+                    <p style="margin:0 0 20px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:26px;color:#1c2321;">
+                      On 13 October, American Express introduced a framework that records what a customer actually asked for &mdash; which shop, the maximum budget &mdash; before an agent can buy anything. The agent then pays with a token carrying those limits, not the real card number.
+                    </p>
+
+                    <p style="margin:0 0 20px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:26px;color:#1c2321;">
+                      Two days later, ServiceNow announced AI Passport: a signed credential saying what an agent is allowed to do, checked while it works. In their demo, an agent allowed refunds under $25 pushed an $18 refund straight through. A $40 one was stopped mid-run, because it was over the limit that needs a person to review it.
+                    </p>
+
+                    <p style="margin:0 0 20px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:26px;color:#1c2321;">
+                      You don&rsquo;t need either product. Copy the order they worked in: limits first, abilities second. Before any agent goes live, write one page &mdash; what it can read, what it can change, what it can spend, what it must hand to a person, who gets told, and how you switch it off.
+                    </p>
+
+                    <p style="margin:0 0 26px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:26px;color:#1c2321;">
+                      <a href="https://aegeanpulse.com/ai-news/ai-agent-permissions-before-you-switch-it-on" style="color:#0e7c6b;font-weight:bold;text-decoration:underline;">
+                        Read the full piece &mdash; including a worked example for a refund agent
+                      </a>
+                    </p>
+
+                  </td></tr>
+                </table>
+
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                  <tr><td style="border-top:1px solid #e8e2d9;padding-top:26px;">
+
+                    <p style="margin:0 0 14px;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:bold;letter-spacing:0.12em;text-transform:uppercase;color:#0e7c6b;">
+                      Also worth reading
+                    </p>
+
+                    <p style="margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:24px;color:#1c2321;">
+                      <a href="https://aegeanpulse.com/ai-news/ai-agents-changing-customer-support" style="color:#0e7c6b;font-weight:bold;text-decoration:underline;">How AI agents are changing support</a>: from scripted bots to agents that resolve &mdash; and hand off cleanly.
+                    </p>
+
+                    <p style="margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:24px;color:#1c2321;">
+                      <a href="https://aegeanpulse.com/ai-news/ai-voice-agents-appointment-booking" style="color:#0e7c6b;font-weight:bold;text-decoration:underline;">Voice agents for bookings</a>: a practical front desk for service businesses.
+                    </p>
+
+                    <p style="margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:24px;color:#1c2321;">
+                      <a href="https://aegeanpulse.com/ai-news/what-to-automate-first-small-business" style="color:#0e7c6b;font-weight:bold;text-decoration:underline;">What to automate first</a>: a simple way to pick the job that pays off fastest.
+                    </p>
+
+                    <p style="margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:24px;color:#1c2321;">
+                      <a href="https://aegeanpulse.com/ai-news/why-smb-ai-projects-never-ship" style="color:#0e7c6b;font-weight:bold;text-decoration:underline;">Why most AI projects never ship</a>: and how to get one into real use.
+                    </p>
+
+                    <p style="margin:0 0 26px;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:24px;color:#1c2321;">
+                      <a href="https://aegeanpulse.com/ai-news/why-ai-hasnt-made-your-build-quote-cheaper" style="color:#0e7c6b;font-weight:bold;text-decoration:underline;">Why AI hasn&rsquo;t made your build quote cheaper</a>: where coding agents fall down, and what that means for what you pay.
+                    </p>
+
+                  </td></tr>
+                </table>
+
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                  <tr><td style="border-top:1px solid #e8e2d9;padding-top:26px;">
+
+                    <p style="margin:0 0 10px;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:bold;letter-spacing:0.12em;text-transform:uppercase;color:#0e7c6b;">
+                      Myth of the issue
+                    </p>
+
+                    <p style="margin:0 0 14px;font-size:18px;line-height:26px;font-weight:bold;color:#1c2321;">
+                      &ldquo;If you tell an AI agent not to do something, it won&rsquo;t.&rdquo;
+                    </p>
+
+                    <p style="margin:0 0 20px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:26px;color:#1c2321;">
+                      An instruction is something the agent reads. A limit is something the system checks. ServiceNow&rsquo;s $40 refund wasn&rsquo;t stopped because the agent remembered a rule &mdash; it was stopped because the refund was checked against one at the moment it was attempted.
+                    </p>
+
+                    <p style="margin:0 0 26px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:26px;color:#1c2321;">
+                      Instructions get misread, forgotten in a long conversation, or argued around by a determined customer. So when you choose a tool or a builder, ask one question: if the agent tries to break the rule, what stops it? &ldquo;We told it not to&rdquo; is not an answer.
+                    </p>
+
+                  </td></tr>
+                </table>
+
+                <!-- CLOSE -------------------------------------------------- -->
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                  <tr><td style="border-top:1px solid #e8e2d9;padding-top:26px;">
+
+                    <p style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:26px;color:#1c2321;">
+                      If you&rsquo;re about to hand a job to an agent and want a second pair of eyes on its limits
+                      before it goes live, that&rsquo;s a 20-minute call, free, no pitch:
+                    </p>
+
+                    <p style="margin:0 0 26px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:26px;color:#1c2321;">
+                      <a href="https://cal.com/aegeanpulse/ai-strategy-consultation?utm_source=reach&amp;utm_campaign=issue-04"
+                         style="color:#0e7c6b;text-decoration:underline;">
+                        Book a strategy call
+                      </a>
+                    </p>
+
+                    <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:26px;color:#1c2321;">&mdash; Marcus</p>
+
+                  </td></tr>
+                </table>
+
+              </td>
+            </tr>
+          </table>
+
+          <!--[if mso]>
+          </td></tr></table>
+          <![endif]-->
+
+        </td>
+      </tr>
+    </table>
+
+  </body>
+</html>

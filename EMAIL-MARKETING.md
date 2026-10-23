@@ -301,6 +301,11 @@ send are done by hand in reach.hostinger.com.
 your build quote cheaper*; myth: "cheaper AI means a smaller bill"). The article went live 26 Sept and Issue 03 is drafted in Reach
 (template `ca484a4d…`, campaign `51115f28…`). See `HANDOVER.md` §1.
 
+**Issue 04 is built** at `drafts/issue-04.html` (article: *Write your AI agent's limits before you
+switch it on*; myth: "if you tell an AI agent not to do something, it won't"). Create it in Reach after
+the article is live, with subject "Write your AI agent's limits first" (35 characters).
+As of 2026-10-23 Issues 02 and 03 were never sent; Issue 03's "published last week" opener is stale.
+
 ### Imagery — every issue gets one
 
 Run this before building an issue; it writes email-safe heroes from the site's
