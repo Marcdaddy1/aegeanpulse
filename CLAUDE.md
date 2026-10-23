@@ -38,12 +38,12 @@ _Last updated: 2026-09-14._
 
 **Deployment state (re-verified 2026-09-14):** aegeanpulse.com is LIVE on the Hostinger VPS (KVM 2, Ubuntu 24.04 + Docker template, IP `72.61.4.237`) — apex A/AAAA records point there; `X-Powered-By: Next.js` confirmed.
 
-**The site deploys within about a minute of a push.** Measure**A push does not deploy (re-checked 2026-10-23).** Commit `163fb78` was still 404 on the live site four minutes after
+**A push does not deploy (re-checked 2026-10-23).** Commit `163fb78` was still 404 on the live site four minutes after
 its push. Two things rebuild the site: a manual deploy (SSH runbook in `HANDOVER.md` §4) and, evidently, the Tuesday
 07:05 UTC cron below — the live build stamped Tue 2026-10-20 07:06 UTC with nobody deploying. The 2026-09-14 note
 that pushes go live within a minute was a coincidence of timing and is wrong.
 
-d are authoritative:
+**Check the live site, not this file.** These take seconds and are authoritative:
 
 ```bash
 curl -s https://aegeanpulse.com/sitemap.xml | grep -c '/ai-news/'   # live article count
