@@ -7,6 +7,7 @@ import {
   type Article,
   type ArticleBlock,
   type ArticleCategory,
+  type ArticleNode,
 } from "@/data/articles";
 
 // Article content lives as one markdown file per article in
@@ -17,26 +18,52 @@ import {
 // (list, detail pages, sitemap) until the flag is flipped — that's the
 // review gate for AI-generated drafts.
 //
-// Format contract (mirrors scripts/migrate-articles-to-md.ts and
-// generate-article.ts): "## " lines start a new block; every other non-blank
-// line is one paragraph.
+// Format contract (generate-article.ts writes the plain subset):
+// - "## " starts a new section.
+// - "- " lines in a row form a bullet list.
+// - "> " lines in a row form a worked-example slip; the first is its label.
+// - Every other non-blank line is one paragraph.
+// - **bold** inside any text renders as <strong> (e.g. a list item's lead-in).
+// There are deliberately no inline links: the closing booking panel and the
+// newsletter carry the calls to action.
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content", "articles");
 
 function parseBody(md: string): ArticleBlock[] {
   const blocks: ArticleBlock[] = [];
-  let current: ArticleBlock = { paragraphs: [] };
+  let current: ArticleBlock = { nodes: [] };
+  const last = (): ArticleNode | undefined =>
+    current.nodes[current.nodes.length - 1];
+  // A blank line ends a list or example, so two lists can sit back to back.
+  let open = false;
+
   for (const raw of md.split(/\r?\n/)) {
     const line = raw.trim();
-    if (!line) continue;
+    if (!line) {
+      open = false;
+      continue;
+    }
     if (line.startsWith("## ")) {
-      if (current.heading || current.paragraphs.length) blocks.push(current);
-      current = { heading: line.slice(3).trim(), paragraphs: [] };
+      if (current.heading || current.nodes.length) blocks.push(current);
+      current = { heading: line.slice(3).trim(), nodes: [] };
+      open = false;
+    } else if (line.startsWith("- ")) {
+      const prev = last();
+      if (open && prev?.type === "list") prev.items.push(line.slice(2).trim());
+      else current.nodes.push({ type: "list", items: [line.slice(2).trim()] });
+      open = true;
+    } else if (line.startsWith("> ")) {
+      const prev = last();
+      if (open && prev?.type === "example") prev.lines.push(line.slice(2).trim());
+      else
+        current.nodes.push({ type: "example", label: line.slice(2).trim(), lines: [] });
+      open = true;
     } else {
-      current.paragraphs.push(line);
+      current.nodes.push({ type: "p", text: line });
+      open = false;
     }
   }
-  if (current.heading || current.paragraphs.length) blocks.push(current);
+  if (current.heading || current.nodes.length) blocks.push(current);
   return blocks;
 }
 
@@ -54,7 +81,7 @@ function loadArticle(filename: string): Article | null {
 
   if (data.draft === true) return null;
 
-  const { title, category, summary, date, readingTime, featured, image, imageAlt, ctaText } =
+  const { title, category, summary, date, readingTime, featured, image, imageAlt, ctaText, ctaHeading } =
     data as {
       title?: string;
       category?: string;
@@ -65,6 +92,7 @@ function loadArticle(filename: string): Article | null {
       image?: string;
       imageAlt?: string;
       ctaText?: string;
+      ctaHeading?: string;
     };
 
   // Fail the build loudly with the offending filename rather than rendering
@@ -97,6 +125,7 @@ function loadArticle(filename: string): Article | null {
     featured: featured === true,
     ...(image ? { image, imageAlt } : {}),
     ...(ctaText ? { ctaText: String(ctaText) } : {}),
+    ...(ctaHeading ? { ctaHeading: String(ctaHeading) } : {}),
     body: parseBody(content),
   };
 }
@@ -134,4 +163,4 @@ export function getGridArticles(): Article[] {
   return ARTICLES.filter((a) => a.slug !== featured.slug);
 }
 
-export type { Article, ArticleBlock, ArticleCategory };
+export type { Article, ArticleBlock, ArticleCategory, ArticleNode };

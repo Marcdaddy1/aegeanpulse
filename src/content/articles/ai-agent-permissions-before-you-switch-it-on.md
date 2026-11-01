@@ -8,7 +8,8 @@ featured: false
 image: "/images/articles/ai-agent-permissions-before-you-switch-it-on.webp"
 imageAlt: "A printed one-page agent rulebook clipped to a clipboard, with a spending limit and a short list of actions that need a human"
 draft: false
-ctaText: "Bring the job you're thinking of handing to an agent, and we'll talk through what it should never be allowed to do."
+ctaHeading: "Not sure where your agent's limits should sit?"
+ctaText: "Bring the job you're thinking of handing to an agent, and I'll help you decide what it should never be allowed to do."
 ---
 
 Every pitch for an AI agent shows you the same thing: the agent doing something impressive on its own. It answers the customer, books the appointment, issues the refund. Nobody demos the agent being told no.
@@ -45,19 +46,23 @@ That's not because owners are careless. It's because the demo that sells an agen
 
 Everything in both announcements has a cheap manual equivalent. Before any agent goes live, write one page for it that answers six questions.
 
-What can it read? Name the inbox, the folder, the spreadsheet. "Our email" is not an answer; "the support inbox, not the directors' inboxes" is.
+- **What can it read?** Name the inbox, the folder, the spreadsheet. "Our email" is not an answer; "the support inbox, not the directors' inboxes" is.
+- **What can it change or send?** Drafting a reply and sending one are different permissions. So are reading an invoice and marking it paid.
+- **What can it spend or give away?** Put a number on it. A refund limit, a discount limit, a maximum order value. If the honest answer is "nothing", write that down too.
+- **What must it hand to a person?** This is your version of the $40 refund. Complaints, anything legal, any customer who asks for a human, anything over the limit.
+- **Who gets told?** When the agent hands something over, or does something unusual, a named person should hear about it the same day.
+- **How do you switch it off?** One person, one action, written down, and tested before launch rather than discovered during a bad afternoon.
 
-What can it change or send? Drafting a reply and sending one are different permissions. So are reading an invoice and marking it paid.
+Here's what that looks like for an online shop's refund agent.
 
-What can it spend or give away? Put a number on it. A refund limit, a discount limit, a maximum order value. If the honest answer is "nothing", write that down too.
+> Example: an online shop's refund agent
+> **Can read:** the orders inbox and order history.
+> **Can refund:** up to £25, on orders under 30 days old.
+> **Hands to the owner:** anything larger or older.
+> **Who's told:** the owner gets a daily summary.
+> **Off switch:** anyone on the team can pause it from the dashboard.
 
-What must it hand to a person? This is your version of the $40 refund. Complaints, anything legal, any customer who asks for a human, anything over the limit.
-
-Who gets told? When the agent hands something over, or does something unusual, a named person should hear about it the same day.
-
-How do you switch it off? One person, one action, written down, and tested before launch rather than discovered during a bad afternoon.
-
-Here's what that looks like for an online shop's refund agent: it can read the orders inbox and order history, it can issue refunds up to £25 on orders under 30 days old, anything larger or older goes to the owner, the owner gets a daily summary, and anyone on the team can pause it from the dashboard. That's five lines, and it covers most of what could go wrong.
+That's five lines, and it covers most of what could go wrong.
 
 ## Why the limits have to be checked while it runs
 

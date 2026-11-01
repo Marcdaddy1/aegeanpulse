@@ -4,8 +4,10 @@ import { Badge } from "@/components/ui/badge";
 import type { Article } from "@/data/articles";
 
 export function ArticleCard({ article }: { article: Article }) {
+  // The link's own outline is off because its hit area is the whole card
+  // (after:inset-0), so the focus ring is drawn on the card instead.
   return (
-    <article className="group relative flex h-full flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_40px_-18px_rgba(14,124,107,0.35)]">
+    <article className="group relative flex h-full flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_40px_-18px_rgba(14,124,107,0.35)] has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-ring has-[a:focus-visible]:ring-offset-2 has-[a:focus-visible]:ring-offset-background">
       <div className="flex items-center justify-between">
         <Badge tone="accent">{article.category}</Badge>
         <span className="inline-flex items-center gap-1.5 text-xs text-muted">
@@ -13,7 +15,7 @@ export function ArticleCard({ article }: { article: Article }) {
           {article.readingTime} min read
         </span>
       </div>
-      <h3 className="mt-4 font-display text-xl font-semibold leading-snug text-foreground">
+      <h3 className="mt-4 text-balance font-display text-xl font-semibold leading-snug text-foreground">
         <Link
           href={`/ai-news/${article.slug}`}
           className="after:absolute after:inset-0 focus-visible:outline-none"

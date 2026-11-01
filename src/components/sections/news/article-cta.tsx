@@ -8,11 +8,18 @@ import { CAL_URL, FOUNDER } from "@/data/site";
 // inline links, so the closing pitch used to sit in the prose as an untappable
 // cal.com address. This panel turns it into a real button at the reader's most
 // interested moment, and puts a face on the call: most readers arrive from
-// Marcus's own posts.
+// Marcus's own posts. Copy is first person throughout ("I", "me").
+const DEFAULT_HEADING = "Got a job you'd hand to AI?";
 const DEFAULT_TEXT =
-  "Tell me the job you'd like to hand to AI. You'll get a straight answer on whether it's worth doing, and which fixed-price package fits.";
+  "Tell me what it is. You'll get a straight answer on whether it's worth doing, and which fixed-price package fits.";
 
-export function ArticleCta({ text }: { text?: string }) {
+export function ArticleCta({
+  heading,
+  text,
+}: {
+  heading?: string;
+  text?: string;
+}) {
   return (
     <aside
       aria-labelledby="article-cta-heading"
@@ -34,15 +41,18 @@ export function ArticleCta({ text }: { text?: string }) {
 
       <h2
         id="article-cta-heading"
-        className="mt-6 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+        className="mt-6 text-balance font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
       >
-        Book a free 20-minute call
+        {heading ?? DEFAULT_HEADING}
       </h2>
-      <p className="mt-3 text-lg leading-relaxed text-foreground/85">
+      <p className="mt-3 text-pretty text-lg leading-relaxed text-foreground/85">
         {text ?? DEFAULT_TEXT}
       </p>
-      <p className="mt-3 text-sm text-muted">
-        Free, 20 minutes, and you talk to me, not a salesperson.
+      {/* Answers the question the price in the article raises: the call is
+          free, and the £499 Discovery only starts if the reader asks for it. */}
+      <p className="mt-3 text-pretty text-sm leading-relaxed text-muted">
+        No obligation, and you talk to me, not a salesperson. The £499
+        Discovery only starts if you want it.
       </p>
 
       <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
@@ -50,16 +60,19 @@ export function ArticleCta({ text }: { text?: string }) {
           href={CAL_URL}
           external
           size="lg"
-          className="w-full sm:w-auto"
+          className="w-full whitespace-nowrap sm:w-auto"
         >
-          Book a free 20-minute call
+          {/* The full label wrapped onto two lines inside the pill at 390px. */}
+          <span className="sm:hidden">Book a free call</span>
+          <span className="hidden sm:inline">Book a free 20-minute call</span>
+          <span className="sr-only"> (opens Cal.com in a new tab)</span>
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
         </Button>
         <Link
           href="/pricing"
           className="inline-flex min-h-11 items-center justify-center gap-1.5 text-sm font-medium text-accent underline-offset-4 hover:text-accent-strong hover:underline"
         >
-          See the fixed prices
+          What the £499 Discovery includes
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>

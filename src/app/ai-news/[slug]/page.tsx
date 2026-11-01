@@ -5,11 +5,10 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Clock } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
-import { Reveal } from "@/components/motion/reveal";
 import { NewsletterSignup } from "@/components/sections/shared/newsletter-signup";
 import { ArticleCard } from "@/components/sections/news/article-card";
 import { ArticleCta } from "@/components/sections/news/article-cta";
-import { ARTICLES, getArticle } from "@/lib/articles";
+import { ARTICLES, getArticle, type ArticleNode } from "@/lib/articles";
 import { SITE_NAME, SITE_URL } from "@/data/site";
 
 export function generateStaticParams() {
@@ -49,6 +48,63 @@ export async function generateMetadata({
         : {}),
     },
   };
+}
+
+// Renders **bold** runs inside article text; everything else stays plain.
+function Rich({ text }: { text: string }) {
+  return text.split(/(\*\*[^*]+\*\*)/).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") ? (
+      <strong key={i} className="font-semibold text-foreground">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      part
+    ),
+  );
+}
+
+// Body measure: ~70 characters per line on desktop (measured). The 768px
+// column alone ran to ~82. 60ch, not 70ch: `ch` is the width of "0", which is
+// wider than Inter's average letter.
+const BODY_TEXT = "max-w-[60ch] text-pretty text-lg leading-relaxed text-foreground/85";
+
+function BodyNode({ node }: { node: ArticleNode }) {
+  if (node.type === "list") {
+    return (
+      <ul className={`mt-4 space-y-3 ${BODY_TEXT}`}>
+        {node.items.map((item, i) => (
+          <li
+            key={i}
+            className="relative pl-6 before:absolute before:left-0 before:top-[0.85em] before:h-px before:w-3 before:bg-accent"
+          >
+            <Rich text={item} />
+          </li>
+        ))}
+      </ul>
+    );
+  }
+  if (node.type === "example") {
+    // A worked example reads as a ruled slip of notebook paper.
+    return (
+      <figure className="mt-6 max-w-[60ch] rounded-2xl border border-border bg-surface px-6 pb-2 pt-5 shadow-[0_1px_3px_rgba(28,35,33,0.04)] sm:px-7">
+        <figcaption className="text-sm font-semibold text-accent">
+          {node.label}
+        </figcaption>
+        <ul className="mt-3 divide-y divide-border">
+          {node.lines.map((line, i) => (
+            <li key={i} className="py-3 text-base leading-relaxed text-foreground/85">
+              <Rich text={line} />
+            </li>
+          ))}
+        </ul>
+      </figure>
+    );
+  }
+  return (
+    <p className={`mt-4 ${BODY_TEXT}`}>
+      <Rich text={node.text} />
+    </p>
+  );
 }
 
 const formatDate = (iso: string) =>
@@ -109,14 +165,14 @@ export default async function ArticlePage({
 
       <article>
         <header className="border-b border-border">
-          {/* The header, hero and body render without Reveal: Reveal ships
-              opacity:0 in the server HTML, so the article stayed blank until
-              JavaScript hydrated. Most readers arrive from a social post inside
-              an in-app browser, often on a slow connection. */}
+          {/* Nothing on article pages uses Reveal: it ships opacity:0 in the
+              server HTML, so content stayed blank until JavaScript hydrated.
+              Most readers arrive from a social post inside an in-app browser,
+              often on a slow connection. */}
           <Container size="narrow" className="py-14 md:py-20">
             <Link
               href="/ai-news"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-strong"
+              className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-strong"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />
               Back to AI News
@@ -131,10 +187,10 @@ export default async function ArticlePage({
                 {formatDate(article.date)}
               </span>
             </div>
-            <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl">
+            <h1 className="mt-5 text-balance font-display text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl">
               {article.title}
             </h1>
-            <p className="mt-5 text-xl leading-relaxed text-muted">
+            <p className="mt-5 text-pretty text-xl leading-relaxed text-muted">
               {article.summary}
             </p>
           </Container>
@@ -159,17 +215,12 @@ export default async function ArticlePage({
             {article.body.map((block, i) => (
               <section key={i}>
                 {block.heading && (
-                  <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+                  <h2 className="text-balance font-display text-2xl font-semibold tracking-tight text-foreground">
                     {block.heading}
                   </h2>
                 )}
-                {block.paragraphs.map((p, j) => (
-                  <p
-                    key={j}
-                    className="mt-4 text-lg leading-relaxed text-foreground/85"
-                  >
-                    {p}
-                  </p>
+                {block.nodes.map((node, j) => (
+                  <BodyNode key={j} node={node} />
                 ))}
               </section>
             ))}
@@ -178,36 +229,32 @@ export default async function ArticlePage({
           {/* One booking ask, then the newsletter as a quieter second option.
               The site-wide CtaBanner and the footer's CTA and newsletter are
               left off article pages so the end of an article has one next step. */}
-          <ArticleCta text={article.ctaText} />
+          <ArticleCta heading={article.ctaHeading} text={article.ctaText} />
 
-          <Reveal>
-            <div className="mt-12 border-t border-border pt-10">
-              <NewsletterSignup source="article" />
-            </div>
-          </Reveal>
+          <div className="mt-12 border-t border-border pt-10">
+            <NewsletterSignup source="article" />
+          </div>
         </Container>
       </article>
 
       {/* Related */}
       <section className="border-t border-border py-16 md:py-20">
         <Container>
-          <Reveal>
-            <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-              Keep reading
-            </h2>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {recommendations.map((a, i) =>
-                // Two cards on phones and tablets; the third returns on desktop.
-                i < 2 ? (
-                  <ArticleCard key={a.slug} article={a} />
-                ) : (
-                  <div key={a.slug} className="hidden h-full lg:block">
-                    <ArticleCard article={a} />
-                  </div>
-                ),
-              )}
-            </div>
-          </Reveal>
+          <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+            Keep reading
+          </h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {recommendations.map((a, i) =>
+              // Two cards on phones and tablets; the third returns on desktop.
+              i < 2 ? (
+                <ArticleCard key={a.slug} article={a} />
+              ) : (
+                <div key={a.slug} className="hidden h-full lg:block">
+                  <ArticleCard article={a} />
+                </div>
+              ),
+            )}
+          </div>
         </Container>
       </section>
     </>

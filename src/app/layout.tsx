@@ -58,13 +58,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-// Match the mobile browser chrome (address bar / status bar) to the active
-// theme. Next 16 reads themeColor from the `viewport` export, not `metadata`.
+// Match the mobile browser chrome (address bar / status bar) to the page.
+// The site always opens light (ThemeProvider: defaultTheme "light",
+// enableSystem false), so following the OS dark setting here gave dark-mode
+// iPhones a dark bar over a light page. Next 16 reads themeColor from the
+// `viewport` export, not `metadata`.
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#faf7f2" },
-    { media: "(prefers-color-scheme: dark)", color: "#12161a" },
-  ],
+  themeColor: "#faf7f2",
 };
 
 const jsonLd = {

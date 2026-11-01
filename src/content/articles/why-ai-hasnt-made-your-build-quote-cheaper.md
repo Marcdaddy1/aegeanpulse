@@ -8,7 +8,8 @@ featured: false
 image: "/images/articles/why-ai-hasnt-made-your-build-quote-cheaper.webp"
 imageAlt: "A laptop showing a tidy booking form beside a notebook crammed with hand-written edge cases"
 draft: false
-ctaText: "You'll get a straight answer on whether your idea is a twenty-minute build or a three-week one."
+ctaHeading: "Wondering what your build should cost?"
+ctaText: "Tell me what you want built. You'll get a straight answer on whether it's a quick job or a three-week one."
 ---
 
 If you've asked anyone to build software for you this year, you've probably had the same thought at some point: AI writes the code now, so why is this quote the size it is? It's a fair question. The demos are genuinely impressive. You can describe an app in a paragraph and watch a working screen appear a minute later.
@@ -35,7 +36,12 @@ Read that carefully, because it's the whole story. Put back a small piece of a w
 
 Take a booking form for a small service business. Ask an AI agent to build it and you'll have something that looks finished in twenty minutes: a calendar, a list of time slots, a confirmation screen. That part is now genuinely cheap, and anyone who tells you otherwise is overcharging.
 
-Now ask what happens when two customers book the same slot at the same moment. When someone cancels an hour before and wants a refund. When a customer in another timezone books what they think is 9am. When somebody doesn't turn up and you want to charge a no-show fee. When the booking needs to land in your calendar, your invoicing and your customer records at once, and one of those systems is briefly unavailable.
+Now ask what happens when:
+- two customers book the same slot at the same moment
+- someone cancels an hour before and wants a refund
+- a customer in another timezone books what they think is 9am
+- somebody doesn't turn up and you want to charge a no-show fee
+- the booking needs to land in your calendar, your invoicing and your customer records at once, and one of those systems is briefly unavailable
 
 None of that shows up in the demo. All of it shows up in your first busy week. And every one of those cases depends on several parts of the system agreeing with each other — which is exactly the kind of work the benchmark found agents struggle to hold together.
 
@@ -55,7 +61,14 @@ This is why we price our Builder package as one complete workflow rather than a 
 
 None of this is an argument against using AI to build. It's an argument for using it where it's strong.
 
-Scaffolding the first working version of something is dramatically faster than it was two years ago. So is converting data from one format to another, writing the tests that check whether things work, drafting the first attempt at connecting two systems, and producing the repetitive code that used to eat days. A builder who isn't using AI for those jobs is costing you money.
+These jobs are dramatically faster than they were two years ago:
+- scaffolding the first working version of something
+- converting data from one format to another
+- writing the tests that check whether things work
+- drafting the first attempt at connecting two systems
+- producing the repetitive code that used to eat days
+
+A builder who isn't using AI for those jobs is costing you money.
 
 The saving is real. It's just concentrated at the start of a project, on the parts that were never the expensive bit. What it hasn't touched is the judgement about how a system should behave when reality doesn't match the demo.
 

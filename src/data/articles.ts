@@ -13,9 +13,16 @@ export type ArticleCategory =
   | "Small Business"
   | "Tutorials";
 
+/** One piece of an article section, in reading order. Text may carry
+ *  **bold** runs, which render as <strong>. */
+export type ArticleNode =
+  | { type: "p"; text: string }
+  | { type: "list"; items: string[] }
+  | { type: "example"; label: string; lines: string[] };
+
 export interface ArticleBlock {
   heading?: string;
-  paragraphs: string[];
+  nodes: ArticleNode[];
 }
 
 export interface Article {
@@ -32,6 +39,8 @@ export interface Article {
   imageAlt?: string;
   /** Article-specific line for the closing booking panel; a default applies when absent. */
   ctaText?: string;
+  /** Article-specific heading for the closing booking panel. */
+  ctaHeading?: string;
   body: ArticleBlock[];
 }
 

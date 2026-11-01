@@ -77,7 +77,7 @@ export function NewsletterSignup({
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@company.com"
           autoComplete="email"
-          className="flex-1 rounded-full border border-border bg-background px-5 py-2.5 text-sm text-foreground placeholder:text-muted/70 focus:border-accent focus:outline-none focus:ring-2 focus:ring-ring/30"
+          className="flex-1 rounded-full border border-border bg-background px-5 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-ring/30"
         />
         <button
           type="submit"
