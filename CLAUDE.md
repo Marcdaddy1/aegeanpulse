@@ -67,7 +67,7 @@ Compare the count against `ls src/content/articles/*.md`. What triggers the depl
 
 **Known open items / TODO:**
 - Rotate the Cal.com API key and Hostinger API token (both were shared in chat), then update `.env.local` on dev machine + VPS.
-- Confirm whether the VPS cron lines from the runbook are actually installed (`crontab -l`). Deploys are currently landing within a minute of a push, but nothing in this repo proves that is automated rather than someone deploying by hand — and the date-gated publish flow depends on a rebuild happening after an article's date.
+- Confirm the VPS cron lines with `crontab -l`. The Tuesday rebuild evidently runs (live build stamped Tue 2026-10-20 07:06 UTC); a push alone does not deploy, and the date-gated publish flow depends on a rebuild happening after an article's date.
 - Confirm the Reach sender mailbox exists and is monitored. Campaigns now send from the **`mail.aegeanpulse.com`** subdomain, so the From address must be at that subdomain, not the apex.
 - Reach's DNS status panel is unreliable in both directions: it reported the domain "active" while DKIM was genuinely absent (2026-09-04 → 09-10), then reported MX/DKIM "missing" while both were present on three public resolvers (2026-09-14). Verify against public DNS with `scripts/reach.ps1 dns`, never the panel alone.
 - The dev machine has `prefers-reduced-motion` ON — account for it when testing animations.
