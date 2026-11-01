@@ -79,10 +79,9 @@ that isn't listed there.
 
 ## Evidence on Hand
 
-- **Usable:** testimonial from Sarah Thompson, Deputy CEO, SoldiscInc (real, confirmed).
-- **Do not use:** the "Michael Rodriguez, Marketing Director, Homecrackers" testimonial
-  is not a real client quote (confirmed 2026-11-01). It is currently in
-  `src/data/testimonials.ts` and live on the site.
+- **Usable:** testimonials from Sarah Thompson, Deputy CEO, SoldiscInc, and Michael
+  Rodriguez, Marketing Director, Homecrackers — both real (confirmed by Marcus
+  2026-11-01), in `src/data/testimonials.ts`.
 - **Do not name:** WMS Recruitment is a real client, but is not cleared to be named
   publicly as a case study.
 - Founder headshot: `public/marcus-aragbaye.png`. Article hero images:
