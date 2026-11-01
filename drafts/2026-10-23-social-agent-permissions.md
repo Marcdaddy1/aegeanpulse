@@ -6,8 +6,9 @@
 > https://www.facebook.com/122129551047255050/posts/122133541251255050 (link-preview
 > card). X not posted (no connection).
 >
-> **Copy below humanised and shortened on 2026-11-01, after posting.** The live
-> posts still carry the original wording until they are edited.
+> **Copy below humanised and shortened on 2026-11-01, after posting.** The Facebook
+> post was edited to match at 04:44 UTC. The LinkedIn post still has the original
+> wording; the API can't edit it, so update it by hand (… → Edit post) if wanted.
 
 Post **after** the article is live: deploy, or wait for the Tuesday 27 Oct 07:05 UTC
 rebuild. Check the article URL loads before posting — every link below 404s until then.
