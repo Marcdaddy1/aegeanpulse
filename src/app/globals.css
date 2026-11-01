@@ -13,6 +13,7 @@
   --border: #e8e2d9;
   --ring: #0e7c6b;
   --danger: #b42318;
+  --accent-foreground: #ffffff;
 }
 
 .dark {
@@ -26,6 +27,7 @@
   --border: #2a3138;
   --ring: #2fb39c;
   --danger: #f97066;
+  --accent-foreground: #05070d;
 }
 
 @theme inline {
@@ -39,6 +41,7 @@
   --color-border: var(--border);
   --color-ring: var(--ring);
   --color-danger: var(--danger);
+  --color-accent-foreground: var(--accent-foreground);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
 }
@@ -62,5 +65,15 @@ body {
 
 ::selection {
   background-color: var(--accent);
-  color: #ffffff;
+  color: var(--accent-foreground);
+}
+
+/* One focus ring everywhere. Components that draw their own ring
+   (focus-visible:outline-none + ring-*) override this; everything else used
+   to fall back to the browser's default outline. */
+@layer base {
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
 }

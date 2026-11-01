@@ -10,7 +10,7 @@ export interface ChatMessage {
 const GREETING: ChatMessage = {
   role: "assistant",
   content:
-    "Hi! I'm the AegeanPulse assistant. Ask me about our services, pricing, or book a free 20-minute call. How can I help?",
+    "Hi, I'm Marcus's AI assistant. I can explain the packages and prices, or book you a free 30-minute call with him.",
 };
 
 export function useChat() {

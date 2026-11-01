@@ -23,7 +23,7 @@ export function ArticleCard({ article }: { article: Article }) {
           {article.title}
         </Link>
       </h3>
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
+      <p className="mt-3 flex-1 text-pretty text-sm leading-relaxed text-muted">
         {article.summary}
       </p>
       <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent">

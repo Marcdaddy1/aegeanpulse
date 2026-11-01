@@ -35,7 +35,7 @@ export default function AiToolsPage() {
           <div className="mt-16 overflow-hidden rounded-3xl border border-border bg-accent-soft/40 p-8 sm:p-10">
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
               <div className="max-w-xl">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-white">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-foreground">
                   <PlusCircle className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <h2 className="mt-4 font-display text-2xl font-semibold tracking-tight text-foreground">

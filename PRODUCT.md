@@ -21,7 +21,7 @@ what does it cost, and what happens next?" — never how the technology works.
 
 aegeanpulse.com is the shop window and lead engine for AegeanPulse, an AI agency run by
 Marcus Aragbaye that builds AI agents, automations and smart websites for small
-businesses. The site exists to turn a visitor into a booked 20-minute strategy call
+businesses. The site exists to turn a visitor into a booked 30-minute strategy call
 (Cal.com, `ai-strategy-consultation`) or a newsletter subscriber.
 
 Success: booked calls, newsletter sign-ups, and articles that get read and shared from

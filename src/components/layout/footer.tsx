@@ -60,7 +60,7 @@ export function Footer() {
             <p className="mt-4 text-sm leading-relaxed text-muted">{TAGLINE}</p>
             <a
               href={`mailto:${CONTACT_EMAIL}`}
-              className="mt-4 inline-block text-sm font-medium text-accent hover:text-accent-strong"
+              className="mt-3 inline-flex min-h-11 items-center text-sm font-medium text-accent hover:text-accent-strong"
             >
               {CONTACT_EMAIL}
             </a>

@@ -42,12 +42,12 @@ function PricingCard({
       className={cn(
         "relative flex h-full flex-col rounded-3xl border p-8",
         tier.highlight
-          ? "border-accent bg-accent text-white shadow-[0_24px_60px_-12px_rgba(14,124,107,0.45)]"
+          ? "border-accent bg-accent text-accent-foreground shadow-[0_24px_60px_-12px_rgba(14,124,107,0.45)]"
           : "border-border bg-surface",
       )}
     >
       {tier.highlight && (
-        <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-semibold text-accent">
+        <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-accent-foreground px-4 py-1 text-xs font-semibold text-accent">
           Most popular
         </span>
       )}
@@ -56,7 +56,7 @@ function PricingCard({
         <p
           className={cn(
             "text-sm font-semibold uppercase tracking-[0.16em]",
-            tier.highlight ? "text-white/70" : "text-accent",
+            tier.highlight ? "text-accent-foreground" : "text-accent",
           )}
         >
           {tier.name}
@@ -64,7 +64,7 @@ function PricingCard({
         <p
           className={cn(
             "mt-1 font-display text-lg font-semibold",
-            tier.highlight ? "text-white" : "text-foreground",
+            tier.highlight ? "text-accent-foreground" : "text-foreground",
           )}
         >
           {tier.tagline}
@@ -75,7 +75,7 @@ function PricingCard({
         <span
           className={cn(
             "font-display text-4xl font-semibold tracking-tight",
-            tier.highlight ? "text-white" : "text-foreground",
+            tier.highlight ? "text-accent-foreground" : "text-foreground",
           )}
         >
           {price}
@@ -83,7 +83,7 @@ function PricingCard({
         <span
           className={cn(
             "mb-1 text-sm",
-            tier.highlight ? "text-white/60" : "text-muted",
+            tier.highlight ? "text-accent-foreground" : "text-muted",
           )}
         >
           {tier.billing === "monthly" ? "/ month" : "one-time"}
@@ -93,7 +93,7 @@ function PricingCard({
       <p
         className={cn(
           "mt-4 text-sm leading-relaxed",
-          tier.highlight ? "text-white/75" : "text-muted",
+          tier.highlight ? "text-accent-foreground" : "text-muted",
         )}
       >
         {tier.description}
@@ -105,14 +105,14 @@ function PricingCard({
             <Check
               className={cn(
                 "mt-0.5 h-4 w-4 shrink-0",
-                tier.highlight ? "text-white/80" : "text-accent",
+                tier.highlight ? "text-accent-foreground" : "text-accent",
               )}
               aria-hidden="true"
             />
             <span
               className={cn(
                 "text-sm",
-                tier.highlight ? "text-white/80" : "text-muted",
+                tier.highlight ? "text-accent-foreground" : "text-muted",
               )}
             >
               {f}
@@ -128,8 +128,8 @@ function PricingCard({
         className={cn(
           "mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5",
           tier.highlight
-            ? "bg-white text-accent hover:bg-white/90"
-            : "bg-accent text-white hover:bg-accent-strong",
+            ? "bg-accent-foreground text-accent hover:bg-accent-foreground/90"
+            : "bg-accent text-accent-foreground hover:bg-accent-strong",
         )}
       >
         {tier.cta}

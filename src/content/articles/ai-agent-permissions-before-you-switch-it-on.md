@@ -53,7 +53,7 @@ Everything in both announcements has a cheap manual equivalent. Before any agent
 - **Who gets told?** When the agent hands something over, or does something unusual, a named person should hear about it the same day.
 - **How do you switch it off?** One person, one action, written down, and tested before launch rather than discovered during a bad afternoon.
 
-Here's what that looks like for an online shop's refund agent.
+Here's one filled in.
 
 > Example: an online shop's refund agent
 > **Can read:** the orders inbox and order history.

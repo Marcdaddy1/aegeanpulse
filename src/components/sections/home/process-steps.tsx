@@ -39,7 +39,7 @@ export function ProcessSteps() {
           <StaggerItem key={step.title} className="h-full">
             <div className="group relative h-full rounded-2xl border border-border bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40">
               <div className="flex items-center justify-between">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-soft text-accent transition-colors group-hover:bg-accent group-hover:text-white">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-soft text-accent transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
                   <step.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="font-display text-3xl font-semibold text-border sm:text-4xl">

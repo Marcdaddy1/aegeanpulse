@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Send, Check } from "lucide-react";
 import Link from "next/link";
 
@@ -29,6 +29,8 @@ export function NewsletterSignup({
   const [state, setState] = useState<"idle" | "pending" | "done" | "error">("idle");
   const [problem, setProblem] = useState<Problem>(null);
   const [error, setError] = useState<string | null>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const consentRef = useRef<HTMLInputElement>(null);
 
   const id = `newsletter-${source}`;
   const emailOk = /^\S+@\S+\.\S+$/.test(email);
@@ -36,8 +38,18 @@ export function NewsletterSignup({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (state === "pending") return;
-    if (!emailOk) return setProblem("email");
-    if (!consent) return setProblem("consent");
+    // Focus goes to the control that needs fixing, so keyboard and
+    // screen-reader users land on it rather than staying on the button.
+    if (!emailOk) {
+      setProblem("email");
+      emailRef.current?.focus();
+      return;
+    }
+    if (!consent) {
+      setProblem("consent");
+      consentRef.current?.focus();
+      return;
+    }
     setProblem(null);
     setState("pending");
     setError(null);
@@ -66,7 +78,7 @@ export function NewsletterSignup({
         role="status"
         className="flex items-center gap-3 rounded-2xl border border-border bg-accent-soft/40 p-5"
       >
-        <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-white">
+        <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
           <Check className="h-4 w-4" aria-hidden="true" />
         </span>
         <p className="text-sm text-foreground">
@@ -82,35 +94,29 @@ export function NewsletterSignup({
         {title}
       </p>
       <p className="mt-1 text-sm text-muted">{description}</p>
-      <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-        <label htmlFor={`${id}-email`} className="sr-only">
-          Email address
-        </label>
+      {/* Email, then consent, then Subscribe: the order a person fills it in,
+          so the natural flow never hits the consent error. */}
+      <label htmlFor={`${id}-email`} className="sr-only">
+        Email address
+      </label>
+      <input
+        ref={emailRef}
+        id={`${id}-email`}
+        type="email"
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          if (problem === "email") setProblem(null);
+        }}
+        placeholder="you@company.com"
+        autoComplete="email"
+        aria-invalid={problem === "email" || undefined}
+        aria-describedby={problem === "email" ? `${id}-problem` : undefined}
+        className="mt-4 block w-full max-w-md rounded-full border border-border bg-background px-5 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-ring/30 aria-[invalid=true]:border-danger"
+      />
+      <label className="mt-3 flex max-w-md items-start gap-2.5 py-1 text-xs leading-relaxed text-muted">
         <input
-          id={`${id}-email`}
-          type="email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            if (problem === "email") setProblem(null);
-          }}
-          placeholder="you@company.com"
-          autoComplete="email"
-          aria-invalid={problem === "email" || undefined}
-          aria-describedby={problem === "email" ? `${id}-problem` : undefined}
-          className="flex-1 rounded-full border border-border bg-background px-5 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-ring/30 aria-[invalid=true]:border-danger"
-        />
-        <button
-          type="submit"
-          disabled={state === "pending"}
-          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60"
-        >
-          {state === "pending" ? "Subscribing…" : "Subscribe"}
-          <Send className="h-3.5 w-3.5" aria-hidden="true" />
-        </button>
-      </div>
-      <label className="mt-3 flex items-start gap-2.5 py-1 text-xs leading-relaxed text-muted">
-        <input
+          ref={consentRef}
           type="checkbox"
           checked={consent}
           onChange={(e) => {
@@ -119,7 +125,7 @@ export function NewsletterSignup({
           }}
           aria-invalid={problem === "consent" || undefined}
           aria-describedby={problem === "consent" ? `${id}-problem` : undefined}
-          className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--accent)]"
+          className="mt-0.5 h-4 w-4 shrink-0 rounded accent-[var(--accent)] aria-[invalid=true]:outline aria-[invalid=true]:outline-2 aria-[invalid=true]:outline-offset-2 aria-[invalid=true]:outline-danger"
         />
         <span>
           I agree to receive marketing emails from AegeanPulse. See our{" "}
@@ -129,13 +135,21 @@ export function NewsletterSignup({
           .
         </span>
       </label>
+      <button
+        type="submit"
+        disabled={state === "pending"}
+        className="mt-3 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60"
+      >
+        {state === "pending" ? "Subscribing…" : "Subscribe"}
+        <Send className="h-3.5 w-3.5" aria-hidden="true" />
+      </button>
       {/* One live region for every message, so validation and server errors
           are both announced. */}
       <p id={`${id}-problem`} role="alert" className="mt-2 text-sm text-danger empty:hidden">
         {problem === "email"
           ? "Enter your email address, e.g. you@company.com."
           : problem === "consent"
-            ? "Tick the box above so we can email you."
+            ? "Tick the box above to agree, so we can email you."
             : error}
       </p>
     </form>

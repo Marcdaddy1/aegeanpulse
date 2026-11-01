@@ -22,6 +22,8 @@ export function ArticleCta({
 }) {
   return (
     <aside
+      id="article-cta"
+      data-hide-chat
       aria-labelledby="article-cta-heading"
       className="mt-14 rounded-3xl border border-border bg-surface p-7 sm:p-8"
     >
@@ -29,13 +31,17 @@ export function ArticleCta({
         <Image
           src={FOUNDER.image}
           alt=""
-          width={56}
-          height={56}
+          // 112px source for a 56px circle: sharp on 2x and 3x phone screens.
+          // Eager, because a lazy load left an empty ring when readers
+          // scrolled straight to the panel on slow connections.
+          width={112}
+          height={112}
+          loading="eager"
           className="h-14 w-14 shrink-0 rounded-full border border-border object-cover"
         />
         <p className="text-sm leading-snug text-muted">
           <span className="block font-medium text-foreground">{FOUNDER.name}</span>
-          Founder, AegeanPulse
+          {FOUNDER.title}, AegeanPulse
         </p>
       </div>
 
@@ -64,7 +70,7 @@ export function ArticleCta({
         >
           {/* The full label wrapped onto two lines inside the pill at 390px. */}
           <span className="sm:hidden">Book a free call</span>
-          <span className="hidden sm:inline">Book a free 20-minute call</span>
+          <span className="hidden sm:inline">Book a free 30-minute call</span>
           <span className="sr-only"> (opens Cal.com in a new tab)</span>
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
         </Button>

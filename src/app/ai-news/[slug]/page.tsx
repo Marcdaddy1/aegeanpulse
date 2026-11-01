@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { NewsletterSignup } from "@/components/sections/shared/newsletter-signup";
 import { ArticleCard } from "@/components/sections/news/article-card";
 import { ArticleCta } from "@/components/sections/news/article-cta";
+import { MobileBookBar } from "@/components/sections/news/mobile-book-bar";
 import { ARTICLES, getArticle, type ArticleNode } from "@/lib/articles";
 import { SITE_NAME, SITE_URL } from "@/data/site";
 
@@ -92,7 +93,7 @@ function BodyNode({ node }: { node: ArticleNode }) {
         </figcaption>
         <ul className="mt-3 divide-y divide-border">
           {node.lines.map((line, i) => (
-            <li key={i} className="py-3 text-base leading-relaxed text-foreground/85">
+            <li key={i} className="text-pretty py-3 text-base leading-relaxed text-foreground/85">
               <Rich text={line} />
             </li>
           ))}
@@ -214,6 +215,10 @@ export default async function ArticlePage({
           <div className="space-y-8">
             {article.body.map((block, i) => (
               <section key={i}>
+                {/* Where the phone booking bar may start: ~40% into the body. */}
+                {i === Math.floor(article.body.length * 0.4) && (
+                  <div id="book-bar-start" aria-hidden="true" />
+                )}
                 {block.heading && (
                   <h2 className="text-balance font-display text-2xl font-semibold tracking-tight text-foreground">
                     {block.heading}
@@ -231,8 +236,12 @@ export default async function ArticlePage({
               left off article pages so the end of an article has one next step. */}
           <ArticleCta heading={article.ctaHeading} text={article.ctaText} />
 
-          <div className="mt-12 border-t border-border pt-10">
-            <NewsletterSignup source="article" />
+          <div data-hide-chat className="mt-12 border-t border-border pt-10">
+            <NewsletterSignup
+              source="article"
+              title="Want the next one?"
+              description="New practical guides like this one, by email. No spam, unsubscribe anytime."
+            />
           </div>
         </Container>
       </article>
@@ -257,6 +266,8 @@ export default async function ArticlePage({
           </div>
         </Container>
       </section>
+
+      <MobileBookBar />
     </>
   );
 }

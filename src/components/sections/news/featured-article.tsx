@@ -12,7 +12,7 @@ export function FeaturedArticle({ article }: { article: Article }) {
       />
       <div className="relative max-w-3xl">
         <div className="flex flex-wrap items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">
             <Star className="h-3.5 w-3.5" aria-hidden="true" />
             Featured
           </span>

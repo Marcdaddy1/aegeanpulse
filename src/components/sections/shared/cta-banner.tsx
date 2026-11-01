@@ -12,8 +12,8 @@ interface CtaBannerProps {
 
 export function CtaBanner({
   heading = "Got a job you'd hand to AI?",
-  text = "Book a free 20-minute call. You'll get a straight answer on whether it's worth doing, and which fixed-price package fits.",
-  buttonLabel = "Book a free 20-minute call",
+  text = "Book a free 30-minute call. You'll get a straight answer on whether it's worth doing, and which fixed-price package fits.",
+  buttonLabel = "Book a free 30-minute call",
 }: CtaBannerProps) {
   return (
     <section className="py-20 md:py-28">

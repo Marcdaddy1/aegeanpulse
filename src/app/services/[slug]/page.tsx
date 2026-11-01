@@ -212,7 +212,7 @@ export default async function ServicePage({
                   href={`/services/${s.slug}`}
                   className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40"
                 >
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent transition-colors group-hover:bg-accent group-hover:text-white">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
                     <s.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <h3 className="mt-4 font-display text-lg font-semibold text-foreground">

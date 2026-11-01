@@ -17,7 +17,7 @@ export function ServicesGrid() {
         {SERVICES.map((service) => (
           <StaggerItem key={service.slug} className="h-full">
             <Card hover className="flex h-full flex-col">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-soft text-accent transition-colors group-hover:bg-accent group-hover:text-white">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-soft text-accent transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
                 <service.icon className="h-5 w-5" aria-hidden="true" />
               </span>
               <h3 className="mt-5 font-display text-xl font-semibold text-foreground">

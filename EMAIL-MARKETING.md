@@ -385,7 +385,7 @@ I wrote up what actually separates the ones that ship:
 -> Most small-business AI projects never ship  [link to article]
 
 If you want a straight answer on whether automation is worth it in your
-business, that is a 20-minute call, free, no pitch:
+business, that is a 30-minute call, free, no pitch:
 https://cal.com/aegeanpulse/ai-strategy-consultation
 
 - Marcus

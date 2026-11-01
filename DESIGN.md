@@ -119,6 +119,7 @@ A warm paper-and-ink neutral base with a single teal pen; dark mode swaps the pa
 
 ### Primary
 - **Aegean Teal** (#0e7c6b): the pen. Primary buttons, inline links, eyebrow labels, focus rings, text selection, the newsletter success tick and the hero particle tint. Brightens to **Dark Teal** (#2fb39c) in dark mode.
+- **Text on teal**: Clean Page (#ffffff) in light mode, Night Hero (#05070d) in dark mode (the `accent-foreground` token). Dark mode brightens the teal to #2fb39c, where white falls to 2.61:1; Night Hero gives 7.72:1. Anything set on a teal fill (buttons, the chat header, user chat bubbles, the highlighted pricing card) uses this token at full strength; partial-opacity text on teal fails in light mode.
 - **Aegean Teal Deep** (#0b6557): hover state for primary buttons and links, and text on teal-washed badges. **Dark Teal Bright** (#45c7b0) in dark mode.
 - **Teal Wash** (#e6f2ef): the faint highlighter. Accent badges, the active item in the mobile menu, hover fill on secondary buttons, and the `accent` section tone at 40%. **Dark Teal Wash** (#15302b) in dark mode.
 
@@ -135,6 +136,8 @@ A warm paper-and-ink neutral base with a single teal pen; dark mode swaps the pa
 
 ### Named Rules
 **The One Pen Rule.** Teal is the only accent colour; Danger Red is a status colour, not an accent. It marks what is clickable or what to read first; it is never used as a large decorative fill outside the hero particles and washed tints.
+
+**The Ink-on-Teal Rule.** Never put `text-white` on a teal fill; use `accent-foreground`, so dark mode stays readable.
 
 **The Token-Only Rule.** Components use the semantic tokens (`background`, `surface`, `foreground`, `muted`, `accent`, `border`), never raw hex. Dark mode is a variable swap under `.dark`, so a component written against tokens is correct in both themes without `dark:` variants.
 

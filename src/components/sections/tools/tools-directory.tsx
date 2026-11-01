@@ -38,7 +38,7 @@ export function ToolsDirectory() {
               className={cn(
                 "rounded-full border px-4 py-2 text-sm font-medium transition-all",
                 selected
-                  ? "border-accent bg-accent text-white shadow-sm"
+                  ? "border-accent bg-accent text-accent-foreground shadow-sm"
                   : "border-border bg-surface text-muted hover:border-accent/50 hover:text-foreground",
               )}
             >
