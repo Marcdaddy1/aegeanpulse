@@ -7,8 +7,9 @@
 > card). X not posted (no connection).
 >
 > **Copy below humanised and shortened on 2026-11-01, after posting.** The Facebook
-> post was edited to match at 04:44 UTC. The LinkedIn post still has the original
-> wording; the API can't edit it, so update it by hand (… → Edit post) if wanted.
+> post was edited to match at 04:44 UTC. Marcus deleted the original LinkedIn post;
+> the humanised version was posted at 04:46 UTC as `urn:li:share:7522519354215911424`,
+> with the link as first comment (activity `7522519355142606849`).
 
 Post **after** the article is live: deploy, or wait for the Tuesday 27 Oct 07:05 UTC
 rebuild. Check the article URL loads before posting — every link below 404s until then.
