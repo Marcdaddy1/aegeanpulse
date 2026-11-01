@@ -83,7 +83,6 @@ export function Footer() {
           <p>
             © {year} {SITE_NAME}. All rights reserved.
           </p>
-          <p>Practical AI for small business growth.</p>
         </div>
       </Container>
     </footer>

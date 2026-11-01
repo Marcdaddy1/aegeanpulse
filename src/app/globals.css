@@ -12,6 +12,7 @@
   --accent-soft: #e6f2ef;
   --border: #e8e2d9;
   --ring: #0e7c6b;
+  --danger: #b42318;
 }
 
 .dark {
@@ -24,6 +25,7 @@
   --accent-soft: #15302b;
   --border: #2a3138;
   --ring: #2fb39c;
+  --danger: #f97066;
 }
 
 @theme inline {
@@ -36,6 +38,7 @@
   --color-accent-soft: var(--accent-soft);
   --color-border: var(--border);
   --color-ring: var(--ring);
+  --color-danger: var(--danger);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
 }

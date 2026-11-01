@@ -1,5 +1,11 @@
 # Social pack — "Write your AI agent's limits before you switch it on"
 
+> **Posted 2026-11-01 04:36 UTC** via Composio, on Marcus's instruction:
+> LinkedIn (personal profile) post `urn:li:share:7522516808206303232` with the link
+> as first comment; AegeanPulse Facebook Page post
+> https://www.facebook.com/122129551047255050/posts/122133541251255050 (link-preview
+> card). X not posted (no connection).
+
 Post **after** the article is live: deploy, or wait for the Tuesday 27 Oct 07:05 UTC
 rebuild. Check the article URL loads before posting — every link below 404s until then.
 

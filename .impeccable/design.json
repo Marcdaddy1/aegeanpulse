@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-01T01:31:07+00:00",
+  "generatedAt": "2026-11-01T04:38:02+00:00",
   "title": "Design System: AegeanPulse",
   "extensions": {
     "colorMeta": {
@@ -275,6 +275,38 @@
           "oklch(82% 0.010 248)",
           "oklch(95% 0.007 248)"
         ]
+      },
+      "danger-red": {
+        "role": "status",
+        "displayName": "Danger Red",
+        "canonical": "#b42318",
+        "oklch": "oklch(50.0% 0.182 30)",
+        "tonalRamp": [
+          "oklch(15% 0.076 30)",
+          "oklch(26% 0.105 30)",
+          "oklch(37% 0.134 30)",
+          "oklch(48% 0.164 30)",
+          "oklch(59% 0.171 30)",
+          "oklch(70% 0.142 30)",
+          "oklch(82% 0.111 30)",
+          "oklch(95% 0.076 30)"
+        ]
+      },
+      "dark-danger-red": {
+        "role": "status",
+        "displayName": "Dark Danger Red",
+        "canonical": "#f97066",
+        "oklch": "oklch(70.9% 0.170 26)",
+        "tonalRamp": [
+          "oklch(15% 0.071 26)",
+          "oklch(26% 0.098 26)",
+          "oklch(37% 0.125 26)",
+          "oklch(48% 0.153 26)",
+          "oklch(59% 0.160 26)",
+          "oklch(70% 0.133 26)",
+          "oklch(82% 0.103 26)",
+          "oklch(95% 0.071 26)"
+        ]
       }
     },
     "typographyMeta": {
@@ -451,7 +483,7 @@
     "rules": [
       {
         "name": "The One Pen Rule",
-        "body": "Teal is the only accent colour. It marks what is clickable or what to read first; it is never used as a large decorative fill outside the hero particles and washed tints.",
+        "body": "Teal is the only accent colour; Danger Red is a status colour, not an accent. It marks what is clickable or what to read first; it is never used as a large decorative fill outside the hero particles and washed tints.",
         "section": "colors"
       },
       {

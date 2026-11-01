@@ -7,10 +7,16 @@ import Link from "next/link";
 // Newsletter opt-in. UK GDPR by design: consent checkbox is unchecked by
 // default, copy states what they're signing up for, and the privacy policy
 // is linked. The API refuses submissions without consent:true.
+//
+// The button stays enabled: a greyed-out Subscribe with no reason read as
+// broken. Submitting says exactly what's missing, next to the field it's
+// about, and announces it to screen readers.
+
+type Problem = "email" | "consent" | null;
 
 export function NewsletterSignup({
   source = "site",
-  title = "Practical AI insights, monthly",
+  title = "Practical AI insights, by email",
   description = "New guides and real-world AI workflows for small businesses. No spam, unsubscribe anytime.",
 }: {
   source?: string;
@@ -21,13 +27,18 @@ export function NewsletterSignup({
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
   const [state, setState] = useState<"idle" | "pending" | "done" | "error">("idle");
+  const [problem, setProblem] = useState<Problem>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const valid = /^\S+@\S+\.\S+$/.test(email) && consent;
+  const id = `newsletter-${source}`;
+  const emailOk = /^\S+@\S+\.\S+$/.test(email);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!valid || state === "pending") return;
+    if (state === "pending") return;
+    if (!emailOk) return setProblem("email");
+    if (!consent) return setProblem("consent");
+    setProblem(null);
     setState("pending");
     setError(null);
     try {
@@ -38,61 +49,76 @@ export function NewsletterSignup({
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error ?? "Something went wrong — please try again.");
+        setError(data.error ?? "Something went wrong. Please try again.");
         setState("error");
         return;
       }
       setState("done");
     } catch {
-      setError("Couldn't reach the server — please try again.");
+      setError("Couldn't reach the server. Please try again.");
       setState("error");
     }
   };
 
   if (state === "done") {
     return (
-      <div className="flex items-center gap-3 rounded-2xl border border-border bg-accent-soft/40 p-5">
+      <div
+        role="status"
+        className="flex items-center gap-3 rounded-2xl border border-border bg-accent-soft/40 p-5"
+      >
         <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-white">
           <Check className="h-4 w-4" aria-hidden="true" />
         </span>
         <p className="text-sm text-foreground">
-          You&apos;re on the list — practical AI insights, straight to your inbox.
+          You&apos;re on the list. New guides will come straight to your inbox.
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
-      <p className="font-display text-lg font-semibold text-foreground">{title}</p>
+    <form onSubmit={handleSubmit} noValidate aria-labelledby={`${id}-title`}>
+      <p id={`${id}-title`} className="font-display text-lg font-semibold text-foreground">
+        {title}
+      </p>
       <p className="mt-1 text-sm text-muted">{description}</p>
       <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-        <label htmlFor={`newsletter-email-${source}`} className="sr-only">
+        <label htmlFor={`${id}-email`} className="sr-only">
           Email address
         </label>
         <input
-          id={`newsletter-email-${source}`}
+          id={`${id}-email`}
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (problem === "email") setProblem(null);
+          }}
           placeholder="you@company.com"
           autoComplete="email"
-          className="flex-1 rounded-full border border-border bg-background px-5 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-ring/30"
+          aria-invalid={problem === "email" || undefined}
+          aria-describedby={problem === "email" ? `${id}-problem` : undefined}
+          className="flex-1 rounded-full border border-border bg-background px-5 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-ring/30 aria-[invalid=true]:border-danger"
         />
         <button
           type="submit"
-          disabled={!valid || state === "pending"}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong disabled:pointer-events-none disabled:opacity-50"
+          disabled={state === "pending"}
+          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60"
         >
           {state === "pending" ? "Subscribing…" : "Subscribe"}
           <Send className="h-3.5 w-3.5" aria-hidden="true" />
         </button>
       </div>
-      <label className="mt-3 flex items-start gap-2.5 text-xs leading-relaxed text-muted">
+      <label className="mt-3 flex items-start gap-2.5 py-1 text-xs leading-relaxed text-muted">
         <input
           type="checkbox"
           checked={consent}
-          onChange={(e) => setConsent(e.target.checked)}
+          onChange={(e) => {
+            setConsent(e.target.checked);
+            if (problem === "consent") setProblem(null);
+          }}
+          aria-invalid={problem === "consent" || undefined}
+          aria-describedby={problem === "consent" ? `${id}-problem` : undefined}
           className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--accent)]"
         />
         <span>
@@ -103,9 +129,15 @@ export function NewsletterSignup({
           .
         </span>
       </label>
-      {error && (
-        <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>
-      )}
+      {/* One live region for every message, so validation and server errors
+          are both announced. */}
+      <p id={`${id}-problem`} role="alert" className="mt-2 text-sm text-danger empty:hidden">
+        {problem === "email"
+          ? "Enter your email address, e.g. you@company.com."
+          : problem === "consent"
+            ? "Tick the box above so we can email you."
+            : error}
+      </p>
     </form>
   );
 }

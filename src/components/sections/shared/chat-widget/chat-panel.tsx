@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useChat } from "./use-chat";
 
@@ -59,11 +59,19 @@ export function ChatPanel({
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border bg-accent px-5 py-4 text-white">
+      <div className="flex items-center justify-between gap-3 border-b border-border bg-accent py-3 pl-5 pr-3 text-white">
         <div>
           <p className="font-display text-sm font-semibold">AegeanPulse Assistant</p>
           <p className="text-xs text-white/70">Ask about services, pricing, or book a call</p>
         </div>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close chat"
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+        >
+          <X className="h-5 w-5" aria-hidden="true" />
+        </button>
       </div>
 
       {/* Messages */}

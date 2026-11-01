@@ -19,6 +19,8 @@ colors:
   dark-teal-bright: "#45c7b0"
   dark-teal-wash: "#15302b"
   dark-rule: "#2a3138"
+  danger-red: "#b42318"
+  dark-danger-red: "#f97066"
 typography:
   display:
     fontFamily: "Fraunces, ui-serif, Georgia, serif"
@@ -128,8 +130,11 @@ A warm paper-and-ink neutral base with a single teal pen; dark mode swaps the pa
 - **Rule Line** (#e8e2d9): every border and divider. **Dark Rule** (#2a3138) in dark mode.
 - **Night Hero** (#05070d): the home hero backdrop only, in both themes.
 
+### Status
+- **Danger Red** (#b42318): form validation and error messages only, as text and as the border of an invalid field. **Dark Danger Red** (#f97066) in dark mode. Never a fill, never decoration.
+
 ### Named Rules
-**The One Pen Rule.** Teal is the only accent colour. It marks what is clickable or what to read first; it is never used as a large decorative fill outside the hero particles and washed tints.
+**The One Pen Rule.** Teal is the only accent colour; Danger Red is a status colour, not an accent. It marks what is clickable or what to read first; it is never used as a large decorative fill outside the hero particles and washed tints.
 
 **The Token-Only Rule.** Components use the semantic tokens (`background`, `surface`, `foreground`, `muted`, `accent`, `border`), never raw hex. Dark mode is a variable swap under `.dark`, so a component written against tokens is correct in both themes without `dark:` variants.
 
@@ -200,7 +205,8 @@ Soft, confident, and always pill-shaped.
 - **Style:** full pill, Field Paper fill, 1px Rule Line border, 20px side padding, 14px Inter, placeholder in Pencil Grey at 70%.
 - **Focus:** border turns Aegean Teal with a soft 2px teal ring at 30%; no default outline.
 - **Consent checkbox:** native checkbox tinted Aegean Teal, label in 12px Pencil Grey.
-- **Success state:** a Teal Wash panel with a teal circle and white tick replaces the form.
+- **Error state:** the field's border turns Danger Red and a one-line message in Danger Red, announced to screen readers, says what's missing ("Enter your email address", "Tick the box above"). The submit button stays enabled; it never greys out to signal an invalid form.
+- **Success state:** a Teal Wash panel with a teal circle and white tick replaces the form, announced as a status.
 
 ### Navigation
 - **Desktop (from 1024px):** pill-shaped text links in 14px medium Inter — Pencil Grey at rest, ink on hover, Aegean Teal when current. A small primary "Book Consultation" button and a circular theme toggle sit on the right.
