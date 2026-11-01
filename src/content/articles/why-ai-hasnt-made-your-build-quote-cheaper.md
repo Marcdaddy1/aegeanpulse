@@ -8,6 +8,7 @@ featured: false
 image: "/images/articles/why-ai-hasnt-made-your-build-quote-cheaper.webp"
 imageAlt: "A laptop showing a tidy booking form beside a notebook crammed with hand-written edge cases"
 draft: false
+ctaText: "You'll get a straight answer on whether your idea is a twenty-minute build or a three-week one."
 ---
 
 If you've asked anyone to build software for you this year, you've probably had the same thought at some point: AI writes the code now, so why is this quote the size it is? It's a fair question. The demos are genuinely impressive. You can describe an app in a paragraph and watch a working screen appear a minute later.
@@ -62,4 +63,4 @@ The saving is real. It's just concentrated at the start of a project, on the par
 
 When you get a quote for an AI-assisted build, don't ask why it isn't cheaper now that AI writes code. Ask the builder to walk you through what happens when something goes wrong. The answer tells you whether they've priced the easy part or the whole job.
 
-And if you're not yet sure what's worth building at all, start there instead. Our Discovery package is a flat £499 and ends with a prioritised plan rather than a proposal — including the option of not building anything yet. Book a free 20-minute call at cal.com/aegeanpulse/ai-strategy-consultation and we'll give you a straight answer on whether your idea is a twenty-minute build or a three-week one.
+And if you're not yet sure what's worth building at all, start there instead. Our Discovery package is a flat £499 and ends with a prioritised plan rather than a proposal — including the option of not building anything yet.

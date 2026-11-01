@@ -100,6 +100,7 @@ export function Header() {
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
+              aria-controls="mobile-menu"
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-foreground transition-colors hover:bg-accent-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background lg:hidden"
             >
               {open ? (
@@ -112,8 +113,12 @@ export function Header() {
         </div>
       </Container>
 
-      {/* Mobile menu */}
+      {/* Mobile menu. `inert` while closed: the overlay is only faded out, so
+          without it its links stayed in the tab order and took 8 invisible
+          keyboard stops below 1024px. */}
       <div
+        id="mobile-menu"
+        inert={!open}
         className={cn(
           "lg:hidden",
           open ? "pointer-events-auto" : "pointer-events-none",

@@ -30,6 +30,8 @@ export interface Article {
   image?: string;
   /** Accessible description of the hero image; required whenever image is set. */
   imageAlt?: string;
+  /** Article-specific line for the closing booking panel; a default applies when absent. */
+  ctaText?: string;
   body: ArticleBlock[];
 }
 

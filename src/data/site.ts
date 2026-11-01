@@ -48,7 +48,7 @@ export const FOOTER_NAV: NavItem[] = [
 ];
 
 export const CONSULT_CTA = {
-  label: "Book Consultation",
+  label: "Book a free call",
   href: CAL_URL,
   external: true,
 };

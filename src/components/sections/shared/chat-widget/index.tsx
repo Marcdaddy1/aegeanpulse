@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useMounted } from "@/lib/hooks";
 import { ChatLauncher } from "./chat-launcher";
 import { ChatPanel } from "./chat-panel";
@@ -8,6 +8,7 @@ import { ChatPanel } from "./chat-panel";
 export function ChatWidget() {
   const mounted = useMounted();
   const [open, setOpen] = useState(false);
+  const launcherRef = useRef<HTMLButtonElement>(null);
 
   // Skip rendering until mounted: avoids any SSR/client markup mismatch and
   // means the widget only appears once the page is interactive.
@@ -15,8 +16,18 @@ export function ChatWidget() {
 
   return (
     <>
-      <ChatLauncher open={open} onToggle={() => setOpen((v) => !v)} />
-      <ChatPanel open={open} onClose={() => setOpen(false)} />
+      <ChatLauncher
+        ref={launcherRef}
+        open={open}
+        onToggle={() => setOpen((v) => !v)}
+      />
+      <ChatPanel
+        open={open}
+        onClose={() => {
+          setOpen(false);
+          launcherRef.current?.focus();
+        }}
+      />
     </>
   );
 }

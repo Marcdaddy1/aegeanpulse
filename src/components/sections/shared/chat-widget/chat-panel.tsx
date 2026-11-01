@@ -15,10 +15,17 @@ export function ChatPanel({
   const { messages, pending, error, sendMessage } = useChat();
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, pending]);
+
+  // Opening moves focus into the panel so keyboard and screen-reader users
+  // land where they can type; closing hands it back via ChatWidget.
+  useEffect(() => {
+    if (open) inputRef.current?.focus({ preventScroll: true });
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -38,9 +45,12 @@ export function ChatPanel({
 
   return (
     <div
+      id="chat-panel"
       role="dialog"
       aria-label="AegeanPulse chat assistant"
-      aria-hidden={!open}
+      // inert rather than aria-hidden: aria-hidden left the message box
+      // focusable while the panel was invisible.
+      inert={!open}
       className={cn(
         "fixed bottom-24 right-5 z-50 flex h-[70svh] max-h-[600px] w-[calc(100vw-2.5rem)] max-w-[380px] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_24px_60px_-12px_rgba(0,0,0,0.25)] transition-[opacity,transform] duration-200 sm:bottom-28 sm:right-6",
         open
@@ -93,7 +103,9 @@ export function ChatPanel({
       {/* Input */}
       <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-border p-3">
         <input
+          ref={inputRef}
           type="text"
+          aria-label="Message"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type a message…"

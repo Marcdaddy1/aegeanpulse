@@ -54,7 +54,7 @@ function loadArticle(filename: string): Article | null {
 
   if (data.draft === true) return null;
 
-  const { title, category, summary, date, readingTime, featured, image, imageAlt } =
+  const { title, category, summary, date, readingTime, featured, image, imageAlt, ctaText } =
     data as {
       title?: string;
       category?: string;
@@ -64,6 +64,7 @@ function loadArticle(filename: string): Article | null {
       featured?: boolean;
       image?: string;
       imageAlt?: string;
+      ctaText?: string;
     };
 
   // Fail the build loudly with the offending filename rather than rendering
@@ -95,6 +96,7 @@ function loadArticle(filename: string): Article | null {
     readingTime: Number(readingTime) || 5,
     featured: featured === true,
     ...(image ? { image, imageAlt } : {}),
+    ...(ctaText ? { ctaText: String(ctaText) } : {}),
     body: parseBody(content),
   };
 }

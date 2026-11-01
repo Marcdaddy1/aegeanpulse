@@ -77,4 +77,4 @@ Get a fixed-price quote when possible. Hourly billing suits open-ended projects 
 
 Reserve 20% of build cost annually for maintenance and improvements. A £2,500 build needs roughly £500/year attention. Add platform costs monthly. This gives you a true total cost of ownership.
 
-If budget is tight, scope before you build. AegeanPulse's Discovery is a flat £499 and ends with a prioritised plan rather than a proposal (https://cal.com/aegeanpulse/ai-strategy-consultation), and other consultancies offer similar. You'll learn what's feasible, get cost estimates, and avoid expensive mistakes. Then decide whether to proceed — including deciding not to.
+If budget is tight, scope before you build. AegeanPulse's Discovery is a flat £499 and ends with a prioritised plan rather than a proposal, and other consultancies offer similar. You'll learn what's feasible, get cost estimates, and avoid expensive mistakes. Then decide whether to proceed — including deciding not to.

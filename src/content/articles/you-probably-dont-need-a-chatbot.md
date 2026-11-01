@@ -8,6 +8,7 @@ featured: false
 image: "/images/articles/you-probably-dont-need-a-chatbot.webp"
 imageAlt: "A shop owner hands a package to a customer while a chatbot tablet sits ignored on the counter"
 draft: false
+ctaText: "Tell me where the friction is in your business. Sometimes the useful answer is that a chatbot isn't your priority."
 ---
 
 We build chatbots. So it's a slightly odd thing to say, but most of the small businesses that ask us for one don't need it — at least not first, and sometimes not at all. The chatbot has quietly become the default answer to the question "how do we use AI," and defaults are worth being suspicious of, especially when everyone selling them benefits from you not asking too hard.
@@ -44,4 +45,4 @@ Hit those three and a chatbot is a genuinely good investment, and one of the mor
 
 The deeper point isn't about chatbots specifically. It's that "which AI product should we buy" is the wrong opening question. The right one is "where does our business lose the most time or money, and is any of it a good fit for AI." Answer that honestly and the product falls out of it. Sometimes that's a chatbot. Often it's an internal automation nobody would have thought to ask for, because it isn't the thing you see advertised.
 
-This is why our first conversation with a client is a look at where the real friction is, not a pitch for a particular build. Occasionally the most useful outcome of that conversation is us saying a chatbot isn't your priority — that the money is better spent automating something in the back office, or that a much smaller change solves most of the problem. That's a strange thing for a build agency to say, and it's exactly the point. The businesses that get real value from AI start from their own problems, not from whatever product has become this year's default. If you want to talk through where yours actually is, that's what https://cal.com/aegeanpulse/ai-strategy-consultation is for.
+This is why our first conversation with a client is a look at where the real friction is, not a pitch for a particular build. Occasionally the most useful outcome of that conversation is us saying a chatbot isn't your priority — that the money is better spent automating something in the back office, or that a much smaller change solves most of the problem. That's a strange thing for a build agency to say, and it's exactly the point. The businesses that get real value from AI start from their own problems, not from whatever product has become this year's default. If you want to talk through where yours actually is, that's what the call below is for.

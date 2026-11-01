@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Logo } from "./logo";
+import { HideOnArticle } from "./hide-on-article";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { NewsletterSignup } from "@/components/sections/shared/newsletter-signup";
@@ -18,38 +19,42 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-surface/40">
       {/* Footer CTA */}
-      <Container className="py-16">
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-accent-soft/50 px-8 py-12 sm:px-12">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-accent/10 blur-3xl"
-          />
-          <div className="relative flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-            <div className="max-w-xl">
-              <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-                Ready to put AI to work in your business?
-              </h2>
-              <p className="mt-2 text-muted">
-                Book a free consultation and get a practical, fixed-scope plan
-                you can act on.
-              </p>
+      <HideOnArticle>
+        <Container className="py-16">
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-accent-soft/50 px-8 py-12 sm:px-12">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-accent/10 blur-3xl"
+            />
+            <div className="relative flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+              <div className="max-w-xl">
+                <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                  Ready to put AI to work in your business?
+                </h2>
+                <p className="mt-2 text-muted">
+                  Book a free consultation and get a practical, fixed-scope plan
+                  you can act on.
+                </p>
+              </div>
+              <Button href={CONSULT_CTA.href} external size="lg">
+                {CONSULT_CTA.label}
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              </Button>
             </div>
-            <Button href={CONSULT_CTA.href} external size="lg">
-              {CONSULT_CTA.label}
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </Button>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </HideOnArticle>
 
       <Container className="pb-12">
-        <div className="border-t border-border pt-10 pb-2">
-          <div className="max-w-xl">
-            <NewsletterSignup source="footer" />
+        <HideOnArticle>
+          <div className="mb-10 border-t border-border pt-10 pb-2">
+            <div className="max-w-xl">
+              <NewsletterSignup source="footer" />
+            </div>
           </div>
-        </div>
+        </HideOnArticle>
 
-        <div className="grid gap-10 border-t border-border pt-12 md:grid-cols-[1.4fr_1fr] mt-10">
+        <div className="grid gap-10 border-t border-border pt-12 first:border-t-0 md:grid-cols-[1.4fr_1fr]">
           <div className="max-w-sm">
             <Logo />
             <p className="mt-4 text-sm leading-relaxed text-muted">{TAGLINE}</p>

@@ -8,6 +8,7 @@ featured: true
 image: "/images/articles/why-smb-ai-projects-never-ship.webp"
 imageAlt: "A dusty laptop and half-erased whiteboard in an empty meeting room — the abandoned AI pilot"
 draft: false
+ctaText: "Talk through your own situation, and the one workflow you'd scope small and ship first."
 ---
 
 There's a familiar headline that most corporate AI projects fail. It gets repeated at every conference and in every vendor deck, usually right before someone sells you the thing that will supposedly beat the odds. For small businesses, though, the headline is misleading. Your AI project probably won't fail in any dramatic way. It will simply never ship.
@@ -52,6 +53,6 @@ The most reliable way to make an AI project ship is to remove the conditions und
 
 Fixed scope kills the "while we're at it." A deadline kills the endless pilot. A fixed price kills the open-ended engagement that bills by the hour and quietly rewards slow progress. None of this is about cutting corners. It's about creating the pressure that turns an interesting idea into something live, because interesting ideas are cheap and working systems are not.
 
-This is deliberately how we structure work at AegeanPulse. A Discovery engagement produces a single prioritised recommendation rather than a sprawling roadmap, and a Builder engagement takes one workflow all the way to production in weeks, for a price you know before it starts. You can book a call to talk through your own situation at https://cal.com/aegeanpulse/ai-strategy-consultation. But the principle matters more than who you hire. Scope it small, put a date on it, fix the price, and refuse to let it become a pilot.
+This is deliberately how we structure work at AegeanPulse. A Discovery engagement produces a single prioritised recommendation rather than a sprawling roadmap, and a Builder engagement takes one workflow all the way to production in weeks, for a price you know before it starts. But the principle matters more than who you hire. Scope it small, put a date on it, fix the price, and refuse to let it become a pilot.
 
 The businesses pulling ahead with AI are not the ones with the grandest plans. They're the ones with one boring thing that actually shipped, and then another, and then another. Grand plans are easy to admire and easy to abandon. A workflow that saves your team five hours a week is neither.

@@ -8,6 +8,7 @@ featured: false
 image: "/images/articles/ai-agent-permissions-before-you-switch-it-on.webp"
 imageAlt: "A printed one-page agent rulebook clipped to a clipboard, with a spending limit and a short list of actions that need a human"
 draft: false
+ctaText: "Bring the job you're thinking of handing to an agent, and we'll talk through what it should never be allowed to do."
 ---
 
 Every pitch for an AI agent shows you the same thing: the agent doing something impressive on its own. It answers the customer, books the appointment, issues the refund. Nobody demos the agent being told no.
@@ -70,4 +71,4 @@ If you already have an agent running, write its one-page scope today and compare
 
 If you're about to switch one on, write the page first. It takes an afternoon and costs nothing, and it will change which jobs you're comfortable handing over.
 
-If you'd like a second pair of eyes, our Discovery package is a flat £499 and includes a risk, data and readiness assessment, so the limits get decided before anything is built. Book a free 20-minute call at cal.com/aegeanpulse/ai-strategy-consultation and bring the job you're thinking of handing to an agent.
+If you'd like a second pair of eyes, our Discovery package is a flat £499 and includes a risk, data and readiness assessment, so the limits get decided before anything is built.

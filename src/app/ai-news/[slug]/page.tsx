@@ -6,9 +6,9 @@ import { ArrowLeft, Clock } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/motion/reveal";
-import { CtaBanner } from "@/components/sections/shared/cta-banner";
 import { NewsletterSignup } from "@/components/sections/shared/newsletter-signup";
 import { ArticleCard } from "@/components/sections/news/article-card";
+import { ArticleCta } from "@/components/sections/news/article-cta";
 import { ARTICLES, getArticle } from "@/lib/articles";
 import { SITE_NAME, SITE_URL } from "@/data/site";
 
@@ -109,76 +109,79 @@ export default async function ArticlePage({
 
       <article>
         <header className="border-b border-border">
+          {/* The header, hero and body render without Reveal: Reveal ships
+              opacity:0 in the server HTML, so the article stayed blank until
+              JavaScript hydrated. Most readers arrive from a social post inside
+              an in-app browser, often on a slow connection. */}
           <Container size="narrow" className="py-14 md:py-20">
-            <Reveal>
-              <Link
-                href="/ai-news"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-strong"
-              >
-                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                Back to AI News
-              </Link>
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                <Badge tone="accent">{article.category}</Badge>
-                <span className="inline-flex items-center gap-1.5 text-sm text-muted">
-                  <Clock className="h-4 w-4" aria-hidden="true" />
-                  {article.readingTime} min read
-                </span>
-                <span className="text-sm text-muted">
-                  {formatDate(article.date)}
-                </span>
-              </div>
-              <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl">
-                {article.title}
-              </h1>
-              <p className="mt-5 text-xl leading-relaxed text-muted">
-                {article.summary}
-              </p>
-            </Reveal>
+            <Link
+              href="/ai-news"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-strong"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              Back to AI News
+            </Link>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Badge tone="accent">{article.category}</Badge>
+              <span className="inline-flex items-center gap-1.5 text-sm text-muted">
+                <Clock className="h-4 w-4" aria-hidden="true" />
+                {article.readingTime} min read
+              </span>
+              <span className="text-sm text-muted">
+                {formatDate(article.date)}
+              </span>
+            </div>
+            <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl">
+              {article.title}
+            </h1>
+            <p className="mt-5 text-xl leading-relaxed text-muted">
+              {article.summary}
+            </p>
           </Container>
         </header>
 
         {article.image && (
           <Container size="narrow" className="pt-10 md:pt-12">
-            <Reveal>
-              <Image
-                src={article.image}
-                alt={article.imageAlt ?? ""}
-                width={1600}
-                height={900}
-                priority
-                sizes="(max-width: 768px) 100vw, 768px"
-                className="w-full rounded-2xl border border-border object-cover"
-              />
-            </Reveal>
+            <Image
+              src={article.image}
+              alt={article.imageAlt ?? ""}
+              width={1600}
+              height={900}
+              priority
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="w-full rounded-2xl border border-border object-cover"
+            />
           </Container>
         )}
 
         <Container size="narrow" className="py-14 md:py-16">
-          <Reveal>
-            <div className="space-y-8">
-              {article.body.map((block, i) => (
-                <section key={i}>
-                  {block.heading && (
-                    <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-                      {block.heading}
-                    </h2>
-                  )}
-                  {block.paragraphs.map((p, j) => (
-                    <p
-                      key={j}
-                      className="mt-4 text-lg leading-relaxed text-foreground/85"
-                    >
-                      {p}
-                    </p>
-                  ))}
-                </section>
-              ))}
-            </div>
-          </Reveal>
+          <div className="space-y-8">
+            {article.body.map((block, i) => (
+              <section key={i}>
+                {block.heading && (
+                  <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+                    {block.heading}
+                  </h2>
+                )}
+                {block.paragraphs.map((p, j) => (
+                  <p
+                    key={j}
+                    className="mt-4 text-lg leading-relaxed text-foreground/85"
+                  >
+                    {p}
+                  </p>
+                ))}
+              </section>
+            ))}
+          </div>
+
+          {/* One booking ask, then the newsletter as a quieter second option.
+              The site-wide CtaBanner and the footer's CTA and newsletter are
+              left off article pages so the end of an article has one next step. */}
+          <ArticleCta text={article.ctaText} />
 
           <Reveal>
-            <div className="mt-14 rounded-3xl border border-border bg-surface p-7 sm:p-8">
+            <div className="mt-12 border-t border-border pt-10">
               <NewsletterSignup source="article" />
             </div>
           </Reveal>
@@ -193,15 +196,20 @@ export default async function ArticlePage({
               Keep reading
             </h2>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {recommendations.map((a) => (
-                <ArticleCard key={a.slug} article={a} />
-              ))}
+              {recommendations.map((a, i) =>
+                // Two cards on phones and tablets; the third returns on desktop.
+                i < 2 ? (
+                  <ArticleCard key={a.slug} article={a} />
+                ) : (
+                  <div key={a.slug} className="hidden h-full lg:block">
+                    <ArticleCard article={a} />
+                  </div>
+                ),
+              )}
             </div>
           </Reveal>
         </Container>
       </section>
-
-      <CtaBanner />
     </>
   );
 }
