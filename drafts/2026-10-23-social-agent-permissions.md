@@ -5,6 +5,9 @@
 > as first comment; AegeanPulse Facebook Page post
 > https://www.facebook.com/122129551047255050/posts/122133541251255050 (link-preview
 > card). X not posted (no connection).
+>
+> **Copy below humanised and shortened on 2026-11-01, after posting.** The live
+> posts still carry the original wording until they are edited.
 
 Post **after** the article is live: deploy, or wait for the Tuesday 27 Oct 07:05 UTC
 rebuild. Check the article URL loads before posting — every link below 404s until then.
@@ -44,21 +47,17 @@ Article link goes in the **first comment** — posts with links in the body tend
 shown to fewer people.
 
 ```
-Two big launches for AI agents in October. Neither led with what the agent can do.
+Two big launches for AI agents in October, and neither led with what the agent can do.
 
-On 13 October, American Express introduced a framework that records what a customer actually agreed to — which shop, the maximum budget, their preferences — before an agent is allowed to buy anything. The agent then pays with a token carrying those limits, not the customer's card number.
+On 13 October, American Express showed a framework that records what a customer agreed to (the shop, the maximum budget, their preferences) before an agent can buy anything. The agent then pays with a token that carries those limits instead of the card number.
 
-Two days later, ServiceNow announced AI Passport: a signed credential that says what an agent is allowed to do, checked while it's working.
+Two days later ServiceNow announced AI Passport, a signed credential listing what an agent may do, checked while it works. In their demo, an agent allowed to refund under $25 put an $18 refund straight through and stopped a $40 one so a person could review it.
 
-Their demo is the clearest thing I've seen on this. An agent allowed to handle refunds under $25 pushed an $18 refund straight through. A $40 refund was stopped mid-run, because it needed a person to review it.
+Both set the limits before the abilities. Most small-business agents get built the other way round, because the demo that sells an agent always shows it succeeding.
 
-Here's the bit worth copying. Both companies decided the limits first and the abilities second.
+Before yours goes live, write one page: what it can read, change and spend, what it must hand to a person, who gets told, and how you switch it off.
 
-Most small-business agents get built the other way round, because the demo that sells an agent is always the agent succeeding. Nobody books a call after watching an agent refuse.
-
-You don't need either product to fix that. Before an agent goes live, write one page: what it can read, what it can change, what it can spend, what it must hand to a person, who gets told, and how you switch it off.
-
-What's the one thing you'd never let an agent do without you?
+What would you never let an agent do without you?
 ```
 
 First comment:
@@ -72,27 +71,14 @@ The one-page version, with a worked example for a refund agent: https://aegeanpu
 ## Facebook — AegeanPulse page
 
 ```
-An AI agent was allowed to issue refunds under $25.
+An AI agent was allowed to issue refunds under $25. It put an $18 refund straight through and stopped a $40 one so a person could check it. That was ServiceNow's AI Passport demo in October, two days after American Express showed a framework that records the shop and budget a customer agreed to before an agent can buy anything.
 
-$18 refund → went straight through.
-$40 refund → stopped mid-run and passed to a person.
+Both set the limits first. Most small businesses switch the agent on and sort out the limits after something goes wrong.
 
-That was ServiceNow's demo of AI Passport in October, two days after American Express showed a framework that records the shop and budget a customer agreed to before an agent can buy anything.
-
-Both started with what the agent must NOT do. Most small businesses switch an agent on first and decide the limits after something goes wrong.
-
-Before you hand a job to an agent, write one page:
-• what it can read
-• what it can change
-• what it can spend
-• what it must hand to a person
-• who gets told
-• how you switch it off
-
-Full guide, with a worked example for a refund agent 👇
+Before you hand a job to an agent, write down what it can read, change and spend, what it must pass to a person, who gets told, and how you switch it off. The full guide, with a worked example:
 https://aegeanpulse.com/ai-news/ai-agent-permissions-before-you-switch-it-on?utm_source=facebook&utm_medium=social&utm_campaign=agent-permissions
 
-#AIAgents #SmallBusiness #Automation
+#AIAgents #SmallBusiness
 ```
 
 ---
@@ -100,14 +86,9 @@ https://aegeanpulse.com/ai-news/ai-agent-permissions-before-you-switch-it-on?utm
 ## X
 
 ```
-ServiceNow's AI Passport demo: an agent allowed refunds under $25.
+ServiceNow's AI Passport demo: an agent allowed refunds under $25 put an $18 one through and stopped a $40 one for a person to check. Amex showed limits for shopping agents two days earlier.
 
-$18 → went through.
-$40 → stopped, needed a person.
-
-Amex shipped agent limits two days earlier. Both built brakes first.
-
-Write your agent's one-page limits before you switch it on:
+Write your agent's limits before you switch it on:
 https://aegeanpulse.com/ai-news/ai-agent-permissions-before-you-switch-it-on?utm_source=x&utm_medium=social&utm_campaign=agent-permissions
 ```
 
