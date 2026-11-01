@@ -1,0 +1,490 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-01T01:31:07+00:00",
+  "title": "Design System: AegeanPulse",
+  "extensions": {
+    "colorMeta": {
+      "aegean-teal": {
+        "role": "primary",
+        "displayName": "Aegean Teal",
+        "canonical": "#0e7c6b",
+        "oklch": "oklch(52.6% 0.094 178)",
+        "tonalRamp": [
+          "oklch(15% 0.039 178)",
+          "oklch(26% 0.054 178)",
+          "oklch(37% 0.069 178)",
+          "oklch(48% 0.084 178)",
+          "oklch(59% 0.088 178)",
+          "oklch(70% 0.073 178)",
+          "oklch(82% 0.057 178)",
+          "oklch(95% 0.039 178)"
+        ]
+      },
+      "aegean-teal-deep": {
+        "role": "primary",
+        "displayName": "Aegean Teal Deep",
+        "canonical": "#0b6557",
+        "oklch": "oklch(45.5% 0.080 178)",
+        "tonalRamp": [
+          "oklch(15% 0.034 178)",
+          "oklch(26% 0.046 178)",
+          "oklch(37% 0.059 178)",
+          "oklch(48% 0.072 178)",
+          "oklch(59% 0.076 178)",
+          "oklch(70% 0.063 178)",
+          "oklch(82% 0.049 178)",
+          "oklch(95% 0.034 178)"
+        ]
+      },
+      "teal-wash": {
+        "role": "primary",
+        "displayName": "Teal Wash",
+        "canonical": "#e6f2ef",
+        "oklch": "oklch(95.1% 0.013 179)",
+        "tonalRamp": [
+          "oklch(15% 0.006 179)",
+          "oklch(26% 0.008 179)",
+          "oklch(37% 0.010 179)",
+          "oklch(48% 0.012 179)",
+          "oklch(59% 0.013 179)",
+          "oklch(70% 0.010 179)",
+          "oklch(82% 0.008 179)",
+          "oklch(95% 0.006 179)"
+        ]
+      },
+      "field-paper": {
+        "role": "neutral",
+        "displayName": "Field Paper",
+        "canonical": "#faf7f2",
+        "oklch": "oklch(97.7% 0.007 81)",
+        "tonalRamp": [
+          "oklch(15% 0.003 81)",
+          "oklch(26% 0.004 81)",
+          "oklch(37% 0.005 81)",
+          "oklch(48% 0.007 81)",
+          "oklch(59% 0.007 81)",
+          "oklch(70% 0.006 81)",
+          "oklch(82% 0.004 81)",
+          "oklch(95% 0.003 81)"
+        ]
+      },
+      "clean-page": {
+        "role": "neutral",
+        "displayName": "Clean Page",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 90)",
+        "tonalRamp": [
+          "oklch(15% 0.000 90)",
+          "oklch(26% 0.000 90)",
+          "oklch(37% 0.000 90)",
+          "oklch(48% 0.000 90)",
+          "oklch(59% 0.000 90)",
+          "oklch(70% 0.000 90)",
+          "oklch(82% 0.000 90)",
+          "oklch(95% 0.000 90)"
+        ]
+      },
+      "notebook-ink": {
+        "role": "neutral",
+        "displayName": "Notebook Ink",
+        "canonical": "#1c2321",
+        "oklch": "oklch(24.8% 0.011 176)",
+        "tonalRamp": [
+          "oklch(15% 0.005 176)",
+          "oklch(26% 0.006 176)",
+          "oklch(37% 0.008 176)",
+          "oklch(48% 0.010 176)",
+          "oklch(59% 0.010 176)",
+          "oklch(70% 0.008 176)",
+          "oklch(82% 0.007 176)",
+          "oklch(95% 0.005 176)"
+        ]
+      },
+      "pencil-grey": {
+        "role": "neutral",
+        "displayName": "Pencil Grey",
+        "canonical": "#5f6864",
+        "oklch": "oklch(50.8% 0.013 167)",
+        "tonalRamp": [
+          "oklch(15% 0.005 167)",
+          "oklch(26% 0.007 167)",
+          "oklch(37% 0.009 167)",
+          "oklch(48% 0.011 167)",
+          "oklch(59% 0.012 167)",
+          "oklch(70% 0.010 167)",
+          "oklch(82% 0.008 167)",
+          "oklch(95% 0.005 167)"
+        ]
+      },
+      "rule-line": {
+        "role": "neutral",
+        "displayName": "Rule Line",
+        "canonical": "#e8e2d9",
+        "oklch": "oklch(91.5% 0.014 78)",
+        "tonalRamp": [
+          "oklch(15% 0.006 78)",
+          "oklch(26% 0.008 78)",
+          "oklch(37% 0.010 78)",
+          "oklch(48% 0.012 78)",
+          "oklch(59% 0.013 78)",
+          "oklch(70% 0.011 78)",
+          "oklch(82% 0.008 78)",
+          "oklch(95% 0.006 78)"
+        ]
+      },
+      "night-hero": {
+        "role": "neutral",
+        "displayName": "Night Hero",
+        "canonical": "#05070d",
+        "oklch": "oklch(12.9% 0.015 266)",
+        "tonalRamp": [
+          "oklch(15% 0.006 266)",
+          "oklch(26% 0.009 266)",
+          "oklch(37% 0.011 266)",
+          "oklch(48% 0.013 266)",
+          "oklch(59% 0.014 266)",
+          "oklch(70% 0.012 266)",
+          "oklch(82% 0.009 266)",
+          "oklch(95% 0.006 266)"
+        ]
+      },
+      "dark-paper": {
+        "role": "neutral",
+        "displayName": "Dark Paper",
+        "canonical": "#12161a",
+        "oklch": "oklch(19.8% 0.010 248)",
+        "tonalRamp": [
+          "oklch(15% 0.004 248)",
+          "oklch(26% 0.006 248)",
+          "oklch(37% 0.008 248)",
+          "oklch(48% 0.009 248)",
+          "oklch(59% 0.010 248)",
+          "oklch(70% 0.008 248)",
+          "oklch(82% 0.006 248)",
+          "oklch(95% 0.004 248)"
+        ]
+      },
+      "dark-page": {
+        "role": "neutral",
+        "displayName": "Dark Page",
+        "canonical": "#1a2026",
+        "oklch": "oklch(24.0% 0.015 248)",
+        "tonalRamp": [
+          "oklch(15% 0.006 248)",
+          "oklch(26% 0.008 248)",
+          "oklch(37% 0.011 248)",
+          "oklch(48% 0.013 248)",
+          "oklch(59% 0.014 248)",
+          "oklch(70% 0.011 248)",
+          "oklch(82% 0.009 248)",
+          "oklch(95% 0.006 248)"
+        ]
+      },
+      "dark-ink": {
+        "role": "neutral",
+        "displayName": "Dark Ink",
+        "canonical": "#f2efe9",
+        "oklch": "oklch(95.3% 0.009 85)",
+        "tonalRamp": [
+          "oklch(15% 0.004 85)",
+          "oklch(26% 0.005 85)",
+          "oklch(37% 0.006 85)",
+          "oklch(48% 0.008 85)",
+          "oklch(59% 0.008 85)",
+          "oklch(70% 0.007 85)",
+          "oklch(82% 0.005 85)",
+          "oklch(95% 0.004 85)"
+        ]
+      },
+      "dark-pencil": {
+        "role": "neutral",
+        "displayName": "Dark Pencil",
+        "canonical": "#9aa39f",
+        "oklch": "oklch(70.7% 0.012 168)",
+        "tonalRamp": [
+          "oklch(15% 0.005 168)",
+          "oklch(26% 0.007 168)",
+          "oklch(37% 0.009 168)",
+          "oklch(48% 0.011 168)",
+          "oklch(59% 0.011 168)",
+          "oklch(70% 0.009 168)",
+          "oklch(82% 0.007 168)",
+          "oklch(95% 0.005 168)"
+        ]
+      },
+      "dark-teal": {
+        "role": "primary",
+        "displayName": "Dark Teal",
+        "canonical": "#2fb39c",
+        "oklch": "oklch(69.2% 0.116 178)",
+        "tonalRamp": [
+          "oklch(15% 0.048 178)",
+          "oklch(26% 0.067 178)",
+          "oklch(37% 0.085 178)",
+          "oklch(48% 0.104 178)",
+          "oklch(59% 0.109 178)",
+          "oklch(70% 0.090 178)",
+          "oklch(82% 0.070 178)",
+          "oklch(95% 0.048 178)"
+        ]
+      },
+      "dark-teal-bright": {
+        "role": "primary",
+        "displayName": "Dark Teal Bright",
+        "canonical": "#45c7b0",
+        "oklch": "oklch(75.3% 0.118 179)",
+        "tonalRamp": [
+          "oklch(15% 0.049 179)",
+          "oklch(26% 0.068 179)",
+          "oklch(37% 0.087 179)",
+          "oklch(48% 0.106 179)",
+          "oklch(59% 0.111 179)",
+          "oklch(70% 0.092 179)",
+          "oklch(82% 0.071 179)",
+          "oklch(95% 0.049 179)"
+        ]
+      },
+      "dark-teal-wash": {
+        "role": "primary",
+        "displayName": "Dark Teal Wash",
+        "canonical": "#15302b",
+        "oklch": "oklch(28.6% 0.035 180)",
+        "tonalRamp": [
+          "oklch(15% 0.014 180)",
+          "oklch(26% 0.020 180)",
+          "oklch(37% 0.025 180)",
+          "oklch(48% 0.031 180)",
+          "oklch(59% 0.033 180)",
+          "oklch(70% 0.027 180)",
+          "oklch(82% 0.021 180)",
+          "oklch(95% 0.014 180)"
+        ]
+      },
+      "dark-rule": {
+        "role": "neutral",
+        "displayName": "Dark Rule",
+        "canonical": "#2a3138",
+        "oklch": "oklch(30.9% 0.016 248)",
+        "tonalRamp": [
+          "oklch(15% 0.007 248)",
+          "oklch(26% 0.009 248)",
+          "oklch(37% 0.012 248)",
+          "oklch(48% 0.014 248)",
+          "oklch(59% 0.015 248)",
+          "oklch(70% 0.012 248)",
+          "oklch(82% 0.010 248)",
+          "oklch(95% 0.007 248)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home hero headline only, white on Night Hero."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page and article H1s."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section, article-section and card headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text; 1rem on phones, 1.125rem from 640px."
+      },
+      "label": {
+        "displayName": "Eyebrow",
+        "purpose": "Uppercase teal labels above section headings."
+      }
+    },
+    "shadows": [
+      {
+        "name": "paper-rest",
+        "value": "0 1px 3px rgba(28,35,33,0.04)",
+        "purpose": "Every card at rest."
+      },
+      {
+        "name": "teal-lift",
+        "value": "0 18px 40px -18px rgba(14,124,107,0.35)",
+        "purpose": "Linked cards on hover, with a 4px lift."
+      },
+      {
+        "name": "button-rest",
+        "value": "0 1px 2px 0 rgba(0,0,0,0.05)",
+        "purpose": "Primary buttons at rest."
+      },
+      {
+        "name": "button-hover",
+        "value": "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)",
+        "purpose": "Primary buttons on hover, with a 2px lift."
+      }
+    ],
+    "motion": [
+      {
+        "name": "reveal-ease",
+        "value": "cubic-bezier(0.21, 0.47, 0.32, 0.98)",
+        "purpose": "Scroll reveals and the hero text entrance."
+      },
+      {
+        "name": "reveal-section",
+        "value": "600ms; translateY 24px to 0; opacity 0 to 1; once; viewport amount 'some'",
+        "purpose": "Section fade-up."
+      },
+      {
+        "name": "reveal-grid-item",
+        "value": "550ms; translateY 20px to 0; staggered",
+        "purpose": "Grid children."
+      },
+      {
+        "name": "control-transition",
+        "value": "200ms",
+        "purpose": "Buttons and inputs."
+      },
+      {
+        "name": "card-transition",
+        "value": "300ms",
+        "purpose": "Card hover lift."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main call to action: book a call, subscribe, start building.",
+      "html": "<button class=\"ds-btn-primary\">Book Consultation <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10\"/><path d=\"M7 17 17 7\"/></svg></button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9999px;font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-weight:500;font-size:14px;height:44px;padding:0 24px;transition:all 200ms;cursor:pointer;background:#0e7c6b;color:#fff;border:none;box-shadow:0 1px 2px rgba(0,0,0,.05);} .ds-btn-primary:hover{background:#0b6557;transform:translateY(-2px);box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);} .ds-btn-primary:active{transform:translateY(0);} .ds-btn-primary:focus-visible{outline:none;box-shadow:0 0 0 2px #faf7f2,0 0 0 4px #0e7c6b;}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Alternative action beside a primary button.",
+      "html": "<button class=\"ds-btn-secondary\">See pricing</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9999px;font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-weight:500;font-size:14px;height:44px;padding:0 24px;transition:all 200ms;cursor:pointer;background:#fff;color:#1c2321;border:1px solid #e8e2d9;} .ds-btn-secondary:hover{background:#e6f2ef;border-color:rgba(14,124,107,.5);transform:translateY(-2px);} .ds-btn-secondary:active{transform:translateY(0);} .ds-btn-secondary:focus-visible{outline:none;box-shadow:0 0 0 2px #faf7f2,0 0 0 4px #0e7c6b;}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Low-emphasis action inside dense areas.",
+      "html": "<button class=\"ds-btn-ghost\">Read more</button>",
+      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9999px;font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-weight:500;font-size:14px;height:44px;padding:0 24px;transition:all 200ms;cursor:pointer;background:transparent;color:#1c2321;border:none;} .ds-btn-ghost:hover{background:#e6f2ef;} .ds-btn-ghost:focus-visible{outline:none;box-shadow:0 0 0 2px #faf7f2,0 0 0 4px #0e7c6b;}"
+    },
+    {
+      "name": "Email Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Pill-shaped field used by the newsletter sign-up.",
+      "html": "<input class=\"ds-input\" type=\"email\" placeholder=\"you@company.com\">",
+      "css": ".ds-input{width:280px;border-radius:9999px;border:1px solid #e8e2d9;background:#faf7f2;padding:10px 20px;font:14px Inter,ui-sans-serif,system-ui,sans-serif;color:#1c2321;} .ds-input::placeholder{color:rgba(95,104,100,.7);} .ds-input:focus{outline:none;border-color:#0e7c6b;box-shadow:0 0 0 2px rgba(14,124,107,.3);}"
+    },
+    {
+      "name": "Newsletter Sign-up",
+      "kind": "custom",
+      "refersTo": "input",
+      "description": "Inline field and button pair after every article and in the footer.",
+      "html": "<div class=\"ds-news\"><p class=\"ds-news-title\">Practical AI insights, monthly</p><p class=\"ds-news-desc\">New guides and real-world AI workflows for small businesses.</p><div class=\"ds-news-row\"><input class=\"ds-news-input\" type=\"email\" placeholder=\"you@company.com\"><button class=\"ds-news-btn\">Subscribe <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m22 2-7 20-4-9-9-4Z\"/><path d=\"M22 2 11 13\"/></svg></button></div></div>",
+      "css": ".ds-news{max-width:520px;font-family:Inter,ui-sans-serif,system-ui,sans-serif;} .ds-news-title{margin:0;font:600 18px Fraunces,ui-serif,Georgia,serif;color:#1c2321;} .ds-news-desc{margin:4px 0 0;font-size:14px;color:#5f6864;} .ds-news-row{display:flex;gap:8px;margin-top:16px;} .ds-news-input{flex:1;border-radius:9999px;border:1px solid #e8e2d9;background:#faf7f2;padding:10px 20px;font-size:14px;color:#1c2321;} .ds-news-input:focus{outline:none;border-color:#0e7c6b;box-shadow:0 0 0 2px rgba(14,124,107,.3);} .ds-news-btn{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:9999px;background:#0e7c6b;color:#fff;padding:10px 24px;font-size:14px;font-weight:500;cursor:pointer;transition:background-color 200ms;} .ds-news-btn:hover{background:#0b6557;} .ds-news-btn:focus-visible{outline:none;box-shadow:0 0 0 2px #faf7f2,0 0 0 4px #0e7c6b;}"
+    },
+    {
+      "name": "Category Badge",
+      "kind": "chip",
+      "refersTo": "badge-accent",
+      "description": "Article category pill.",
+      "html": "<span class=\"ds-badge\">Small Business</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;border-radius:9999px;border:1px solid rgba(14,124,107,.3);background:#e6f2ef;color:#0b6557;padding:4px 12px;font:500 12px Inter,ui-sans-serif,system-ui,sans-serif;letter-spacing:.025em;}"
+    },
+    {
+      "name": "Article Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Linked card on paper; lifts with a teal glow on hover.",
+      "html": "<a class=\"ds-card\" href=\"#\"><span class=\"ds-badge-sm\">Agents</span><h3 class=\"ds-card-title\">Write your AI agent’s limits before you switch it on</h3><p class=\"ds-card-text\">Two big launches, one lesson for small businesses.</p><span class=\"ds-card-link\">Read Article →</span></a>",
+      "css": ".ds-card{display:block;max-width:360px;text-decoration:none;border-radius:16px;border:1px solid #e8e2d9;background:#fff;padding:28px;box-shadow:0 1px 3px rgba(28,35,33,.04);transition:all 300ms;font-family:Inter,ui-sans-serif,system-ui,sans-serif;} .ds-card:hover{transform:translateY(-4px);border-color:rgba(14,124,107,.4);box-shadow:0 18px 40px -18px rgba(14,124,107,.35);} .ds-card:focus-visible{outline:none;box-shadow:0 0 0 2px #faf7f2,0 0 0 4px #0e7c6b;} .ds-badge-sm{display:inline-flex;border-radius:9999px;border:1px solid rgba(14,124,107,.3);background:#e6f2ef;color:#0b6557;padding:4px 12px;font-size:12px;font-weight:500;} .ds-card-title{margin:20px 0 0;font:600 20px/1.35 Fraunces,ui-serif,Georgia,serif;color:#1c2321;letter-spacing:-.01em;} .ds-card-text{margin:8px 0 0;font-size:14px;line-height:1.6;color:#5f6864;} .ds-card-link{display:inline-block;margin-top:16px;font-size:14px;font-weight:500;color:#0e7c6b;}"
+    },
+    {
+      "name": "Section Heading",
+      "kind": "custom",
+      "refersTo": "label",
+      "description": "Teal uppercase eyebrow over a Fraunces section title.",
+      "html": "<div class=\"ds-head\"><p class=\"ds-eyebrow\">Practical AI for Small Business Growth</p><h2 class=\"ds-h2\">Questions about AI for small businesses</h2><p class=\"ds-sub\">Everything business owners ask before they start.</p></div>",
+      "css": ".ds-head{max-width:640px;font-family:Inter,ui-sans-serif,system-ui,sans-serif;} .ds-eyebrow{margin:0 0 12px;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:#0e7c6b;} .ds-h2{margin:0;font:600 36px/1.25 Fraunces,ui-serif,Georgia,serif;letter-spacing:-.025em;color:#1c2321;} .ds-sub{margin:16px 0 0;font-size:18px;line-height:1.625;color:#5f6864;}"
+    },
+    {
+      "name": "Navigation Links",
+      "kind": "nav",
+      "refersTo": "button-ghost",
+      "description": "Desktop header links; teal marks the current page.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav-link\">Services</a><a href=\"#\" class=\"ds-nav-link\">Pricing</a><a href=\"#\" class=\"ds-nav-link ds-active\" aria-current=\"page\">AI News</a><a href=\"#\" class=\"ds-nav-link\">About</a></nav>",
+      "css": ".ds-nav{display:flex;gap:4px;font-family:Inter,ui-sans-serif,system-ui,sans-serif;} .ds-nav-link{border-radius:9999px;padding:8px 16px;font-size:14px;font-weight:500;color:#5f6864;text-decoration:none;transition:color 150ms;} .ds-nav-link:hover{color:#1c2321;} .ds-nav-link.ds-active{color:#0e7c6b;} .ds-nav-link:focus-visible{outline:none;box-shadow:0 0 0 2px #0e7c6b;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Field Notebook",
+    "overview": "AegeanPulse reads like a practitioner's field notebook: warm paper, dark ink, serif headings with a little character, and one teal pen used for whatever matters on the page. The site is editorial before it is promotional. Articles, prices and plain explanations carry the weight; decoration stays out of their way.\n\nDensity is calm. Sections breathe on generous vertical rhythm, content sits in a readable column, and cards are soft paper slips laid on the page rather than glossy tiles. The one deliberate exception is the home hero: a night-dark field of teal-tinted particles that gives the first screen a pulse before the notebook opens.\n\nComponents are soft and approachable. Buttons and inputs are fully rounded, cards have gently curved corners, and interactive surfaces lift a few pixels on hover. Motion is a single quiet gesture — content fades up into place as it scrolls into view — and disappears entirely for visitors who ask for reduced motion.",
+    "keyCharacteristics": [
+      "Warm off-white paper (light) and deep blue-black (dark), both driven by the same token names.",
+      "One accent: Aegean Teal for links, buttons, eyebrows, focus rings and selection.",
+      "Fraunces serif for every heading; Inter for everything else.",
+      "Pill-shaped buttons and inputs; 16px cards; 24px feature panels.",
+      "Hairline borders over heavy shadows.",
+      "Fade-up-on-scroll as the only ambient motion."
+    ],
+    "rules": [
+      {
+        "name": "The One Pen Rule",
+        "body": "Teal is the only accent colour. It marks what is clickable or what to read first; it is never used as a large decorative fill outside the hero particles and washed tints.",
+        "section": "colors"
+      },
+      {
+        "name": "The Token-Only Rule",
+        "body": "Components use the semantic tokens (`background`, `surface`, `foreground`, `muted`, `accent`, `border`), never raw hex. Dark mode is a variable swap under `.dark`, so a component written against tokens is correct in both themes without `dark:` variants.",
+        "section": "colors"
+      },
+      {
+        "name": "The Serif Headline Rule",
+        "body": "Every heading, at every level, is Fraunces at weight 600 with tight tracking. Inter never sets a heading; Fraunces never sets body copy, buttons or form text.",
+        "section": "typography"
+      },
+      {
+        "name": "The Paper-on-Paper Rule",
+        "body": "Depth comes from a lighter surface and a hairline border first. A visible shadow appears only in response to hover.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** set every heading in Fraunces 600 with tight tracking, and everything else in Inter.",
+      "**Do** use Aegean Teal (#0e7c6b) as the only accent — links, primary buttons, eyebrows, focus rings.",
+      "**Do** build components from the semantic tokens so light and dark mode both work without `dark:` variants.",
+      "**Do** keep buttons and inputs fully rounded and cards at 16px.",
+      "**Do** separate surfaces with a 1px Rule Line border and reserve visible shadows for hover.",
+      "**Do** keep scroll reveals at `viewport.amount: \"some\"` and test them in WebKit (iPhone), where fractional thresholds leave tall content invisible.",
+      "**Do** give long-form reading a 768px column at 1.125rem with 1.625 line-height."
+    ],
+    "donts": [
+      "**Don't** introduce a second accent colour outside the AI-tools pricing badges.",
+      "**Don't** use hard-coded hex values in components; the Night Hero backdrop is the single exception.",
+      "**Don't** mix sharp corners or square buttons into the pill-and-soft-card shape language.",
+      "**Don't** animate anything other than opacity and transform, and don't add motion that ignores reduced-motion preferences outside the hero particles.",
+      "**Don't** use heavy, dark drop shadows; depth is paper on paper."
+    ]
+  }
+}
