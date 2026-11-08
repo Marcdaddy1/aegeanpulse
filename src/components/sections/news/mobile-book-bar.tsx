@@ -10,6 +10,7 @@ import {
   CHAT_STATE,
   OPEN_CHAT,
   emit,
+  useChannel,
 } from "@/components/sections/shared/chat-widget/chat-events";
 
 const PHONE_QUERY = "(max-width: 639.98px)";
@@ -27,13 +28,12 @@ const PHONE_QUERY = "(max-width: 639.98px)";
 // there is one teal block over the text, not two. Without JavaScript it never
 // shows, which is the safe failure.
 //
-// Before the bar's range the launcher steps aside too: on a phone it sat over
-// the right edge of the prose for the first half of the article, clipping
-// words. The bar is the first way into chat on article pages.
+// Above its range the launcher steps aside too (the chat widget measures
+// #book-bar-start itself): on a phone it sat over the right edge of the prose
+// for the first half of the article. The bar is the first way into chat here.
 export function MobileBookBar() {
   const [inRange, setInRange] = useState(false);
-  const [beforeRange, setBeforeRange] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
+  const chatOpen = useChannel(CHAT_STATE, "open");
   const show = inRange && !chatOpen;
 
   useEffect(() => {
@@ -45,32 +45,29 @@ export function MobileBookBar() {
     const update = () => {
       frame = 0;
       const vh = window.innerHeight;
-      const startTop = start.getBoundingClientRect().top;
-      setInRange(mq.matches && startTop < vh && panel.getBoundingClientRect().top > vh);
-      setBeforeRange(mq.matches && startTop >= vh);
+      setInRange(
+        mq.matches &&
+          start.getBoundingClientRect().top < vh &&
+          panel.getBoundingClientRect().top > vh,
+      );
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
-    const onChat = (e: Event) => setChatOpen(Boolean((e as CustomEvent).detail?.open));
     frame = requestAnimationFrame(update);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
-    window.addEventListener(CHAT_STATE, onChat);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-      window.removeEventListener(CHAT_STATE, onChat);
     };
   }, []);
 
-  // Let the chat launcher know whether to step aside: while the bar shows,
-  // and above it, where the launcher would sit over the article text.
-  const tuckLauncher = show || beforeRange;
+  // Let the chat launcher know it should step aside while the bar shows.
   useEffect(() => {
-    emit(BOOK_BAR, { on: tuckLauncher });
-  }, [tuckLauncher]);
+    emit(BOOK_BAR, { on: show });
+  }, [show]);
   useEffect(() => () => emit(BOOK_BAR, { on: false }), []);
 
   return (

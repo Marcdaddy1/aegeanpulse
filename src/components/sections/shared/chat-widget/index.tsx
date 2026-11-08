@@ -1,11 +1,33 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { useIsPhone, useMounted } from "@/lib/hooks";
 import { ChatLauncher } from "./chat-launcher";
 import { ChatPanel } from "./chat-panel";
-import { BOOK_BAR, CHAT_STATE, OPEN_CHAT, emit } from "./chat-events";
+import { BOOK_BAR, CHAT_STATE, OPEN_CHAT, emit, useChannel } from "./chat-events";
+
+// Phone article pages: above #book-bar-start (the worked example) the
+// launcher would sit over the article text, and the booking bar that carries
+// chat hasn't appeared yet. Read from the page directly, so the launcher's
+// first render is already right; waiting for the bar to say so left it
+// visible for ~200ms on every load.
+function subscribeScroll(onChange: () => void) {
+  window.addEventListener("scroll", onChange, { passive: true });
+  window.addEventListener("resize", onChange);
+  return () => {
+    window.removeEventListener("scroll", onChange);
+    window.removeEventListener("resize", onChange);
+  };
+}
+function aboveBookBar() {
+  const start = document.getElementById("book-bar-start");
+  return (
+    !!start &&
+    window.matchMedia("(max-width: 639.98px)").matches &&
+    start.getBoundingClientRect().top >= window.innerHeight
+  );
+}
 
 export function ChatWidget() {
   const mounted = useMounted();
@@ -16,10 +38,11 @@ export function ChatWidget() {
   // newsletter) is on screen, tagged with the path it was measured on so a
   // stale value never carries over to the next page.
   const [covering, setCovering] = useState({ path: "", on: false });
-  // On a phone article page the booking bar asks the launcher to step aside:
-  // while the bar shows (it has its own chat button) and above it (where the
-  // launcher would sit over the article text).
-  const [barOn, setBarOn] = useState(false);
+  // The phone booking bar carries its own chat button while it shows. Read
+  // from the channel's last value, so a message sent before this widget
+  // mounted isn't lost.
+  const barOn = useChannel(BOOK_BAR, "on");
+  const aboveBar = useSyncExternalStore(subscribeScroll, aboveBookBar, () => false);
   const launcherRef = useRef<HTMLButtonElement>(null);
   // Whatever opened the chat gets focus back when it closes.
   const openerRef = useRef<HTMLElement | null>(null);
@@ -43,17 +66,12 @@ export function ChatWidget() {
   }, [pathname, mounted]);
 
   useEffect(() => {
-    const onBar = (e: Event) => setBarOn(Boolean((e as CustomEvent).detail?.on));
     const onOpen = () => {
       openerRef.current = document.activeElement as HTMLElement | null;
       setOpen(true);
     };
-    window.addEventListener(BOOK_BAR, onBar);
     window.addEventListener(OPEN_CHAT, onOpen);
-    return () => {
-      window.removeEventListener(BOOK_BAR, onBar);
-      window.removeEventListener(OPEN_CHAT, onOpen);
-    };
+    return () => window.removeEventListener(OPEN_CHAT, onOpen);
   }, []);
 
   // Tell the booking bar, and hand focus back after a close. The timeout lets
@@ -80,7 +98,7 @@ export function ChatWidget() {
   // its own close button, so the launcher (a second X) steps aside too.
   const hidden = open
     ? isPhone
-    : (covering.path === pathname && covering.on) || barOn;
+    : (covering.path === pathname && covering.on) || barOn || aboveBar;
 
   return (
     <>
