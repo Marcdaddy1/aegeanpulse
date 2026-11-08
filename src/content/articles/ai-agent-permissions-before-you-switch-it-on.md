@@ -10,6 +10,15 @@ imageAlt: "A printed one-page agent rulebook clipped to a clipboard, with a spen
 draft: false
 ctaHeading: "Not sure where your agent's limits should sit?"
 ctaText: "Bring the job you're thinking of handing to an agent, and I'll help you decide what it should never be allowed to do."
+skipTo:
+  heading: "The one-page version for a small business"
+  label: "Skip to the six questions"
+leadMagnet:
+  title: "Get the one-page agent rulebook"
+  description: "The six questions as a page you print and fill in, with the refund agent filled in as an example. It comes free with the newsletter: practical AI guides for small businesses, no spam, unsubscribe anytime."
+  file: "/downloads/agent-rulebook.pdf"
+  label: "Download the agent rulebook (PDF)"
+  pointer: "Get this as a printable page you fill in"
 ---
 
 Every pitch for an AI agent shows you the same thing: the agent doing something impressive on its own. It answers the customer, books the appointment, issues the refund. Nobody demos the agent being told no.
@@ -57,12 +66,13 @@ Here's one filled in.
 
 > Example: an online shop's refund agent
 > **Can read:** the orders inbox and order history.
+> **Can send:** refund confirmations only. Any other reply is a draft for the owner.
 > **Can refund:** up to £25, on orders under 30 days old.
 > **Hands to the owner:** anything larger or older.
 > **Who's told:** the owner gets a daily summary.
 > **Off switch:** anyone on the team can pause it from the dashboard.
 
-That's five lines, and it covers most of what could go wrong.
+That's six lines, one per question, and it covers most of what could go wrong.
 
 ## Why the limits have to be checked while it runs
 
@@ -76,4 +86,4 @@ If you already have an agent running, write its one-page scope today and compare
 
 If you're about to switch one on, write the page first. It takes an afternoon and costs nothing, and it will change which jobs you're comfortable handing over.
 
-If you'd like a second pair of eyes, our Discovery package is a flat £499 and includes a risk, data and readiness assessment, so the limits get decided before anything is built.
+If you'd like a second pair of eyes, my Discovery package is a flat £499 and includes a risk, data and readiness assessment, so the limits get decided before anything is built.

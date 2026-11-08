@@ -14,5 +14,21 @@ export function useMounted(): boolean {
   );
 }
 
+// Phones: below Tailwind's `sm` breakpoint (640px).
+const PHONE_QUERY = "(max-width: 639.98px)";
+
+/** True on phone-width screens. False during SSR and the first client render. */
+export function useIsPhone(): boolean {
+  return useSyncExternalStore(
+    (onChange) => {
+      const mq = window.matchMedia(PHONE_QUERY);
+      mq.addEventListener("change", onChange);
+      return () => mq.removeEventListener("change", onChange);
+    },
+    () => window.matchMedia(PHONE_QUERY).matches,
+    () => false,
+  );
+}
+
 /** Subscribe helper for reading a one-time client-only value (e.g. cookies). */
 export const noopSubscribe = emptySubscribe;

@@ -63,7 +63,9 @@ export function ChatPanel({
       aria-label="AegeanPulse chat assistant"
       inert={!open}
       className={cn(
-        "fixed bottom-24 right-5 z-40 flex h-[70svh] max-h-[600px] w-[calc(100vw-2.5rem)] max-w-[380px] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_24px_60px_-12px_rgba(0,0,0,0.25)] transition-[opacity,transform] duration-200 sm:bottom-28 sm:right-6",
+        // On phones the launcher steps aside while the panel is open, so the
+        // panel takes its place at the bottom of the screen.
+        "fixed bottom-5 right-5 z-40 flex h-[70svh] max-h-[600px] w-[calc(100vw-2.5rem)] max-w-[380px] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_24px_60px_-12px_rgba(0,0,0,0.25)] transition-[opacity,transform] duration-200 sm:bottom-28 sm:right-6",
         open
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-3 opacity-0",
@@ -92,6 +94,7 @@ export function ChatPanel({
             className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}
           >
             <div
+              id={i === 0 ? "chat-greeting" : undefined}
               className={cn(
                 "max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
                 m.role === "user"
@@ -139,12 +142,16 @@ export function ChatPanel({
           ref={inputRef}
           type="text"
           aria-label="Message"
+          // The greeting is already in the log when the panel opens, so the
+          // live region never announces it. Focus lands here; describing the
+          // input with it gets it read out.
+          aria-describedby={messages.length === 1 ? "chat-greeting" : undefined}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type a message…"
           disabled={pending}
           maxLength={2000}
-          className="flex-1 rounded-full border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-ring/30 disabled:opacity-60"
+          className="flex-1 rounded-full border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-ring/30 disabled:opacity-60"
         />
         {/* Enabled even when empty (an empty send does nothing), so it stays
             in the tab order on the way to the close button. */}

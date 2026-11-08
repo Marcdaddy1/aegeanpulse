@@ -7,6 +7,7 @@ import {
   type Article,
   type ArticleBlock,
   type ArticleCategory,
+  type ArticleLeadMagnet,
   type ArticleNode,
 } from "@/data/articles";
 
@@ -115,6 +116,32 @@ function loadArticle(filename: string): Article | null {
     throw new Error(`Article ${filename}: image requires imageAlt.`);
   }
 
+  const body = parseBody(content);
+
+  // A skip link must land on a real heading, and a lead magnet must point at
+  // a file that ships; either mistake fails the build rather than a reader.
+  const skipTo = data.skipTo as { heading?: string; label?: string } | undefined;
+  if (skipTo) {
+    if (!skipTo.heading || !skipTo.label) {
+      throw new Error(`Article ${filename}: skipTo needs heading and label.`);
+    }
+    if (!body.some((b) => b.heading === skipTo.heading)) {
+      throw new Error(`Article ${filename}: skipTo heading "${skipTo.heading}" is not a ## heading.`);
+    }
+  }
+  const lead = data.leadMagnet as Partial<ArticleLeadMagnet> | undefined;
+  if (lead) {
+    const missing = (["title", "description", "file", "label", "pointer"] as const).filter(
+      (k) => !lead[k],
+    );
+    if (missing.length) {
+      throw new Error(`Article ${filename}: leadMagnet is missing ${missing.join(", ")}.`);
+    }
+    if (!fs.existsSync(path.join(process.cwd(), "public", String(lead.file)))) {
+      throw new Error(`Article ${filename}: leadMagnet file ${lead.file} is not in public/.`);
+    }
+  }
+
   return {
     slug,
     title,
@@ -126,7 +153,9 @@ function loadArticle(filename: string): Article | null {
     ...(image ? { image, imageAlt } : {}),
     ...(ctaText ? { ctaText: String(ctaText) } : {}),
     ...(ctaHeading ? { ctaHeading: String(ctaHeading) } : {}),
-    body: parseBody(content),
+    ...(skipTo ? { skipTo: { heading: String(skipTo.heading), label: String(skipTo.label) } } : {}),
+    ...(lead ? { leadMagnet: lead as ArticleLeadMagnet } : {}),
+    body,
   };
 }
 
@@ -163,4 +192,4 @@ export function getGridArticles(): Article[] {
   return ARTICLES.filter((a) => a.slug !== featured.slug);
 }
 
-export type { Article, ArticleBlock, ArticleCategory, ArticleNode };
+export type { Article, ArticleBlock, ArticleCategory, ArticleLeadMagnet, ArticleNode };

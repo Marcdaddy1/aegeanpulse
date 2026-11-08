@@ -45,7 +45,7 @@ export function Footer() {
         </Container>
       </HideOnArticle>
 
-      <Container className="pb-12">
+      <Container className="pb-28 sm:pb-12">
         <HideOnArticle>
           <div className="mb-10 border-t border-border pt-10 pb-2">
             <div className="max-w-xl">
@@ -66,12 +66,12 @@ export function Footer() {
             </a>
           </div>
 
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-2 sm:gap-x-8">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8">
             {FOOTER_NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="py-1.5 text-sm text-muted transition-colors hover:text-foreground"
+                className="inline-flex min-h-11 items-center text-sm text-muted transition-colors hover:text-foreground"
               >
                 {item.label}
               </Link>

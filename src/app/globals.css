@@ -14,6 +14,10 @@
   --ring: #0e7c6b;
   --danger: #b42318;
   --accent-foreground: #ffffff;
+  /* Form-field border: 3.1:1 on paper, 3.4:1 on white. The hairline
+     --border (1.2:1) left inputs barely reading as boxes. */
+  --input: #958b7e;
+  color-scheme: light;
 }
 
 .dark {
@@ -28,6 +32,11 @@
   --ring: #2fb39c;
   --danger: #f97066;
   --accent-foreground: #05070d;
+  /* 3.4:1 on dark paper, 3.1:1 on dark cards. */
+  --input: #626c76;
+  /* Native controls (checkboxes, scrollbars) draw dark too: the consent
+     checkbox rendered as a bright white square. */
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -42,6 +51,7 @@
   --color-ring: var(--ring);
   --color-danger: var(--danger);
   --color-accent-foreground: var(--accent-foreground);
+  --color-input: var(--input);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
 }

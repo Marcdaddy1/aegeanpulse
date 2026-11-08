@@ -53,7 +53,7 @@ export function Header() {
       className={cn(
         "sticky top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-border bg-background/85 backdrop-blur-md"
+          ? "border-b border-border bg-background/95 backdrop-blur-md"
           : "border-b border-transparent bg-background/0",
       )}
     >
@@ -139,7 +139,7 @@ export function Header() {
                 className={cn(
                   "rounded-xl px-4 py-3 text-lg font-medium transition-colors",
                   isActive(item.href)
-                    ? "bg-accent-soft text-accent"
+                    ? "bg-accent-soft text-accent-strong"
                     : "text-foreground hover:bg-accent-soft",
                 )}
               >

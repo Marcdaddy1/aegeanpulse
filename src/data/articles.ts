@@ -41,7 +41,33 @@ export interface Article {
   ctaText?: string;
   /** Article-specific heading for the closing booking panel. */
   ctaHeading?: string;
+  /** A jump link under the standfirst to the section that holds the payoff.
+   *  `heading` must match one of the article's `## ` headings exactly. */
+  skipTo?: { heading: string; label: string };
+  /** A free download offered with the newsletter sign-up on this article. */
+  leadMagnet?: ArticleLeadMagnet;
   body: ArticleBlock[];
+}
+
+export interface ArticleLeadMagnet {
+  /** Newsletter block heading, e.g. "Get the one-page agent rulebook". */
+  title: string;
+  description: string;
+  /** Path under /public, e.g. "/downloads/agent-rulebook.pdf". */
+  file: string;
+  /** Download link text, e.g. "Download the rulebook (PDF)". */
+  label: string;
+  /** Mid-article pointer shown after the first worked example. */
+  pointer: string;
+}
+
+/** Heading text → anchor id, shared by the page and the build-time check. */
+export function headingId(heading: string): string {
+  return heading
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 export const ARTICLE_CATEGORIES: ArticleCategory[] = [

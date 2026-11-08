@@ -78,7 +78,7 @@ export function ArticleCta({
           href="/pricing"
           className="inline-flex min-h-11 items-center justify-center gap-1.5 text-sm font-medium text-accent underline-offset-4 hover:text-accent-strong hover:underline"
         >
-          What the £499 Discovery includes
+          What&apos;s in a Discovery
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>

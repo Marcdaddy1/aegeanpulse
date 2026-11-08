@@ -10,6 +10,7 @@ colors:
   notebook-ink: "#1c2321"
   pencil-grey: "#5f6864"
   rule-line: "#e8e2d9"
+  field-border: "#958b7e"
   night-hero: "#05070d"
   dark-paper: "#12161a"
   dark-page: "#1a2026"
@@ -19,6 +20,7 @@ colors:
   dark-teal-bright: "#45c7b0"
   dark-teal-wash: "#15302b"
   dark-rule: "#2a3138"
+  dark-field-border: "#626c76"
   danger-red: "#b42318"
   dark-danger-red: "#f97066"
 typography:
@@ -129,6 +131,7 @@ A warm paper-and-ink neutral base with a single teal pen; dark mode swaps the pa
 - **Notebook Ink** (#1c2321): headings and body text; also the fill of the closing call-to-action banner. **Dark Ink** (#f2efe9) in dark mode.
 - **Pencil Grey** (#5f6864): secondary text — summaries, metadata, descriptions, placeholder text. **Dark Pencil** (#9aa39f) in dark mode.
 - **Rule Line** (#e8e2d9): every border and divider. **Dark Rule** (#2a3138) in dark mode.
+- **Field Border** (#958b7e): form fields and checkboxes only, at 3:1 against the page so a box reads as a box. **Dark Field Border** (#626c76) in dark mode. Token `--input`.
 - **Night Hero** (#05070d): the home hero backdrop only, in both themes.
 
 ### Status
@@ -205,10 +208,10 @@ Soft, confident, and always pill-shaped.
 - **Internal Padding:** 28px; 28–32px for feature panels.
 
 ### Inputs / Fields
-- **Style:** full pill, Field Paper fill, 1px Rule Line border, 20px side padding, 14px Inter, placeholder in Pencil Grey at 70%.
+- **Style:** full pill, Field Paper fill, 1px Field Border, 20px side padding, 44px minimum height, 14px Inter (16px on phones, so iOS does not zoom on focus), placeholder in Pencil Grey at 70%.
 - **Focus:** border turns Aegean Teal with a soft 2px teal ring at 30%; no default outline.
-- **Consent checkbox:** native checkbox tinted Aegean Teal, label in 12px Pencil Grey.
-- **Error state:** the field's border turns Danger Red and a one-line message in Danger Red, announced to screen readers, says what's missing ("Enter your email address", "Tick the box above"). The submit button stays enabled; it never greys out to signal an invalid form.
+- **Consent checkbox:** drawn, not native (WebKit kept the native box white in dark mode): 18px rounded square with a Field Border, filling Aegean Teal with an Accent Foreground tick when checked. Label in 12px Pencil Grey.
+- **Error state:** the field's border and focus ring turn Danger Red, and a one-line message in Danger Red directly under that field, announced to screen readers, says what's missing ("Enter your email address", "Tick the box above"). The submit button stays enabled; it never greys out to signal an invalid form.
 - **Success state:** a Teal Wash panel with a teal circle and white tick replaces the form, announced as a status.
 
 ### Navigation
