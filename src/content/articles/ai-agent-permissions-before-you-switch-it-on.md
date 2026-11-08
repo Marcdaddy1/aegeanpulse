@@ -17,8 +17,10 @@ leadMagnet:
   title: "Get the one-page agent rulebook"
   description: "The six questions as a page you print and fill in, with the refund agent filled in as an example. It comes free with the newsletter: practical AI guides for small businesses, no spam, unsubscribe anytime."
   file: "/downloads/agent-rulebook.pdf"
-  label: "Download the agent rulebook (PDF)"
+  label: "Download the rulebook (PDF)"
   pointer: "Get this as a printable page you fill in"
+  preview: "/images/lead-magnets/agent-rulebook-page-1.jpg"
+  previewAlt: "Page 1 of the agent rulebook: six numbered questions with lines to write your answers on, and a three-item launch checklist"
 ---
 
 Every pitch for an AI agent shows you the same thing: the agent doing something impressive on its own. It answers the customer, books the appointment, issues the refund. Nobody demos the agent being told no.
@@ -55,12 +57,12 @@ That's not because owners are careless. It's because the demo that sells an agen
 
 Everything in both announcements has a cheap manual equivalent. Before any agent goes live, write one page for it that answers six questions.
 
-- **What can it read?** Name the inbox, the folder, the spreadsheet. "Our email" is not an answer; "the support inbox, not the directors' inboxes" is.
-- **What can it change or send?** Drafting a reply and sending one are different permissions. So are reading an invoice and marking it paid.
-- **What can it spend or give away?** Put a number on it. A refund limit, a discount limit, a maximum order value. If the honest answer is "nothing", write that down too.
-- **What must it hand to a person?** This is your version of the $40 refund. Complaints, anything legal, any customer who asks for a human, anything over the limit.
-- **Who gets told?** When the agent hands something over, or does something unusual, a named person should hear about it the same day.
-- **How do you switch it off?** One person, one action, written down, and tested before launch rather than discovered during a bad afternoon.
+1. **What can it read?** Name the inbox, the folder, the spreadsheet. "Our email" is not an answer; "the support inbox, not the directors' inboxes" is.
+2. **What can it change or send?** Drafting a reply and sending one are different permissions. So are reading an invoice and marking it paid.
+3. **What can it spend or give away?** Put a number on it. A refund limit, a discount limit, a maximum order value. If the honest answer is "nothing", write that down too.
+4. **What must it hand to a person?** This is your version of the $40 refund. Complaints, anything legal, any customer who asks for a human, anything over the limit.
+5. **Who gets told?** When the agent hands something over, or does something unusual, a named person should hear about it the same day.
+6. **How do you switch it off?** One person, one action, written down, and tested before launch rather than discovered during a bad afternoon.
 
 Here's one filled in.
 

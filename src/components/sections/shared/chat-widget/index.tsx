@@ -16,7 +16,9 @@ export function ChatWidget() {
   // newsletter) is on screen, tagged with the path it was measured on so a
   // stale value never carries over to the next page.
   const [covering, setCovering] = useState({ path: "", on: false });
-  // The phone booking bar carries its own chat button while it shows.
+  // On a phone article page the booking bar asks the launcher to step aside:
+  // while the bar shows (it has its own chat button) and above it (where the
+  // launcher would sit over the article text).
   const [barOn, setBarOn] = useState(false);
   const launcherRef = useRef<HTMLButtonElement>(null);
   // Whatever opened the chat gets focus back when it closes.

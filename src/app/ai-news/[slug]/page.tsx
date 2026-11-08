@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowDown, ArrowLeft, Clock } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowUp, Clock } from "lucide-react";
 import { headingId } from "@/data/articles";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
@@ -71,7 +71,45 @@ function Rich({ text }: { text: string }) {
 // wider than Inter's average letter.
 const BODY_TEXT = "max-w-[60ch] text-pretty text-lg leading-relaxed text-foreground/85";
 
-function BodyNode({ node }: { node: ArticleNode }) {
+// A numeral in the display face, shared by the numbered list and the slip so
+// question 3 and slip line 3 read as the same thing (the PDF numbers match).
+const NUMERAL = "font-display font-semibold tabular-nums text-accent";
+
+function BodyNode({ node, numbered = false }: { node: ArticleNode; numbered?: boolean }) {
+  if (node.type === "list" && node.ordered) {
+    // A numbered list is the article's checklist: each item leads with its
+    // question in bold, set here as its own line so the list can be scanned.
+    // role="list" keeps list semantics in Safari, which drops them from a
+    // list with list-style: none. The numerals stay readable to assistive tech.
+    return (
+      <ol role="list" className={`mt-6 space-y-6 ${BODY_TEXT}`}>
+        {node.items.map((item, i) => {
+          const lead = /^\*\*(.+?)\*\*\s*(.*)$/.exec(item);
+          return (
+            <li key={i} className="grid grid-cols-[1.75rem_1fr] gap-x-2 sm:grid-cols-[2.25rem_1fr]">
+              <span className={`${NUMERAL} text-2xl leading-8`}>{i + 1}</span>
+              {lead ? (
+                <div>
+                  <h3 className="text-balance font-display text-xl font-semibold leading-8 tracking-tight text-foreground">
+                    {lead[1]}
+                  </h3>
+                  {lead[2] && (
+                    <p className="mt-1">
+                      <Rich text={lead[2]} />
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <p className="pt-0.5">
+                  <Rich text={item} />
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    );
+  }
   if (node.type === "list") {
     return (
       <ul className={`mt-4 space-y-3 ${BODY_TEXT}`}>
@@ -91,7 +129,10 @@ function BodyNode({ node }: { node: ArticleNode }) {
     // "**Label:** value" line is a field label over (or, on wider screens,
     // beside) its filled-in value, like a form someone has completed.
     return (
-      <figure className="mt-6 max-w-[60ch] rounded-2xl border border-border bg-surface px-6 pb-2 pt-5 shadow-[0_1px_3px_rgba(28,35,33,0.04)] sm:px-7">
+      <figure
+        id="worked-example"
+        className="mt-6 max-w-[60ch] rounded-2xl border border-border bg-surface px-6 pb-2 pt-5 shadow-[0_1px_3px_rgba(28,35,33,0.04)] sm:px-7"
+      >
         <figcaption className="text-sm font-semibold text-accent">
           {node.label}
         </figcaption>
@@ -103,9 +144,13 @@ function BodyNode({ node }: { node: ArticleNode }) {
                 {field ? (
                   <div className="sm:grid sm:grid-cols-[9.5rem_1fr] sm:gap-4">
                     <span className="block text-sm font-semibold text-foreground sm:pt-0.5">
+                      {/* Numbered when each line answers the same-numbered question. */}
+                      {numbered && (
+                        <span className={`${NUMERAL} inline-block w-5 text-base`}>{i + 1}</span>
+                      )}
                       {field[1]}
                     </span>
-                    <span className="block text-foreground/85">
+                    <span className={`block text-foreground/85 ${numbered ? "pl-5 sm:pl-0" : ""}`}>
                       {/* Stacked under its label, the value reads as its own line. */}
                       <Rich text={field[2].charAt(0).toUpperCase() + field[2].slice(1)} />
                     </span>
@@ -160,6 +205,18 @@ export default async function ArticlePage({
     exampleAt.node = ni;
     return true;
   });
+
+  // The worked example is numbered when its labelled lines answer an ordered
+  // list one-for-one (the six questions and the six slip lines).
+  const nodes = article.body.flatMap((b) => b.nodes);
+  const ordered = nodes.find(
+    (n): n is Extract<ArticleNode, { type: "list" }> => n.type === "list" && Boolean(n.ordered),
+  );
+  const example = nodes.find(
+    (n): n is Extract<ArticleNode, { type: "example" }> => n.type === "example",
+  );
+  const numberSlip = Boolean(ordered && example && example.lines.length === ordered.items.length);
+  const lead = article.leadMagnet;
 
   // schema.org requires Article.image and Article.publisher.logo — both were
   // previously absent (image only when the article had a hero, logo never),
@@ -274,19 +331,33 @@ export default async function ArticlePage({
                 )}
                 {block.nodes.map((node, j) => (
                   <Fragment key={j}>
-                    <BodyNode node={node} />
+                    <BodyNode node={node} numbered={node.type === "example" && numberSlip} />
                     {i === exampleAt.block && j === exampleAt.node && (
                       <>
                         {/* The booking bar waits until the reader has had
                             something useful: it starts after the example. */}
                         <div id="book-bar-start" aria-hidden="true" />
-                        {article.leadMagnet && (
+                        {lead && (
+                          // The reward is visible where the reader decides
+                          // they want it: a small picture of the page itself.
                           <a
                             href="#get-the-rulebook"
-                            className="-ml-1 mt-3 inline-flex min-h-11 items-center gap-1.5 rounded-full px-1 text-sm font-medium text-accent hover:text-accent-strong"
+                            className="group mt-4 flex max-w-[60ch] items-center gap-4 rounded-xl py-1 text-sm font-medium text-accent hover:text-accent-strong"
                           >
-                            {article.leadMagnet.pointer}
-                            <ArrowDown className="h-4 w-4" aria-hidden="true" />
+                            {lead.preview && (
+                              <Image
+                                src={lead.preview}
+                                alt=""
+                                width={1191}
+                                height={1684}
+                                sizes="48px"
+                                className="w-12 shrink-0 rounded-[3px] border border-border bg-white shadow-[0_2px_6px_-2px_rgba(28,35,33,0.25)] transition-transform duration-200 group-hover:-rotate-2 motion-reduce:transition-none"
+                              />
+                            )}
+                            <span className="inline-flex items-center gap-1.5">
+                              {lead.pointer}
+                              <ArrowDown className="h-4 w-4 shrink-0" aria-hidden="true" />
+                            </span>
                           </a>
                         )}
                       </>
@@ -303,18 +374,52 @@ export default async function ArticlePage({
           <ArticleCta heading={article.ctaHeading} text={article.ctaText} />
 
           <div
-            id={article.leadMagnet ? "get-the-rulebook" : undefined}
+            id={lead ? "get-the-rulebook" : undefined}
             data-hide-chat
-            className="mt-12 border-t border-border pt-10"
+            className="group mt-12 border-t border-border pt-10"
           >
-            {article.leadMagnet ? (
-              <NewsletterSignup
-                source="article-rulebook"
-                titleAs="h2"
-                title={article.leadMagnet.title}
-                description={article.leadMagnet.description}
-                download={{ href: article.leadMagnet.file, label: article.leadMagnet.label }}
-              />
+            {lead ? (
+              <>
+                {/* Shown only to readers who jumped here from the pointer
+                    under the example (this block is then the URL's :target),
+                    so they can get back to where they were reading. */}
+                {exampleAt.block !== -1 && (
+                  <a
+                    href="#worked-example"
+                    className="-ml-1 mb-4 hidden min-h-11 items-center gap-1.5 rounded-full px-1 text-sm font-medium text-accent hover:text-accent-strong group-target:inline-flex"
+                  >
+                    <ArrowUp className="h-4 w-4" aria-hidden="true" />
+                    Back to the example
+                  </a>
+                )}
+                <div
+                  className={
+                    lead.preview
+                      ? "grid gap-7 sm:grid-cols-[10rem_1fr] sm:items-start sm:gap-8"
+                      : undefined
+                  }
+                >
+                  {lead.preview && (
+                    // The page itself, so the reader sees what they get before
+                    // giving an email: a printed sheet, white, slightly askew.
+                    <Image
+                      src={lead.preview}
+                      alt={lead.previewAlt ?? ""}
+                      width={1191}
+                      height={1684}
+                      sizes="160px"
+                      className="w-40 -rotate-[1.5deg] rounded-[4px] border border-border bg-white shadow-[0_10px_24px_-10px_rgba(28,35,33,0.35)]"
+                    />
+                  )}
+                  <NewsletterSignup
+                    source="article-rulebook"
+                    titleAs="h2"
+                    title={lead.title}
+                    description={lead.description}
+                    download={{ href: lead.file, label: lead.label }}
+                  />
+                </div>
+              </>
             ) : (
               <NewsletterSignup
                 source="article"

@@ -17,7 +17,8 @@ export type ArticleCategory =
  *  **bold** runs, which render as <strong>. */
 export type ArticleNode =
   | { type: "p"; text: string }
-  | { type: "list"; items: string[] }
+  /** `ordered` lists are numbered on the page ("1. " lines in markdown). */
+  | { type: "list"; items: string[]; ordered?: boolean }
   | { type: "example"; label: string; lines: string[] };
 
 export interface ArticleBlock {
@@ -59,6 +60,10 @@ export interface ArticleLeadMagnet {
   label: string;
   /** Mid-article pointer shown after the first worked example. */
   pointer: string;
+  /** Picture of the download, shown before sign-up so readers see what they
+   *  get. Path under /public; `previewAlt` is required with it. */
+  preview?: string;
+  previewAlt?: string;
 }
 
 /** Heading text → anchor id, shared by the page and the build-time check. */

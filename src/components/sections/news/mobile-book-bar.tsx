@@ -26,8 +26,13 @@ const PHONE_QUERY = "(max-width: 639.98px)";
 // chat button, and the floating chat launcher steps aside while it shows, so
 // there is one teal block over the text, not two. Without JavaScript it never
 // shows, which is the safe failure.
+//
+// Before the bar's range the launcher steps aside too: on a phone it sat over
+// the right edge of the prose for the first half of the article, clipping
+// words. The bar is the first way into chat on article pages.
 export function MobileBookBar() {
   const [inRange, setInRange] = useState(false);
+  const [beforeRange, setBeforeRange] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const show = inRange && !chatOpen;
 
@@ -40,11 +45,9 @@ export function MobileBookBar() {
     const update = () => {
       frame = 0;
       const vh = window.innerHeight;
-      setInRange(
-        mq.matches &&
-          start.getBoundingClientRect().top < vh &&
-          panel.getBoundingClientRect().top > vh,
-      );
+      const startTop = start.getBoundingClientRect().top;
+      setInRange(mq.matches && startTop < vh && panel.getBoundingClientRect().top > vh);
+      setBeforeRange(mq.matches && startTop >= vh);
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -62,10 +65,12 @@ export function MobileBookBar() {
     };
   }, []);
 
-  // Let the chat launcher know whether to step aside.
+  // Let the chat launcher know whether to step aside: while the bar shows,
+  // and above it, where the launcher would sit over the article text.
+  const tuckLauncher = show || beforeRange;
   useEffect(() => {
-    emit(BOOK_BAR, { on: show });
-  }, [show]);
+    emit(BOOK_BAR, { on: tuckLauncher });
+  }, [tuckLauncher]);
   useEffect(() => () => emit(BOOK_BAR, { on: false }), []);
 
   return (

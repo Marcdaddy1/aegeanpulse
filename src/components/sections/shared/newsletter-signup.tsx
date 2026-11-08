@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { Send, Check, Download } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 // Newsletter opt-in. UK GDPR by design: consent checkbox is unchecked by
 // default, copy states what they're signing up for, and the privacy policy
@@ -120,10 +121,20 @@ export function NewsletterSignup({
 
   return (
     <form onSubmit={handleSubmit} noValidate aria-labelledby={`${id}-title`}>
-      <Title id={`${id}-title`} className="font-display text-lg font-semibold text-foreground">
+      {/* As a section heading it takes the page's section size, so it doesn't
+          read as smaller than the "Keep reading" heading after it. */}
+      <Title
+        id={`${id}-title`}
+        className={cn(
+          "text-balance font-display font-semibold text-foreground",
+          Title === "p" ? "text-lg" : "text-2xl tracking-tight",
+        )}
+      >
         {title}
       </Title>
-      <p className="mt-1 max-w-xl text-sm text-muted">{description}</p>
+      <p className={cn("max-w-[60ch] text-sm text-muted", Title === "p" ? "mt-1" : "mt-2")}>
+        {description}
+      </p>
       {/* Email, then consent, then Subscribe: the order a person fills it in,
           so the natural flow never hits the consent error. */}
       <label htmlFor={`${id}-email`} className="sr-only">

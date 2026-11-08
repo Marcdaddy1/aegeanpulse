@@ -21,7 +21,7 @@ import {
 //
 // Format contract (generate-article.ts writes the plain subset):
 // - "## " starts a new section.
-// - "- " lines in a row form a bullet list.
+// - "- " lines in a row form a bullet list; "1. " lines a numbered one.
 // - "> " lines in a row form a worked-example slip; the first is its label.
 // - Every other non-blank line is one paragraph.
 // - **bold** inside any text renders as <strong> (e.g. a list item's lead-in).
@@ -48,10 +48,12 @@ function parseBody(md: string): ArticleBlock[] {
       if (current.heading || current.nodes.length) blocks.push(current);
       current = { heading: line.slice(3).trim(), nodes: [] };
       open = false;
-    } else if (line.startsWith("- ")) {
+    } else if (line.startsWith("- ") || /^\d+\. /.test(line)) {
+      const ordered = !line.startsWith("- ");
+      const item = line.replace(/^(- |\d+\. )/, "").trim();
       const prev = last();
-      if (open && prev?.type === "list") prev.items.push(line.slice(2).trim());
-      else current.nodes.push({ type: "list", items: [line.slice(2).trim()] });
+      if (open && prev?.type === "list" && Boolean(prev.ordered) === ordered) prev.items.push(item);
+      else current.nodes.push({ type: "list", items: [item], ...(ordered ? { ordered } : {}) });
       open = true;
     } else if (line.startsWith("> ")) {
       const prev = last();
@@ -137,8 +139,13 @@ function loadArticle(filename: string): Article | null {
     if (missing.length) {
       throw new Error(`Article ${filename}: leadMagnet is missing ${missing.join(", ")}.`);
     }
-    if (!fs.existsSync(path.join(process.cwd(), "public", String(lead.file)))) {
-      throw new Error(`Article ${filename}: leadMagnet file ${lead.file} is not in public/.`);
+    for (const file of [lead.file, lead.preview].filter(Boolean)) {
+      if (!fs.existsSync(path.join(process.cwd(), "public", String(file)))) {
+        throw new Error(`Article ${filename}: leadMagnet file ${file} is not in public/.`);
+      }
+    }
+    if (lead.preview && !lead.previewAlt) {
+      throw new Error(`Article ${filename}: leadMagnet preview requires previewAlt.`);
     }
   }
 
