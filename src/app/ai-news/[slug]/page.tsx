@@ -292,7 +292,7 @@ export default async function ArticlePage({
                 {formatDate(article.date)}
               </time>
             </div>
-            <h1 className="mt-4 text-balance font-display text-[2rem] font-semibold leading-tight tracking-tight text-foreground sm:mt-6 sm:text-5xl">
+            <h1 className="mt-4 text-balance font-display text-[2.25rem] font-semibold leading-tight tracking-tight text-foreground sm:mt-6 sm:text-5xl">
               {article.title}
             </h1>
             <p className="mt-4 text-pretty text-lg leading-relaxed text-muted sm:mt-5 sm:text-xl">
@@ -325,7 +325,10 @@ export default async function ArticlePage({
         )}
 
         <Container size="narrow" className="pb-14 pt-8 md:py-16">
-          <div className="space-y-8">
+          {/* Section breaks announce themselves: more space above each
+              section than inside it, and section headings a clear step above
+              the question headings (30px against 20px from tablet up). */}
+          <div className="space-y-10 sm:space-y-14">
             {article.body.map((block, i) => (
               <section key={i}>
                 {(i === barAtHeading || i === barAtFallback) && (
@@ -334,7 +337,7 @@ export default async function ArticlePage({
                 {block.heading && (
                   <h2
                     id={headingId(block.heading)}
-                    className="text-balance font-display text-2xl font-semibold tracking-tight text-foreground"
+                    className="text-balance font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
                   >
                     {block.heading}
                   </h2>
@@ -350,6 +353,7 @@ export default async function ArticlePage({
                           // they want it: a small picture of the page itself.
                           <a
                             href="#get-the-rulebook"
+                            data-bar-yields
                             className="group mt-4 flex max-w-[60ch] items-center gap-4 rounded-xl py-1 text-sm font-medium text-accent hover:text-accent-strong"
                           >
                             {lead.preview && (
@@ -362,9 +366,14 @@ export default async function ArticlePage({
                                 className="w-12 shrink-0 rounded-[3px] border border-border bg-white shadow-[0_2px_6px_-2px_rgba(28,35,33,0.25)] transition-transform duration-200 group-hover:-rotate-2 motion-reduce:transition-none"
                               />
                             )}
-                            <span className="inline-flex items-center gap-1.5">
+                            {/* The arrow follows the last word, so a wrapped
+                                label doesn't strand it at the far edge. */}
+                            <span>
                               {lead.pointer}
-                              <ArrowDown className="h-4 w-4 shrink-0" aria-hidden="true" />
+                              <ArrowDown
+                                className="ml-1.5 inline h-4 w-4 align-[-0.15em]"
+                                aria-hidden="true"
+                              />
                             </span>
                           </a>
                         )}
@@ -424,7 +433,7 @@ export default async function ArticlePage({
                           href={CAL_URL}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-medium text-accent underline underline-offset-2 hover:text-accent-strong"
+                          className="whitespace-nowrap font-medium text-accent underline underline-offset-2 hover:text-accent-strong"
                         >
                           Book a free call
                           <span className="sr-only"> (opens Cal.com in a new tab)</span>

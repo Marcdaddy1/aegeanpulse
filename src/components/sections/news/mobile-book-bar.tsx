@@ -18,10 +18,12 @@ const PHONE_QUERY = "(max-width: 639.98px)";
 // Phones only. The header's booking button is hidden below 640px, so without
 // this the first way to book on an article was ~10 screens down.
 //
-// When: from #book-bar-start until the closing booking panel (#article-cta)
-// reaches the screen, so there is never more than one booking ask in view.
-// Never while the chat is open. The page places the marker: at a heading the
-// article names (bookBarFrom), else after the worked example, else 60% in.
+// When: from #book-bar-start until the closing panel's own booking button
+// ([data-bar-until]) comes on screen, so there is one booking button in view
+// at a time. It also waits while a [data-bar-yields] element is on screen (the
+// rulebook pointer: one ask at a time), and never shows while the chat is
+// open. The page places the marker: at a heading the article names
+// (bookBarFrom), else after the worked example, else 60% in.
 //
 // What: one bottom bar that owns the bottom of the screen. It carries its own
 // chat button, and the floating chat launcher steps aside while it shows, so
@@ -32,24 +34,34 @@ const PHONE_QUERY = "(max-width: 639.98px)";
 // #book-bar-start itself): on a phone it sat over the right edge of the prose
 // for the first half of the article. The bar is the first way into chat here.
 export function MobileBookBar() {
-  const [inRange, setInRange] = useState(false);
+  // inZone: between the marker and the panel's button. yielding: something
+  // the bar defers to is on screen. The launcher stays tucked across the whole
+  // zone either way, so it doesn't pop up while the bar waits.
+  const [zone, setZone] = useState({ inZone: false, yielding: false });
   const chatOpen = useChannel(CHAT_STATE, "open");
-  const show = inRange && !chatOpen;
+  const show = zone.inZone && !zone.yielding && !chatOpen;
 
   useEffect(() => {
     const start = document.getElementById("book-bar-start");
-    const panel = document.getElementById("article-cta");
-    if (!start || !panel) return;
+    const until =
+      document.querySelector("#article-cta [data-bar-until]") ??
+      document.getElementById("article-cta");
+    if (!start || !until) return;
+    const yields = [...document.querySelectorAll("[data-bar-yields]")];
     const mq = window.matchMedia(PHONE_QUERY);
     let frame = 0;
     const update = () => {
       frame = 0;
       const vh = window.innerHeight;
-      setInRange(
+      const inZone =
         mq.matches &&
-          start.getBoundingClientRect().top < vh &&
-          panel.getBoundingClientRect().top > vh,
-      );
+        start.getBoundingClientRect().top < vh &&
+        until.getBoundingClientRect().top > vh;
+      const yielding = yields.some((el) => {
+        const r = el.getBoundingClientRect();
+        return r.bottom > 0 && r.top < vh;
+      });
+      setZone((z) => (z.inZone === inZone && z.yielding === yielding ? z : { inZone, yielding }));
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -64,10 +76,11 @@ export function MobileBookBar() {
     };
   }, []);
 
-  // Let the chat launcher know it should step aside while the bar shows.
+  // Let the chat launcher know it should step aside: across the whole zone,
+  // including while the bar waits for the pointer to leave.
   useEffect(() => {
-    emit(BOOK_BAR, { on: show });
-  }, [show]);
+    emit(BOOK_BAR, { on: zone.inZone });
+  }, [zone.inZone]);
   useEffect(() => () => emit(BOOK_BAR, { on: false }), []);
 
   return (

@@ -61,7 +61,9 @@ export function ArticleCta({
         Discovery only starts if you want it.
       </p>
 
-      <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+      {/* data-bar-until: the phone booking bar steps aside as this row (the
+          panel's own booking button) comes on screen. */}
+      <div data-bar-until className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
         <Button
           href={CAL_URL}
           external

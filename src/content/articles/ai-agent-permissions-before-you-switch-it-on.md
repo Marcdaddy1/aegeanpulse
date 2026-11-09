@@ -1,7 +1,7 @@
 ---
 title: "Write your AI agent's limits before you switch it on"
 category: "Agents"
-summary: "American Express and ServiceNow both shipped controls for AI agents in the same week, and neither led with what an agent can do. Here's the one-page version a small business can write this afternoon."
+summary: "American Express and ServiceNow both shipped controls for AI agents in the same week, and neither led with what an agent can do. Here are the six questions a small business can answer on one page this afternoon."
 date: "2026-10-23"
 readingTime: 6
 featured: false
@@ -13,13 +13,13 @@ ctaText: "Bring the job you're thinking of handing to an agent, and I'll help yo
 skipTo:
   heading: "The one-page version for a small business"
   label: "Skip to the six questions"
-bookBarFrom: "What to do this week"
+bookBarFrom: "Why the limits have to be checked while it runs"
 leadMagnet:
-  title: "Get the one-page agent rulebook"
+  title: "Get the agent rulebook (printable)"
   description: "The six questions on one page you print and fill in, plus a second page with the refund agent filled in. Free with the newsletter: practical AI guides for small businesses, no spam, unsubscribe anytime."
   file: "/downloads/agent-rulebook.pdf"
   label: "Download the rulebook (PDF)"
-  pointer: "Get this as a printable page you fill in"
+  pointer: "Get a blank copy to fill in, plus this example"
   preview: "/images/lead-magnets/agent-rulebook-page-1.jpg"
   successNote: "Page 2 has the refund agent filled in, so you can see what a finished one looks like."
   previewAlt: "Page 1 of the agent rulebook: six numbered questions with lines to write your answers on, and a three-item launch checklist"
