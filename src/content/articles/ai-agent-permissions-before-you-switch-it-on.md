@@ -13,13 +13,15 @@ ctaText: "Bring the job you're thinking of handing to an agent, and I'll help yo
 skipTo:
   heading: "The one-page version for a small business"
   label: "Skip to the six questions"
+bookBarFrom: "What to do this week"
 leadMagnet:
   title: "Get the one-page agent rulebook"
-  description: "The six questions as a page you print and fill in, with the refund agent filled in as an example. It comes free with the newsletter: practical AI guides for small businesses, no spam, unsubscribe anytime."
+  description: "The six questions on one page you print and fill in, plus a second page with the refund agent filled in. Free with the newsletter: practical AI guides for small businesses, no spam, unsubscribe anytime."
   file: "/downloads/agent-rulebook.pdf"
   label: "Download the rulebook (PDF)"
   pointer: "Get this as a printable page you fill in"
   preview: "/images/lead-magnets/agent-rulebook-page-1.jpg"
+  successNote: "Page 2 has the refund agent filled in, so you can see what a finished one looks like."
   previewAlt: "Page 1 of the agent rulebook: six numbered questions with lines to write your answers on, and a three-item launch checklist"
 ---
 

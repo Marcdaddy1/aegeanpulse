@@ -18,10 +18,10 @@ const PHONE_QUERY = "(max-width: 639.98px)";
 // Phones only. The header's booking button is hidden below 640px, so without
 // this the first way to book on an article was ~10 screens down.
 //
-// When: from #book-bar-start (placed after the article's worked example, once
-// the reader has had something useful) until the closing booking panel
-// (#article-cta) reaches the screen, so there is never more than one booking
-// ask in view. Never while the chat is open.
+// When: from #book-bar-start until the closing booking panel (#article-cta)
+// reaches the screen, so there is never more than one booking ask in view.
+// Never while the chat is open. The page places the marker: at a heading the
+// article names (bookBarFrom), else after the worked example, else 60% in.
 //
 // What: one bottom bar that owns the bottom of the screen. It carries its own
 // chat button, and the floating chat launcher steps aside while it shows, so
@@ -71,41 +71,48 @@ export function MobileBookBar() {
   useEffect(() => () => emit(BOOK_BAR, { on: false }), []);
 
   return (
+    // A fade from the page colour sits behind the buttons, so article text
+    // doesn't show through between the pill and the chat circle. The fade
+    // itself lets taps through; only the buttons catch them.
     <div
       inert={!show}
       className={cn(
-        "fixed inset-x-5 bottom-5 z-30 flex items-center gap-3 transition-[opacity,transform] duration-200 motion-reduce:transition-none sm:hidden",
-        show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0",
+        "pointer-events-none fixed inset-x-0 bottom-0 z-30 bg-linear-to-t from-background from-45% to-background/0 px-5 pb-5 pt-10 transition-[opacity,transform] duration-200 motion-reduce:transition-none sm:hidden",
+        show ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
       )}
     >
-      <a
-        href={CAL_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={buttonClasses({
-          size: "lg",
-          className:
-            "min-w-0 flex-1 whitespace-nowrap shadow-[0_8px_20px_-6px_rgba(28,35,33,0.3)] hover:translate-y-0",
-        })}
+      <div
+        className={cn("flex items-center gap-3", show && "pointer-events-auto")}
       >
-        Book a free call
-        <span className="sr-only"> (opens Cal.com in a new tab)</span>
-        <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-      </a>
-      <button
-        type="button"
-        // Safari doesn't focus a button on tap, and the chat hands focus
-        // back to whatever was focused when it opened.
-        onClick={(e) => {
-          e.currentTarget.focus({ preventScroll: true });
-          emit(OPEN_CHAT);
-        }}
-        aria-label="Open chat"
-        aria-controls="chat-panel"
-        className="inline-flex h-13 w-13 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-accent shadow-[0_8px_20px_-6px_rgba(28,35,33,0.3)] transition-colors hover:bg-accent-soft"
-      >
-        <MessageCircle className="h-6 w-6" aria-hidden="true" />
-      </button>
+        <a
+          href={CAL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={buttonClasses({
+            size: "lg",
+            className:
+              "min-w-0 flex-1 whitespace-nowrap shadow-[0_8px_20px_-6px_rgba(28,35,33,0.3)] hover:translate-y-0",
+          })}
+        >
+          Book a free call
+          <span className="sr-only"> (opens Cal.com in a new tab)</span>
+          <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+        </a>
+        <button
+          type="button"
+          // Safari doesn't focus a button on tap, and the chat hands focus
+          // back to whatever was focused when it opened.
+          onClick={(e) => {
+            e.currentTarget.focus({ preventScroll: true });
+            emit(OPEN_CHAT);
+          }}
+          aria-label="Open chat"
+          aria-controls="chat-panel"
+          className="inline-flex h-13 w-13 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-accent shadow-[0_8px_20px_-6px_rgba(28,35,33,0.3)] transition-colors hover:bg-accent-soft"
+        >
+          <MessageCircle className="h-6 w-6" aria-hidden="true" />
+        </button>
+      </div>
     </div>
   );
 }

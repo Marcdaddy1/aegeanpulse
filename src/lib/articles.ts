@@ -131,6 +131,10 @@ function loadArticle(filename: string): Article | null {
       throw new Error(`Article ${filename}: skipTo heading "${skipTo.heading}" is not a ## heading.`);
     }
   }
+  const bookBarFrom = data.bookBarFrom as string | undefined;
+  if (bookBarFrom && !body.some((b) => b.heading === bookBarFrom)) {
+    throw new Error(`Article ${filename}: bookBarFrom "${bookBarFrom}" is not a ## heading.`);
+  }
   const lead = data.leadMagnet as Partial<ArticleLeadMagnet> | undefined;
   if (lead) {
     const missing = (["title", "description", "file", "label", "pointer"] as const).filter(
@@ -161,6 +165,7 @@ function loadArticle(filename: string): Article | null {
     ...(ctaText ? { ctaText: String(ctaText) } : {}),
     ...(ctaHeading ? { ctaHeading: String(ctaHeading) } : {}),
     ...(skipTo ? { skipTo: { heading: String(skipTo.heading), label: String(skipTo.label) } } : {}),
+    ...(bookBarFrom ? { bookBarFrom: String(bookBarFrom) } : {}),
     ...(lead ? { leadMagnet: lead as ArticleLeadMagnet } : {}),
     body,
   };

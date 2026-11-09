@@ -12,7 +12,7 @@ import { ArticleCard } from "@/components/sections/news/article-card";
 import { ArticleCta } from "@/components/sections/news/article-cta";
 import { MobileBookBar } from "@/components/sections/news/mobile-book-bar";
 import { ARTICLES, getArticle, type ArticleNode } from "@/lib/articles";
-import { SITE_NAME, SITE_URL } from "@/data/site";
+import { CAL_URL, SITE_NAME, SITE_URL } from "@/data/site";
 
 export function generateStaticParams() {
   return ARTICLES.map((a) => ({ slug: a.slug }));
@@ -196,7 +196,7 @@ export default async function ArticlePage({
   const fallback = ARTICLES.filter((a) => a.slug !== article.slug).slice(0, 3);
   const recommendations = related.length > 0 ? related : fallback;
 
-  // The first worked example, if any: the booking bar starts after it.
+  // The first worked example, if any.
   const exampleAt = { block: -1, node: -1 };
   article.body.some((b, bi) => {
     const ni = b.nodes.findIndex((n) => n.type === "example");
@@ -217,6 +217,18 @@ export default async function ArticlePage({
   );
   const numberSlip = Boolean(ordered && example && example.lines.length === ordered.items.length);
   const lead = article.leadMagnet;
+
+  // Where the phone booking bar starts (#book-bar-start), in order of
+  // preference: the heading the article names, after the worked example, or
+  // 60% into the body. On this article it waits for "What to do this week",
+  // so the rulebook pointer has the worked example to itself: one ask at a
+  // time, and the sheet before the call.
+  const barAtHeading = article.bookBarFrom
+    ? article.body.findIndex((b) => b.heading === article.bookBarFrom)
+    : -1;
+  const barAfterExample = barAtHeading === -1 && exampleAt.block !== -1;
+  const barAtFallback =
+    barAtHeading === -1 && !barAfterExample ? Math.floor(article.body.length * 0.6) : -1;
 
   // schema.org requires Article.image and Article.publisher.logo — both were
   // previously absent (image only when the article had a hero, logo never),
@@ -316,9 +328,7 @@ export default async function ArticlePage({
           <div className="space-y-8">
             {article.body.map((block, i) => (
               <section key={i}>
-                {/* Fallback start for the phone booking bar when an article
-                    has no worked example: 60% into the body. */}
-                {exampleAt.block === -1 && i === Math.floor(article.body.length * 0.6) && (
+                {(i === barAtHeading || i === barAtFallback) && (
                   <div id="book-bar-start" aria-hidden="true" />
                 )}
                 {block.heading && (
@@ -334,9 +344,7 @@ export default async function ArticlePage({
                     <BodyNode node={node} numbered={node.type === "example" && numberSlip} />
                     {i === exampleAt.block && j === exampleAt.node && (
                       <>
-                        {/* The booking bar waits until the reader has had
-                            something useful: it starts after the example. */}
-                        <div id="book-bar-start" aria-hidden="true" />
+                        {barAfterExample && <div id="book-bar-start" aria-hidden="true" />}
                         {lead && (
                           // The reward is visible where the reader decides
                           // they want it: a small picture of the page itself.
@@ -392,33 +400,39 @@ export default async function ArticlePage({
                     Back to the example
                   </a>
                 )}
-                <div
-                  className={
+                <NewsletterSignup
+                  source="article-rulebook"
+                  titleAs="h2"
+                  title={lead.title}
+                  description={lead.description}
+                  download={{ href: lead.file, label: lead.label }}
+                  // The page itself, so the reader sees what they get before
+                  // giving an email.
+                  preview={
                     lead.preview
-                      ? "grid gap-7 sm:grid-cols-[10rem_1fr] sm:items-start sm:gap-8"
+                      ? { src: lead.preview, alt: lead.previewAlt ?? "", width: 1191, height: 1684 }
                       : undefined
                   }
-                >
-                  {lead.preview && (
-                    // The page itself, so the reader sees what they get before
-                    // giving an email: a printed sheet, white, slightly askew.
-                    <Image
-                      src={lead.preview}
-                      alt={lead.previewAlt ?? ""}
-                      width={1191}
-                      height={1684}
-                      sizes="160px"
-                      className="w-40 -rotate-[1.5deg] rounded-[4px] border border-border bg-white shadow-[0_10px_24px_-10px_rgba(28,35,33,0.35)]"
-                    />
-                  )}
-                  <NewsletterSignup
-                    source="article-rulebook"
-                    titleAs="h2"
-                    title={lead.title}
-                    description={lead.description}
-                    download={{ href: lead.file, label: lead.label }}
-                  />
-                </div>
+                  // After sign-up: what's on page 2, then a quiet next step,
+                  // so the block doesn't end on a bare download button.
+                  afterDownload={
+                    <div className="mt-4 space-y-1 text-sm">
+                      {lead.successNote && <p className="text-muted">{lead.successNote}</p>}
+                      <p className="text-muted">
+                        Want a second pair of eyes on yours?{" "}
+                        <a
+                          href={CAL_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-medium text-accent underline underline-offset-2 hover:text-accent-strong"
+                        >
+                          Book a free call
+                          <span className="sr-only"> (opens Cal.com in a new tab)</span>
+                        </a>
+                      </p>
+                    </div>
+                  }
+                />
               </>
             ) : (
               <NewsletterSignup

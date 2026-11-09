@@ -45,6 +45,9 @@ export interface Article {
   /** A jump link under the standfirst to the section that holds the payoff.
    *  `heading` must match one of the article's `## ` headings exactly. */
   skipTo?: { heading: string; label: string };
+  /** The `## ` heading where the phone booking bar starts. Without it the
+   *  bar starts after the first worked example, or 60% into the body. */
+  bookBarFrom?: string;
   /** A free download offered with the newsletter sign-up on this article. */
   leadMagnet?: ArticleLeadMagnet;
   body: ArticleBlock[];
@@ -64,6 +67,8 @@ export interface ArticleLeadMagnet {
    *  get. Path under /public; `previewAlt` is required with it. */
   preview?: string;
   previewAlt?: string;
+  /** One line shown with the download after sign-up, e.g. what's on page 2. */
+  successNote?: string;
 }
 
 /** Heading text → anchor id, shared by the page and the build-time check. */
