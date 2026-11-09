@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import {
   COUNTRY_COOKIE,
   DEFAULT_CURRENCY,
@@ -10,21 +10,32 @@ import {
   type CurrencyCode,
 } from "@/data/pricing";
 
-// --- Listener registry -------------------------------------------------
-// Module-level so all currency components (StarterPrice, tier prices, etc.)
-// re-render together when the geo lookup resolves.
-const listeners = new Set<() => void>();
+// The visitor's currency, in order of trust:
+// 1. The ap_country cookie, set by src/proxy.ts when a CDN sends a country
+//    header (Cloudflare / Vercel). This VPS sends none today.
+// 2. The browser's time zone: Europe/London → pounds, a eurozone city →
+//    euros, anywhere else → dollars. Instant, no network call, no rate limit.
+// 3. Pounds (DEFAULT_CURRENCY), the real price list.
+//
+// This replaced a call to ipapi.co, whose free tier rate-limits (HTTP 429).
+// When it failed the site fell back to dollars, so UK visitors were often
+// shown "$649" for the £499 Discovery.
 
-function subscribeCurrency(notify: () => void) {
-  listeners.add(notify);
-  return () => { listeners.delete(notify); };
-}
+const UK_ZONES = new Set([
+  "Europe/London", "Europe/Belfast", "Europe/Guernsey", "Europe/Jersey", "Europe/Isle_of_Man",
+]);
 
-function notifyCurrencyChange() {
-  listeners.forEach((fn) => fn());
-}
+// Time zones of countries that use the euro.
+const EURO_ZONES = new Set([
+  "Europe/Vienna", "Europe/Brussels", "Europe/Zagreb", "Asia/Nicosia", "Asia/Famagusta",
+  "Europe/Nicosia", "Europe/Tallinn", "Europe/Helsinki", "Europe/Mariehamn", "Europe/Paris",
+  "Europe/Berlin", "Europe/Busingen", "Europe/Athens", "Europe/Dublin", "Europe/Rome",
+  "Europe/Riga", "Europe/Vilnius", "Europe/Luxembourg", "Europe/Malta", "Europe/Amsterdam",
+  "Europe/Lisbon", "Atlantic/Madeira", "Atlantic/Azores", "Europe/Bratislava",
+  "Europe/Ljubljana", "Europe/Madrid", "Africa/Ceuta", "Atlantic/Canary", "Europe/Monaco",
+  "Europe/San_Marino", "Europe/Vatican", "Europe/Andorra",
+]);
 
-// --- Cookie helpers ----------------------------------------------------
 function getCountryCookie(): string | undefined {
   if (typeof document === "undefined") return undefined;
   return document.cookie
@@ -33,65 +44,37 @@ function getCountryCookie(): string | undefined {
     ?.split("=")[1];
 }
 
-function setCountryCookie(country: string) {
-  document.cookie = `${COUNTRY_COOKIE}=${country}; path=/; max-age=31536000; samesite=lax`;
+let zoneCurrency: CurrencyCode | null | undefined;
+function currencyFromTimeZone(): CurrencyCode | null {
+  if (zoneCurrency !== undefined) return zoneCurrency;
+  try {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    zoneCurrency = !zone ? null : UK_ZONES.has(zone) ? "GBP" : EURO_ZONES.has(zone) ? "EUR" : "USD";
+  } catch {
+    zoneCurrency = null;
+  }
+  return zoneCurrency;
 }
 
 function readCurrency(): CurrencyCode {
-  return currencyForCountry(getCountryCookie());
+  const country = getCountryCookie();
+  if (country) return currencyForCountry(country);
+  return currencyFromTimeZone() ?? DEFAULT_CURRENCY;
 }
 
-// --- IP geo fallback ---------------------------------------------------
-// Fires once per page load when no country cookie is present.
-// ipapi.co: free tier, HTTPS, no API key, returns plain-text country code.
-let geoFetchStarted = false;
-
-function initGeoFetch() {
-  if (geoFetchStarted || typeof window === "undefined") return;
-  if (getCountryCookie()) return;
-  geoFetchStarted = true;
-
-  fetch("https://ipapi.co/country_code/", { cache: "no-store" })
-    .then((r) => r.text())
-    .then((code) => {
-      const trimmed = code.trim();
-      if (trimmed.length === 2 && /^[A-Z]{2}$/.test(trimmed)) {
-        setCountryCookie(trimmed);
-        notifyCurrencyChange();
-      }
-    })
-    .catch(() => {
-      // Silently fail — visitors see the USD default.
-    });
-}
-
-// --- Hooks -------------------------------------------------------------
+// Nothing changes the answer after load, so there's nothing to subscribe to.
+const subscribe = () => () => {};
 
 /**
- * Returns the visitor's resolved currency code.
- * - Server + first client render: DEFAULT_CURRENCY (avoids hydration mismatch).
- * - After hydration: reads the ap_country cookie set by the proxy (Vercel /
- *   Cloudflare) or, if absent, waits for the ipapi.co lookup to resolve and
- *   re-renders automatically via the listener registry.
+ * The visitor's currency. The server and first client render use pounds (no
+ * hydration mismatch, and right for most visitors); the client then switches
+ * to euros or dollars where the visitor is placed elsewhere.
  */
 export function useCurrency(): CurrencyCode {
-  const currency = useSyncExternalStore(
-    subscribeCurrency,
-    readCurrency,
-    () => DEFAULT_CURRENCY,
-  );
-
-  // Kick off the IP lookup on mount. Guarded so it only fetches once.
-  useEffect(() => {
-    initGeoFetch();
-  }, []);
-
-  return currency;
+  return useSyncExternalStore(subscribe, readCurrency, () => DEFAULT_CURRENCY);
 }
 
-// --- Components --------------------------------------------------------
-
-/** Inline starter price in the visitor's local currency. */
+/** "Packages from" price in the visitor's currency. */
 export function StarterPrice({ className }: { className?: string }) {
   const currency = useCurrency();
   return <span className={className}>{starterPrice(currency)}</span>;

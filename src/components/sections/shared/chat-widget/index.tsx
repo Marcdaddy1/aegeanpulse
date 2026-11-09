@@ -7,11 +7,13 @@ import { ChatLauncher } from "./chat-launcher";
 import { ChatPanel } from "./chat-panel";
 import { BOOK_BAR, CHAT_STATE, OPEN_CHAT, emit, useChannel } from "./chat-events";
 
-// Phone article pages: above #book-bar-start (the worked example) the
-// launcher would sit over the article text, and the booking bar that carries
-// chat hasn't appeared yet. Read from the page directly, so the launcher's
-// first render is already right; waiting for the bar to say so left it
-// visible for ~200ms on every load.
+// Phone article pages: from the top of the article until the closing
+// panel's own booking button ([data-bar-until]) arrives, the launcher stays
+// tucked. Above the bar's range it would sit over the article text, and
+// inside the range the bar carries chat. Measured here, in one place, on
+// every scroll: splitting it between this widget and the bar's messages left
+// a few-frame gap at the hand-over where the launcher flickered into view,
+// and the first render was wrong for ~200ms on every load.
 function subscribeScroll(onChange: () => void) {
   window.addEventListener("scroll", onChange, { passive: true });
   window.addEventListener("resize", onChange);
@@ -20,13 +22,13 @@ function subscribeScroll(onChange: () => void) {
     window.removeEventListener("resize", onChange);
   };
 }
-function aboveBookBar() {
-  const start = document.getElementById("book-bar-start");
-  return (
-    !!start &&
-    window.matchMedia("(max-width: 639.98px)").matches &&
-    start.getBoundingClientRect().top >= window.innerHeight
-  );
+function beforeArticleBooking() {
+  if (!document.getElementById("book-bar-start")) return false;
+  if (!window.matchMedia("(max-width: 639.98px)").matches) return false;
+  const until =
+    document.querySelector("#article-cta [data-bar-until]") ??
+    document.getElementById("article-cta");
+  return !!until && until.getBoundingClientRect().top > window.innerHeight;
 }
 
 export function ChatWidget() {
@@ -42,7 +44,7 @@ export function ChatWidget() {
   // from the channel's last value, so a message sent before this widget
   // mounted isn't lost.
   const barOn = useChannel(BOOK_BAR, "on");
-  const aboveBar = useSyncExternalStore(subscribeScroll, aboveBookBar, () => false);
+  const beforeBooking = useSyncExternalStore(subscribeScroll, beforeArticleBooking, () => false);
   const launcherRef = useRef<HTMLButtonElement>(null);
   // Whatever opened the chat gets focus back when it closes.
   const openerRef = useRef<HTMLElement | null>(null);
@@ -98,7 +100,7 @@ export function ChatWidget() {
   // its own close button, so the launcher (a second X) steps aside too.
   const hidden = open
     ? isPhone
-    : (covering.path === pathname && covering.on) || barOn || aboveBar;
+    : (covering.path === pathname && covering.on) || barOn || beforeBooking;
 
   return (
     <>

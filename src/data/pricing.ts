@@ -1,22 +1,25 @@
 // Fixed regional price points — no live FX conversion.
-// The company is UK-based; visitors see their local currency.
+// The company is UK-based and prices in pounds. Visitors in the eurozone see
+// euros and visitors elsewhere see dollars, but only when that's detected:
+// anyone we can't place sees pounds, the real price list.
 
 export type CurrencyCode = "GBP" | "EUR" | "USD";
 
 export interface PriceProfile {
   currency: CurrencyCode;
   locale: string;
-  /** Starter / entry package amount in major units. */
-  starter: number;
 }
 
 export const PRICE_PROFILES: Record<CurrencyCode, PriceProfile> = {
-  GBP: { currency: "GBP", locale: "en-GB", starter: 399 },
-  EUR: { currency: "EUR", locale: "en-IE", starter: 459 },
-  USD: { currency: "USD", locale: "en-US", starter: 499 },
+  GBP: { currency: "GBP", locale: "en-GB" },
+  EUR: { currency: "EUR", locale: "en-IE" },
+  USD: { currency: "USD", locale: "en-US" },
 };
 
-export const DEFAULT_CURRENCY: CurrencyCode = "USD";
+// Pounds when the visitor can't be placed. It used to be dollars, and the
+// geo lookup behind it was rate-limited, so UK visitors were routinely shown
+// "$649" for a £499 package.
+export const DEFAULT_CURRENCY: CurrencyCode = "GBP";
 
 // Eurozone ISO-3166 alpha-2 country codes.
 const EUROZONE = new Set([
@@ -29,7 +32,7 @@ export function currencyForCountry(country: string | undefined): CurrencyCode {
   const code = country.toUpperCase();
   if (code === "GB") return "GBP";
   if (EUROZONE.has(code)) return "EUR";
-  return DEFAULT_CURRENCY;
+  return "USD";
 }
 
 export function formatPrice(amount: number, currency: CurrencyCode): string {
@@ -41,9 +44,12 @@ export function formatPrice(amount: number, currency: CurrencyCode): string {
   }).format(amount);
 }
 
-/** Starter price formatted in the given currency, e.g. "£399". */
+/** "Packages from" price: the cheapest one-off package (Discovery), so the
+ *  homepage and service pages can't drift from the pricing page. It was a
+ *  separate £399 figure while the cheapest package cost £499. */
 export function starterPrice(currency: CurrencyCode): string {
-  return formatPrice(PRICE_PROFILES[currency].starter, currency);
+  const oneOff = PRICING_TIERS.filter((t) => t.billing === "one-time").map((t) => t.prices[currency]);
+  return formatPrice(Math.min(...oneOff), currency);
 }
 
 export const COUNTRY_COOKIE = "ap_country";

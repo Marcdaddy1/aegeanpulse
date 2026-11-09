@@ -43,7 +43,7 @@ Two days later, on 15 October, ServiceNow announced AI Passport. Where American 
 
 An AI Passport is a signed digital credential that records who an agent is and what it is allowed to do. The important part is when the check happens. Permissions aren't just set once at the start; they are checked while the agent is working.
 
-ServiceNow's own demonstration made the point with refunds. A customer service agent was set up to handle refunds under $25. An $18 refund went straight through. A $40 refund was stopped mid-run, because it was over the limit that requires a person to review it.
+ServiceNow's own demonstration made the point with refunds. A customer service agent was set up to handle refunds under £20. A £14 refund went straight through. A £30 refund was stopped mid-run, because it was over the limit that requires a person to review it. (The demo was in dollars: $25, $18 and $40. These are the rounded pound equivalents.)
 
 ServiceNow also described the other half: pausing an agent, restricting it, and switching it off entirely by withdrawing its credentials, with the option to restore it later once the reason is written down. AI Passport isn't available yet; ServiceNow says it arrives later this quarter.
 
@@ -62,7 +62,7 @@ Everything in both announcements has a cheap manual equivalent. Before any agent
 1. **What can it read?** Name the inbox, the folder, the spreadsheet. "Our email" is not an answer; "the support inbox, not the directors' inboxes" is.
 2. **What can it change or send?** Drafting a reply and sending one are different permissions. So are reading an invoice and marking it paid.
 3. **What can it spend or give away?** Put a number on it. A refund limit, a discount limit, a maximum order value. If the honest answer is "nothing", write that down too.
-4. **What must it hand to a person?** This is your version of the $40 refund. Complaints, anything legal, any customer who asks for a human, anything over the limit.
+4. **What must it hand to a person?** This is your version of the £30 refund. Complaints, anything legal, any customer who asks for a human, anything over the limit.
 5. **Who gets told?** When the agent hands something over, or does something unusual, a named person should hear about it the same day.
 6. **How do you switch it off?** One person, one action, written down, and tested before launch rather than discovered during a bad afternoon.
 
@@ -80,7 +80,7 @@ That's six lines, one per question, and it covers most of what could go wrong.
 
 ## Why the limits have to be checked while it runs
 
-The subtle part of ServiceNow's demo is that the $40 refund wasn't blocked when the agent was set up. It was blocked at the moment the agent tried to do it.
+The subtle part of ServiceNow's demo is that the £30 refund wasn't blocked when the agent was set up. It was blocked at the moment the agent tried to do it.
 
 A limit that only exists in a setup screen is a hope. A limit the system checks every time the agent acts is a control. When you're choosing tools or a builder, ask which kind you're getting. If the answer is "the agent has been told not to", that's an instruction, not a limit, and instructions can be misread.
 

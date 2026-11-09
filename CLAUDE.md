@@ -114,12 +114,12 @@ Key data files:
 
 **Hero swap contract.** The hero is integrated behind a stable interface so a vendor (21st.dev / shadcn) component can drop in without editing its animation layer. `src/components/hero/index.tsx` is the single swap point; pages import only `@/components/hero` and pass `HeroProps` (`src/components/hero/types.ts`). To integrate a vendor hero: drop its files verbatim under `hero/vendor/`, add a thin `vendor-hero.tsx` adapter mapping `HeroProps` → its props, and flip the export in `index.tsx`. The hero renders **outside** any `Reveal`/`Section` wrapper so its own entrance animation isn't masked by an opacity-0 ancestor. (`PlaceholderHero` is kept as a commented one-line revert; current state is in Project Status above.)
 
-**Geo-based pricing flow.** `src/proxy.ts` reads `x-vercel-ip-country` (Vercel), `cf-ipcountry` (Cloudflare), or `x-country` (generic) and stamps an `ap_country` cookie. If no cookie is present after hydration, `price.tsx` fires a one-time `ipapi.co` lookup as a client-side fallback — this makes geo work on Hostinger VPS or any self-hosted server. `src/data/pricing.ts` maps country → `PRICE_PROFILES` (GBP/EUR/USD, fixed rates, no live FX). `price.tsx` exports:
-- `useCurrency()` hook — reads cookie via `useSyncExternalStore` with a module-level listener registry (`subscribeCurrency`/`notifyCurrencyChange`) so all price components re-render together when the IP lookup resolves.
-- `<StarterPrice>` — inline starter price (used in service CTAs).
+**Geo-based pricing flow.** `src/proxy.ts` reads `x-vercel-ip-country` (Vercel), `cf-ipcountry` (Cloudflare), or `x-country` (generic) and stamps an `ap_country` cookie. If no cookie is present, `price.tsx` reads the browser's time zone (Europe/London → GBP, a eurozone zone → EUR, anything else → USD); no network call. It replaced an `ipapi.co` lookup that rate-limited (HTTP 429) and fell back to USD, so UK visitors were often shown dollars. `src/data/pricing.ts` maps country → `PRICE_PROFILES` (GBP/EUR/USD, fixed rates, no live FX). `price.tsx` exports:
+- `useCurrency()` hook — `useSyncExternalStore` over the cookie, then the time zone, then GBP. Nothing changes after load, so there is no listener registry.
+- `<StarterPrice>` — the "packages from" price (homepage value strip, service pages), from the cheapest one-off tier.
 - `<Price amount={n}>` — any amount in the visitor's currency.
 
-SSR always renders `DEFAULT_CURRENCY` (USD) to avoid hydration mismatches; client corrects after mount. To test other currencies locally, set `document.cookie = "ap_country=GB"` in DevTools.
+SSR always renders `DEFAULT_CURRENCY` (GBP, the real price list) to avoid hydration mismatches; the client switches to EUR/USD after mount where the visitor is placed elsewhere. The "packages from" price (`starterPrice`) is derived from the cheapest one-off tier, so it can't drift from `/pricing`. To test other currencies locally, set `document.cookie = "ap_country=GB"` in DevTools.
 
 **React lint constraint.** `eslint-config-next` enforces `react-hooks/set-state-in-effect`. Don't call `setState` synchronously inside `useEffect`. Established patterns here: `useMounted()` (`src/lib/hooks.ts`) via `useSyncExternalStore` for mount guards, and adjusting state during render (comparing previous value) for resets — see the route-change menu close in `src/components/layout/header.tsx`.
 
@@ -138,5 +138,5 @@ SEO infrastructure (file-convention):
 ## Deploy notes (beyond the runbook above)
 
 - Serve with PM2 (`pm2 start npm -- start`) behind an Nginx reverse proxy: port 80/443 → localhost:3000.
-- Geo pricing on the VPS: the `proxy.ts` geo header won't fire without Vercel/Cloudflare, but `price.tsx` falls back to `ipapi.co` client-side. To also enable server-side geo, put Cloudflare (free) in front of the VPS — it sends `CF-IPCountry`, which `proxy.ts` already reads.
-- Local dev always defaults to USD (no geo header); set the `ap_country` cookie in DevTools to test GBP/EUR.
+- Geo pricing on the VPS: the `proxy.ts` geo header won't fire without Vercel/Cloudflare, so `price.tsx` uses the browser's time zone, defaulting to GBP. To also enable server-side geo, put Cloudflare (free) in front of the VPS — it sends `CF-IPCountry`, which `proxy.ts` already reads.
+- Local dev follows your machine's time zone (GBP in the UK); set the `ap_country` cookie in DevTools, or a Playwright `timezoneId`, to test EUR/USD.
